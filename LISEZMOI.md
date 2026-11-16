@@ -103,3 +103,5 @@ Pour modifier : changer `src/content.js` ou `src/shell.html`, puis reconstruire.
 - `.htaccess` : redirection HTTPS, type MIME du manifeste, pas de cache pour index.html / sw.js / manifeste (mises à jour immédiates).
 - Mises à jour : nouveau zip → Upload + Extract. GitHub Pages reste en place comme copie et historique.
 - Défis (situations animées) : temps de lecture avant le départ de l'action, selon la longueur du texte (5 à 9 s au lieu de 0,9 s), avec un bouton « J'ai lu ▶ On y va » pour partir tout de suite.
+- **En ligne sur https://gk99.soccer depuis le 16 novembre 2026** (vérifié : page, sw.js, manifeste, icônes, en-têtes du .htaccess, service worker actif).
+- Incident lors du premier dépôt : le contenu du dossier Home de cPanel a été supprimé (dont public_html, etc, ssl). public_html recréé et GK99 déposé. **À faire** : faire restaurer `etc`, `ssl` et les autres dossiers système (JetBackup ou support Namecheap), sans toucher à public_html.
