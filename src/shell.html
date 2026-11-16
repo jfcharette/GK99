@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B1833">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="GK99">
+<title>GK99 · École du gardien</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B1220'/%3E%3Cpath d='M12 50V18h40v32' fill='none' stroke='%23D9FF3F' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='40' r='7' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+/*__FONTS__*/
+:root{
+  color-scheme:dark;
+  --bg:#0B1833; --card:#12294D; --card2:#1B3A68; --ink:#F4F5F7; --mut:#A9BAD6; --line:#2A4672;
+  --acc:#FEE438; --acc-ink:#0B1833; --ok:#3FD17F; --bad:#FF5566;
+  --blue:#2F8FFF; --cyan:#4FD0FF; --red:#E8102A; --turf:#2A6238;
+  --disp:"Barlow Condensed","Arial Narrow","Roboto Condensed",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);-webkit-tap-highlight-color:transparent}
+#app{max-width:560px;margin:0 auto;padding:14px 16px calc(92px + env(safe-area-inset-bottom))}
+h1,h2,h3,.disp{font-family:var(--disp);font-style:italic;text-transform:uppercase;letter-spacing:.02em;line-height:1.05;margin:0}
+h1{font-size:40px;font-weight:800}
+h2{font-size:26px;font-weight:800;margin:26px 0 10px;display:flex;align-items:center}
+h2::before{content:"";flex:none;width:9px;height:22px;background:var(--acc);transform:skewX(-14deg);margin-right:11px}
+p{margin:0 0 10px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+.mut{color:var(--mut)} .small{font-size:14px}
+
+/* en-tête */
+.top{display:flex;align-items:center;gap:10px;min-height:44px;margin-bottom:10px}
+.back{flex:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;font-size:20px}
+.top .ttl{flex:1;min-width:0}
+.top .ttl small{display:block;color:var(--mut);font-size:13px}
+.top .ttl b{font-family:var(--disp);font-style:italic;font-weight:800;text-transform:uppercase;font-size:25px;line-height:1.1;display:block}
+.brand{display:flex;align-items:baseline;gap:10px;margin:6px 0 2px}
+.brand .logo{font-family:var(--disp);font-style:italic;font-weight:800;font-size:44px;line-height:1;letter-spacing:-.01em}
+.brand .logo i{font-style:normal;color:var(--acc)}
+.lvl{font-family:var(--disp);font-style:italic;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:6px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.lvl.l1{border-color:var(--blue);color:#6DB1FF}.lvl.l2{border-color:var(--acc);color:var(--acc)}.lvl.l3{background:var(--red);border-color:var(--red);color:#fff}
+
+/* cartes */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.bar{height:10px;background:var(--card2);overflow:hidden;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
+.bar>i{display:block;height:100%;background:var(--acc);transition:width .4s}
+.hero{display:flex;align-items:center;gap:14px;margin-top:14px}
+.hero .pct{font-family:var(--disp);font-style:italic;font-size:52px;font-weight:800;line-height:1;color:var(--acc)}
+
+/* les 4 moments */
+.cycle{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative}
+.mom{position:relative;display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 12px 14px;min-height:118px;overflow:hidden}
+.mom .n{font-family:var(--disp);font-style:italic;font-size:13px;color:var(--c);letter-spacing:.08em;text-transform:uppercase}
+.mom b{display:block;font-family:var(--disp);font-style:italic;font-weight:800;text-transform:uppercase;font-size:24px;line-height:1.05;margin:4px 0 6px}
+.mom .small{line-height:1.3}
+.mom .bar{position:absolute;left:12px;right:12px;bottom:10px;height:6px;clip-path:none;border-radius:99px}
+.mom .bar>i{background:var(--c);border-radius:99px}
+.cycle .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;z-index:2}
+.cycle .hub svg{width:26px;height:26px;color:var(--acc)}
+
+/* listes */
+.list{display:grid;gap:8px}
+.row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;min-height:60px;width:100%;text-align:left}
+.row .dot{flex:none;width:10px;height:38px;background:var(--c,var(--acc));clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+.row.cta{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}.row.cta .tx b{font-size:18px}.row.cta .tx span{color:#3A3F2A}.row.cta .st{color:var(--acc-ink);font-family:var(--disp);font-style:italic;font-weight:800;font-size:26px}
+.row .tx{flex:1;min-width:0}
+.row .tx b{display:block;line-height:1.25}
+.row .tx span{display:block;color:var(--mut);font-size:14px;line-height:1.3}
+.row .st{flex:none;font-size:14px;color:var(--mut);display:flex;align-items:center;gap:6px}
+.chk{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:14px;color:transparent}
+.chk.on{background:var(--acc);border-color:var(--acc);color:var(--acc-ink);font-weight:700}
+.stars{letter-spacing:1px;color:#3A5588;font-size:15px;white-space:nowrap}
+.stars b{color:var(--acc);font-weight:400}
+details.card{padding:0}
+details.card summary{padding:14px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:52px}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary::after{content:"+";font-size:22px;color:var(--mut)}
+details[open].card summary::after{content:"–"}
+details.card ul{margin:0;padding:0 14px 14px 32px}
+li{margin-bottom:6px}
+
+/* terrain */
+.board{background:var(--turf);border-radius:16px;overflow:hidden;border:1px solid var(--line);display:flex;justify-content:center}
+.board svg{display:block;width:100%;max-height:48vh;touch-action:manipulation}
+.board.v-full svg{max-height:40vh}
+.board.v-long svg{max-height:46vh}
+.board.sit svg{max-height:38vh}
+.board.drag svg{touch-action:none;cursor:grab}
+.pl{fill:none;stroke:rgba(255,255,255,.6);stroke-width:.3}
+.mate{fill:#2F8FFF;stroke:#0B1833;stroke-width:.25}
+.opp{fill:#E8102A;stroke:#0B1833;stroke-width:.3}
+.gk{fill:#FEE438;stroke:#0B1220;stroke-width:.45}
+.ball{fill:#fff;stroke:#111;stroke-width:.3}
+.elb{font:700 1px var(--body);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.halo{fill:none;stroke:#FEE438;stroke-width:.4;opacity:.8;transform-box:fill-box;transform-origin:center;animation:halo 1.4s ease-out infinite}
+@keyframes halo{from{transform:scale(1);opacity:.9}to{transform:scale(1.9);opacity:0}}
+.pk{fill:none;stroke:#fff;stroke-width:.35;stroke-dasharray:.9 .7;opacity:.85}
+.sel .pk{stroke:#FEE438;stroke-width:.8;stroke-dasharray:none;opacity:1}
+.good .pk{stroke:#35C97A;stroke-width:.9;stroke-dasharray:none;opacity:1}
+.tbar{height:10px;background:var(--card2);overflow:hidden;margin:10px 0 2px;clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}.tbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--acc),#FF8A3D);transition:width 6s linear}
+.words{display:grid;grid-template-columns:1fr 1fr;gap:8px}.words .opt{margin:0;text-align:center;font-family:var(--disp);font-style:italic;font-weight:800;font-size:27px;min-height:66px;text-transform:uppercase;letter-spacing:.02em}
+.seg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:6px 0 2px}
+.seg .btn{padding:0;min-height:48px;font-size:20px}
+.seg .btn.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.spot{cursor:pointer}.spot .bg{fill:rgba(11,18,32,.55)}
+.wrong .pk{stroke:#FF5A4E;stroke-width:.9;stroke-dasharray:none;opacity:1}
+.wall{fill:#2F8FFF;stroke:#0B1833;stroke-width:.25}
+.ghost{fill:none;stroke:#fff;stroke-width:.3;stroke-dasharray:.6 .5}
+.recap{margin:0;padding-left:20px}.recap li{margin-bottom:8px}
+.fx{animation:fade .45s both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.zlab{font:italic 700 2px var(--disp);fill:#fff;text-anchor:middle;text-transform:uppercase;letter-spacing:.05em}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--mut);margin:8px 2px 0}
+.legend i{display:inline-block;width:11px;height:11px;margin-right:5px;vertical-align:-1px;border-radius:50%}
+
+.cap{margin-top:0;min-height:8.4em}
+.cap .n{font-family:var(--disp);font-style:italic;font-size:13px;letter-spacing:.08em;color:var(--mut);text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.cap p{font-size:17px;line-height:1.4;margin:0}
+.dots{display:flex;gap:5px}.dots i{width:20px;height:6px;background:var(--card2);clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%)}.dots i.on{background:var(--acc)}
+.ctl{display:grid;grid-template-columns:56px 1fr 1fr;gap:8px;margin-top:10px}
+.ctl.stick{position:sticky;bottom:calc(66px + env(safe-area-inset-bottom));z-index:3;background:var(--bg);padding:8px 0;margin:2px 0 0}
+.btn{min-height:50px;border-radius:0;border:0;background:var(--card2);clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);font-family:var(--disp);font-style:italic;text-transform:uppercase;letter-spacing:.04em;font-size:19px;font-weight:800;padding:0 20px;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center}
+.btn.pri{background:var(--acc);color:var(--acc-ink)}
+.btn:focus-visible{outline:none;box-shadow:inset 0 0 0 3px var(--ink)}
+.btn:disabled{opacity:.4}
+.btn.full{width:100%;margin-top:10px}
+.keys{margin-top:14px}.keys h3{font-size:15px;color:var(--mut);margin-bottom:8px;letter-spacing:.08em}
+.keys ul{margin:0;padding-left:20px}
+
+/* quiz */
+.opt{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:56px;margin-top:8px;font-size:16px;line-height:1.35}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,var(--card))}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 16%,var(--card))}
+.fb{margin-top:12px;border-left:4px solid var(--acc);padding:4px 0 4px 12px}
+.fb>b{font-family:var(--disp);font-style:italic;text-transform:uppercase;font-size:19px;display:block}
+.big{font-family:var(--disp);font-style:italic;font-weight:800;font-size:64px;line-height:1;color:var(--acc)}
+input[type=text]{width:100%;min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;padding:0 12px}
+
+
+/* lot C */
+.tick{flex:none;width:44px;height:44px;border:0;background:none;display:grid;place-items:center;padding:0}
+.lab{display:block;font-weight:600;margin:14px 0 4px}
+textarea{display:block;width:100%;min-height:68px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;padding:10px 12px;resize:vertical}
+.seg.c3{grid-template-columns:repeat(3,1fr)}
+.seg.c3 .btn{font-size:16px;padding:0 6px}
+
+/* lot D */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.chip{min-height:44px;border-radius:99px;border:1px solid var(--line);background:var(--card);padding:0 14px;font-size:15px}
+.chip.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc);font-weight:600}
+.lxh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lxw{font-family:var(--disp);font-style:italic;text-transform:uppercase;font-size:24px;line-height:1.1;color:var(--acc);min-width:0;overflow-wrap:anywhere}
+.lxb{flex:none;min-height:44px;font-size:14px;padding:0 12px}
+.guide{text-align:center;padding:22px 14px;border-left:5px solid var(--acc)}
+.seg.c2{grid-template-columns:repeat(2,1fr)}.seg.c2 .btn{font-size:16px;padding:0 6px}
+
+/* navigation */
+nav{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+nav div{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+nav a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 0 8px;font-family:var(--body);font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.06em;color:var(--mut)}
+nav a svg{width:24px;height:24px}
+@media (max-width:360px){nav a{font-size:11px;letter-spacing:.02em}}
+nav a.on{color:var(--acc)}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.halo,.fx{animation:none}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cover{position:relative;margin:-14px -16px -44px}
+.cover img{display:block;width:100%;height:auto;max-height:min(520px,72vh);aspect-ratio:900/1055;object-fit:cover;object-position:top;background:#0B1833}
+.cover::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(to bottom,rgba(11,24,51,0),var(--bg))}
+.cover~*{position:relative}
+body.locked nav{display:none}
+.lock input[type=password]{width:100%;min-height:52px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:18px;padding:0 14px}
+.lock .err{color:var(--bad);min-height:24px;margin:8px 0 0;font-weight:600}
+.shake{animation:shk .3s}
+@keyframes shk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav><div>
+  <a href="#" data-t="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V7h16v13"/><path d="M4 12h16M9 7v13M15 7v13"/></svg>Apprendre</a>
+  <a href="#seance" data-t="seance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>Séance</a>
+  <a href="#defis" data-t="defis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Défis</a>
+  <a href="#progres" data-t="progres"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V11M12 20V4M19 20v-6"/></svg>Progrès</a>
+</div></nav>
+
+<script>
+/*__CONTENT__*/
+</script>
+<script>
+/* =====================================================================
+   MOTEUR — navigation, terrain animé, défis, quiz, progression.
+   ===================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const app = $('#app');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+const MOD = id => MODULES.find(m => m.id === id);
+const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const IMG = 'data:image/jpeg;base64,/*__IMG__*/';
+const ACCES = '/*__ACCES__*/'; /* « sel:empreinte » du mot de passe ; vide = pas de mot de passe */
+const COVER = `<div class="cover"><img src="${IMG}" alt="GK99 · Entraînement et théorie du gardien de but" width="900" height="1055"></div>`;
+
+/* ---------- progression (gardée sur l'appareil) ---------- */
+const BLANK = () => ({ seen:{}, pl:{}, qz:{}, si:{}, name:'', cn:[], cd:{}, rv:{}, sd:{}, pp:{}, pt:{}, lx:{}, lxn:[], ro:{}, rp:{}, er:{}, es:null, av:[], avd:{} });
+let S = BLANK();
+try { S = Object.assign(BLANK(), JSON.parse(localStorage.getItem('gk99') || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem('gk99', JSON.stringify(S)); } catch (e) {} };
+
+function modStats(id) {
+  const sc = SCENES.filter(x => x.m === id), pl = PLACES.filter(x => x.m === id), si = SITS.filter(x => x.m === id), hasQ = QUIZ.some(x => x.m === id);
+  const total = sc.length + pl.length + si.length + (hasQ ? 1 : 0);
+  const done = sc.filter(x => S.seen[x.id]).length + pl.filter(x => (S.pl[x.id] || 0) >= 2).length + si.filter(x => (S.si[x.id] || 0) >= 2).length + (hasQ && (S.qz[id] || 0) >= 70 ? 1 : 0);
+  return { total, done, pct: total ? Math.round(100 * done / total) : 0 };
+}
+function allStats() {
+  let t = 0, d = 0; MODULES.forEach(m => { const s = modStats(m.id); t += s.total; d += s.done; });
+  return { total: t, done: d, pct: t ? Math.round(100 * d / t) : 0 };
+}
+const stars = n => `<span class="stars" aria-label="${n || 0} étoiles sur 3">${[1,2,3].map(i => i <= (n || 0) ? '<b>★</b>' : '★').join('')}</span>`;
+const lvl = n => `<span class="lvl l${n}">Niv. ${n}</span>`;
+
+/* ---------- terrain ---------- */
+const VIEWS = { full:[-3,-4,74,115], long:[-3,33,74,77.5], half:[-3,47,74,63], third:[-3,66,74,44.5] };
+const SCALE = { full:1.3, long:1.2, half:1.05, third:.82 };
+function pitchMarkup() {
+  let s = '<rect x="-3" y="-4" width="74" height="115" fill="#2A6238"/>';
+  for (let i = 0; i < 14; i += 2) s += `<rect x="0" y="${i * 7.5}" width="68" height="7.5" fill="#2F6B3F"/>`;
+  s += `<g class="pl"><rect x="0" y="0" width="68" height="105"/><path d="M0 52.5H68"/><circle cx="34" cy="52.5" r="9.15"/>
+  <rect x="13.84" y="88.5" width="40.32" height="16.5"/><rect x="24.84" y="99.5" width="18.32" height="5.5"/><path d="M26.69 88.5A9.15 9.15 0 0 1 41.31 88.5"/>
+  <rect x="13.84" y="0" width="40.32" height="16.5"/><rect x="24.84" y="0" width="18.32" height="5.5"/><path d="M26.69 16.5A9.15 9.15 0 0 0 41.31 16.5"/>
+  <rect x="30.34" y="105" width="7.32" height="2.2" stroke-width=".5" stroke="#fff"/><rect x="30.34" y="-2.2" width="7.32" height="2.2"/></g>
+  <circle cx="34" cy="94" r=".4" fill="#fff" opacity=".7"/><circle cx="34" cy="11" r=".4" fill="#fff" opacity=".7"/>`;
+  return s;
+}
+const DEFS = `<defs>
+<marker id="aw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#fff"/></marker>
+<marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#FFE14D"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="rgba(255,255,255,.75)"/></marker></defs>`;
+
+function Board(host, sc, opt = {}) {
+  const view = sc.view || 'half', v = VIEWS[view], k = SCALE[view];
+  host.className = 'board v-' + view + (opt.drag ? ' drag' : '');
+  host.innerHTML = `<svg viewBox="${v.join(' ')}" role="img" aria-label="Schéma du terrain">${DEFS}${pitchMarkup()}<g class="fxw"></g><g class="ents"></g><g class="ovl"></g></svg>`;
+  const svg = $('svg', host), fx = $('.fxw', svg), ents = $('.ents', svg);
+  const nodes = {}, cur = {};
+  const order = id => id[0] === 'b' ? 3 : id[0] === 'g' ? 2 : 1;
+  Object.keys(sc.init).sort((a, b) => order(a) - order(b)).forEach(id => {
+    const t = id[0], lb = sc.lb && sc.lb[id];
+    let h = '';
+    if (t === 'g') h = (opt.drag ? `<circle r="${2.2 * k}" class="halo"/><circle r="${5 * k}" fill="transparent"/>` : '') + `<circle r="${1.85 * k}" class="gk"/><text class="elb" style="font-size:${2 * k}px" fill="#0B1220">G</text>`;
+    else if (t === 'm') h = (opt.pick ? `<circle r="${4.2 * k}" fill="transparent"/><circle r="${2.4 * k}" class="pk"/>` : '') + `<circle r="${1.5 * k}" class="mate"/>` + (lb ? `<text class="elb" style="font-size:${1.35 * k}px" fill="#fff">${lb}</text>` : '');
+    else if (t === 'o') h = `<rect x="${-1.3 * k}" y="${-1.3 * k}" width="${2.6 * k}" height="${2.6 * k}" rx="${.3 * k}" transform="rotate(45)" class="opp"/>`;
+    else h = `<circle r="${.85 * k}" class="ball"/>`;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.innerHTML = h; ents.appendChild(g); nodes[id] = g; set(id, sc.init[id]);
+    if (opt.pick && t !== 'm') g.style.pointerEvents = 'none';
+    if (opt.pick && t === 'm') { g.style.cursor = 'pointer'; g.addEventListener('click', () => opt.pick(id)); }
+  });
+  function set(id, p) { cur[id] = p; nodes[id].setAttribute('transform', `translate(${p[0].toFixed(2)} ${p[1].toFixed(2)})`); }
+  function posAt(i) { const p = Object.assign({}, sc.init); for (let j = 0; j <= i; j++) Object.assign(p, sc.steps[j].rs || {}, sc.steps[j].mv || {}); return p; }
+  let raf = 0;
+  function tween(from, to, dur) {
+    cancelAnimationFrame(raf);
+    if (!dur) { for (const id in to) set(id, to[id]); return; }
+    const t0 = performance.now();
+    (function f(now) {
+      let t = Math.min(1, (now - t0) / dur); const e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      for (const id in to) set(id, [from[id][0] + (to[id][0] - from[id][0]) * e, from[id][1] + (to[id][1] - from[id][1]) * e]);
+      if (t < 1) raf = requestAnimationFrame(f);
+    })(t0);
+  }
+  function drawFx(st, prev, tgt) {
+    let h = '';
+    if (st.z) { const [x, y, w, hh, l] = st.z; h += `<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="1.5" fill="rgba(254,228,56,.18)" stroke="#FEE438" stroke-width=".35" stroke-dasharray="1.4 1"/>` + (l ? `<text class="zlab" x="${x + w / 2}" y="${y + Math.min(hh / 2 + 0.8 * k, 4 * k)}" style="font-size:${2.3 * k}px">${l}</text>` : ''); }
+    if (st.c) h += `<circle cx="${st.c[0]}" cy="${st.c[1]}" r="${st.c[2]}" fill="rgba(254,228,56,.16)" stroke="#FEE438" stroke-width=".35" stroke-dasharray="1.2 .9"/>`;
+    if (st.cone) { const b = tgt.b; h += `<polygon points="${b[0]},${b[1]} 30.34,105 37.66,105" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.65)" stroke-width=".22"/><path d="M${b[0]} ${b[1]}L34 105" stroke="#FEE438" stroke-width=".3" stroke-dasharray="1 .8"/>`; }
+    for (const id in (st.mv || {})) {
+      const a = prev[id], b = tgt[id], dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy);
+      if (d < 3) continue;
+      const isB = id[0] === 'b', cut = isB ? 0 : 2 * k, ex = b[0] - dx / d * cut, ey = b[1] - dy / d * cut;
+      if (isB) h += st.shot ? `<path d="M${a[0]} ${a[1]}L${ex} ${ey}" stroke="#FFE14D" stroke-width="${.6 * k}" marker-end="url(#ar)" fill="none"/>`
+                            : `<path d="M${a[0]} ${a[1]}L${ex} ${ey}" stroke="#fff" stroke-width="${.42 * k}" marker-end="url(#aw)" fill="none" opacity=".9"/>`;
+      else h += `<path d="M${a[0]} ${a[1]}L${ex} ${ey}" stroke="rgba(255,255,255,.75)" stroke-width="${.32 * k}" stroke-dasharray="${1.1 * k} ${.8 * k}" marker-end="url(#ag)" fill="none"/>`;
+    }
+    fx.innerHTML = `<g class="fx">${h}</g>`;
+  }
+  this.go = (i, anim = true) => {
+    const st = sc.steps[i], prev = i > 0 ? posAt(i - 1) : Object.assign({}, sc.init);
+    Object.assign(prev, st.rs || {});
+    const tgt = Object.assign({}, prev, st.mv || {});
+    if (st.rs) for (const id in st.rs) set(id, st.rs[id]);
+    drawFx(st, prev, tgt);
+    tween(anim ? Object.assign({}, prev, i > 0 && !st.rs ? {} : {}) : tgt, tgt, anim && !noMotion ? 950 : 0);
+  };
+  this.fx = st => drawFx(st, cur, cur);
+  this.g = () => cur.g;
+  this.ideal = (p, tol) => {
+    const g = cur.g;
+    fx.innerHTML += `<g class="fx"><circle cx="${p[0]}" cy="${p[1]}" r="${tol}" fill="rgba(53,201,122,.3)" stroke="#fff" stroke-width=".35" stroke-dasharray="1.2 .8"/><path d="M${g[0]} ${g[1]}L${p[0]} ${p[1]}" stroke="#fff" stroke-width=".3" stroke-dasharray=".8 .8"/><circle cx="${p[0]}" cy="${p[1]}" r="${.7 * k}" fill="#fff"/></g>`;
+  };
+  this.stop = () => cancelAnimationFrame(raf);
+  this.k = k; this.svg = svg; this.over = $('.ovl', svg);
+  this.pt = e => { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const q = pt.matrixTransform(svg.getScreenCTM().inverse()); return [q.x, q.y]; };
+  this.move = (to, dur = 800) => { const from = {}; for (const id in to) from[id] = cur[id]; tween(from, to, noMotion ? 0 : dur); };
+  this.reset = () => { cancelAnimationFrame(raf); for (const id in sc.init) set(id, sc.init[id]); fx.innerHTML = ''; };
+  this.mark = (id, cls = 'sel') => { for (const n in nodes) nodes[n].classList.toggle(cls, n === id); };
+  if (opt.drag) {
+    let down = false, locked = false;
+    const at = e => { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const q = pt.matrixTransform(svg.getScreenCTM().inverse()); return [Math.max(1, Math.min(67, q.x)), Math.max(v[1] + 2, Math.min(104.8, q.y))]; };
+    svg.addEventListener('pointerdown', e => { if (locked) return; down = true; try { svg.setPointerCapture(e.pointerId); } catch (x) {} set('g', at(e)); opt.onMove && opt.onMove(); e.preventDefault(); });
+    svg.addEventListener('pointermove', e => { if (down && !locked) set('g', at(e)); });
+    ['pointerup', 'pointercancel'].forEach(n => svg.addEventListener(n, () => down = false));
+    this.lock = b => { locked = b; const hl = $('.halo', svg); if (hl) hl.style.display = b ? 'none' : ''; };
+    this.setG = p => set('g', p);
+  }
+}
+const LEGEND = `<div class="legend"><span><i style="background:#FEE438"></i>Toi</span><span><i style="background:#2F8FFF"></i>Coéquipier</span><span><i style="background:#E8102A;border-radius:2px;transform:rotate(45deg) scale(.85)"></i>Adversaire</span><span><i style="background:#fff;border:1px solid #111;width:9px;height:9px"></i>Ballon</span></div>`;
+
+/* ---------- écrans ---------- */
+let timer = 0, board = null, tms = [];
+const later = (f, ms) => tms.push(setTimeout(f, ms));
+function stopAll() { clearInterval(timer); timer = 0; tms.forEach(clearTimeout); tms = []; if (board) board.stop(); board = null; }
+const hdr = (back, small, title, extra = '') => `<div class="top"><a class="back" href="#${back}" aria-label="Retour">←</a><div class="ttl"><small>${small}</small><b>${title}</b></div>${extra}</div>`;
+
+function vHome() {
+  const a = allStats(), hello = S.name ? `Salut ${esc(S.name)} !` : 'Salut gardien !';
+  const mom = MODULES.filter(m => m.moment), rest = MODULES.filter(m => !m.moment);
+  app.innerHTML = `
+  ${COVER}<h1 class="sr">GK99 · École du gardien</h1>
+  <div class="card hero"><div class="pct">${a.pct}%</div><div style="flex:1"><b>${hello}</b><div class="small mut">${a.done} étape${a.done > 1 ? 's' : ''} sur ${a.total} réussie${a.done > 1 ? 's' : ''}</div><div class="bar" style="margin-top:8px"><i style="width:${a.pct}%"></i></div></div></div>
+  <a class="row cta" href="#seance" style="margin-top:10px"><span class="tx"><b>Ma séance du jour</b><span>${streak() > 0 ? streak() + ' ' + plural(streak(), 'jour', 'jours') + ' de suite' : 'Réviser, apprendre, jouer, bouger'}</span></span><span class="st">${((S.sd[keyOf(dnum())] || { done: [] }).done).length}/4 ›</span></a>
+  <h2>Les 4 moments du jeu</h2>
+  <p class="mut small">Un match tourne toujours entre ces quatre moments. À chacun, ton rôle change.</p>
+  <div class="cycle">
+    ${[mom[0], mom[1], mom[3], mom[2]].map(m => { const s = modStats(m.id); return `<a class="mom" style="--c:${m.c}" href="#m/${m.id}"><span class="n">Moment ${m.moment}</span><b>${m.n}</b><span class="small mut">${m.k}</span><span class="bar"><i style="width:${s.pct}%"></i></span></a>`; }).join('')}
+    <div class="hub" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-13.7 5.7M4 12a8 8 0 0 1 13.7-5.7"/><path d="M18 2v4.5h-4.5M6 22v-4.5h4.5"/></svg></div>
+  </div>
+  <h2>Situations clés</h2>
+  <div class="list">${rest.map(m => { const s = modStats(m.id); return `<a class="row" style="--c:${m.c}" href="#m/${m.id}"><span class="dot"></span><span class="tx"><b>${m.n}</b><span>${m.k}</span></span><span class="st">${s.done}/${s.total}</span></a>`; }).join('')}</div>
+  <h2>Trois niveaux</h2>
+  <div class="list">${[1,2,3].map(n => `<a class="row" href="#niv/${n}"><span>${lvl(n)}</span><span class="tx"><b>${LEVELS[n].n}</b><span>${LEVELS[n].d}</span></span><span class="st">›</span></a>`).join('')}</div>`;
+}
+
+/* ---------- écran par niveau (#niv/1, #niv/2, #niv/3 ; quiz Élite : #niv/q) ---------- */
+function vNiveau(n) {
+  if (n === 'q') return miniQuiz(QUIZ3, { back: 'niv/3', small: 'Quiz Élite · niveau 3', done: p => { if (p > (S.qz.n3 || 0)) { S.qz.n3 = p; save(); } }, msg: p => p === 100 ? 'Sans faute. Niveau Élite.' : p >= 70 ? 'Solide. Revois les leçons des questions ratées.' : 'Revois les leçons de niveau 3, puis réessaie.' });
+  n = +n; if (!LEVELS[n]) return vHome();
+  const sc = SCENES.filter(x => x.lvl === n), pl = PLACES.filter(x => x.lvl === n), si = SITS.filter(x => x.lvl === n);
+  const done = sc.filter(x => S.seen[x.id]).length + pl.filter(x => (S.pl[x.id] || 0) >= 2).length + si.filter(x => (S.si[x.id] || 0) >= 2).length, tot = sc.length + pl.length + si.length;
+  app.innerHTML = hdr('', 'Niveau ' + n, LEVELS[n].n, lvl(n)) + `
+  <div class="card"><p style="margin:0 0 8px">${LEVELS[n].d}</p><div class="small mut">${done} sur ${tot} réussis</div><div class="bar" style="margin-top:8px"><i style="width:${tot ? Math.round(100 * done / tot) : 0}%"></i></div></div>
+  ${n === 3 ? `<p class="mut small" style="margin-top:10px">Ces sujets vont plus loin que les bases. Assure-toi d'être solide aux niveaux 1 et 2, et parles-en avec ton entraîneur de gardiens.</p>` : ''}
+  ${sc.length ? `<h2>Leçons animées</h2><div class="list">${sc.map(x => `<a class="row" style="--c:${MOD(x.m).c}" href="#s/${x.id}"><span class="chk ${S.seen[x.id] ? 'on' : ''}">✓</span><span class="tx"><b>${x.t}</b><span>${MOD(x.m).n}</span></span><span class="st">›</span></a>`).join('')}</div>` : ''}
+  ${si.length ? `<h2>Situations</h2><div class="list">${si.map(x => `<a class="row" style="--c:${MOD(x.m).c}" href="#x/${x.id}"><span class="dot"></span><span class="tx"><b>${x.t}</b><span>${KINDS[x.k].n}</span></span><span class="st">${stars(S.si[x.id])}</span></a>`).join('')}</div>` : ''}
+  ${pl.length ? `<h2>Défis « Place-toi »</h2><div class="list">${pl.map(x => `<a class="row" style="--c:${MOD(x.m).c}" href="#p/${x.id}"><span class="dot"></span><span class="tx"><b>${x.t}</b><span>${MOD(x.m).n}</span></span><span class="st">${stars(S.pl[x.id])}</span></a>`).join('')}</div>` : ''}
+  ${n === 3 ? `<h2>Quiz</h2><a class="row" href="#niv/q" style="--c:var(--red)"><span class="dot"></span><span class="tx"><b>Quiz Élite</b><span>${QUIZ3.length} questions de niveau 3</span></span><span class="st">${S.qz.n3 != null ? 'Record ' + S.qz.n3 + ' %' : 'À faire'}</span></a>` : ''}`;
+}
+
+function vModule(id) {
+  const m = MOD(id); if (!m) return vHome();
+  const sc = SCENES.filter(x => x.m === id), pl = PLACES.filter(x => x.m === id), si = SITS.filter(x => x.m === id), qn = QUIZ.filter(x => x.m === id).length, cards = CARDS[id] || [], dr = DRILLS[id] || [];
+  app.innerHTML = hdr('', m.moment ? 'Moment ' + m.moment : 'Situation clé', m.n) + `
+  <div class="card" style="border-left:5px solid ${m.c}"><p style="margin:0">${m.intro}</p></div>
+  ${sc.length ? `<h2>Leçons animées</h2><div class="list">${sc.map(x => `<a class="row" href="#s/${x.id}"><span class="chk ${S.seen[x.id] ? 'on' : ''}">✓</span><span class="tx"><b>${x.t}</b><span>${x.steps.length} étapes</span></span><span class="st">${lvl(x.lvl)}</span></a>`).join('')}</div>` : ''}
+  ${cards.length ? `<h2>Fiches</h2><div class="list">${cards.map(c => `<details class="card"><summary>${c.h}</summary><ul>${c.l.map(x => `<li>${x}</li>`).join('')}</ul></details>`).join('')}</div>` : ''}
+  ${pl.length ? `<h2>Défis « Place-toi »</h2><div class="list">${pl.map(x => `<a class="row" href="#p/${x.id}"><span class="tx"><b>${x.t}</b><span>Glisse le gardien au bon endroit</span></span><span class="st">${stars(S.pl[x.id])}</span></a>`).join('')}</div>` : ''}
+  ${si.length ? `<h2>Situations</h2><div class="list">${si.map(x => `<a class="row" href="#x/${x.id}"><span class="tx"><b>${x.t}</b><span>${KINDS[x.k].n}</span></span><span class="st">${stars(S.si[x.id])}</span></a>`).join('')}</div>` : ''}
+  ${qn ? `<h2>Quiz</h2><a class="row" href="#q/${id}"><span class="tx"><b>Que fais-tu ?</b><span>${qn} questions</span></span><span class="st">${S.qz[id] != null ? S.qz[id] + ' %' : 'À faire'}</span></a>` : ''}
+  ${EXTRA[id] ? `<h2>Aller plus loin</h2><div class="list">${EXTRA[id].map(x => `<a class="row" href="${x[0]}"><span class="tx"><b>${x[1]}</b><span>${x[2]}</span></span><span class="st">›</span></a>`).join('')}</div>` : ''}
+  ${dr.length ? `<h2>Sur le terrain</h2><div class="card"><ul style="margin:0;padding-left:20px">${dr.map(x => `<li>${x}</li>`).join('')}</ul></div>` : ''}`;
+}
+
+function vScene(id) {
+  const sc = SCENES.find(x => x.id === id); if (!sc) return vHome();
+  const m = MOD(sc.m), sib = SCENES.filter(x => x.m === sc.m), nx = sib[sib.indexOf(sc) + 1], N = sc.steps.length;
+  app.innerHTML = hdr('m/' + sc.m, m.n, sc.t, lvl(sc.lvl)) + `
+  <div class="cap card"><div class="n"><span id="cn"></span><span class="dots" id="dots">${sc.steps.map(() => '<i></i>').join('')}</span></div><p id="ct" aria-live="polite"></p></div>
+  <div id="bd" style="margin-top:8px"></div>${LEGEND}
+  <div class="ctl stick"><button class="btn" id="pv" aria-label="Étape précédente">←</button><button class="btn" id="au">▶ Auto</button><button class="btn pri" id="nx">Suivant →</button></div>
+  <div class="keys card"><h3>À retenir</h3><ul>${sc.keys.map(x => `<li>${x}</li>`).join('')}</ul></div>
+  <div id="end"></div>`;
+  board = new Board($('#bd'), sc);
+  let i = 0;
+  const show = (anim) => {
+    board.go(i, anim);
+    $('#cn').textContent = `Étape ${i + 1} / ${N}`; $('#ct').textContent = sc.steps[i].t;
+    [...$('#dots').children].forEach((d, j) => d.classList.toggle('on', j <= i));
+    $('#pv').disabled = i === 0;
+    $('#nx').textContent = i === N - 1 ? '↺ Revoir' : 'Suivant →';
+    if (i === N - 1) {
+      if (!S.seen[id]) { S.seen[id] = 1; save(); }
+      $('#end').innerHTML = nx ? `<a class="btn pri full" href="#s/${nx.id}">Leçon suivante : ${nx.t}</a>` : `<a class="btn pri full" href="#m/${sc.m}">Retour au module ✓</a>`;
+    }
+  };
+  const auto = on => { clearInterval(timer); timer = 0; $('#au').textContent = on ? '❚❚ Pause' : '▶ Auto'; if (on) timer = setInterval(() => { if (i < N - 1) { i++; show(true); } else auto(false); }, 4600); };
+  $('#nx').onclick = () => { auto(false); i = i === N - 1 ? 0 : i + 1; show(i !== 0); };
+  $('#pv').onclick = () => { auto(false); if (i > 0) { i--; show(false); } };
+  $('#au').onclick = () => { if (timer) return auto(false); if (i === N - 1) { i = 0; show(false); } auto(true); };
+  show(false);
+}
+
+function vPlace(id) {
+  const p = PLACES.find(x => x.id === id); if (!p) return vHome();
+  const m = MOD(p.m), nx = PLACES[PLACES.indexOf(p) + 1];
+  app.innerHTML = hdr('defis', 'Défi · ' + m.n, p.t, lvl(p.lvl)) + `
+  <div class="card" style="margin-bottom:10px"><p style="margin:0;font-size:17px">${p.q}</p></div>
+  <div id="bd"></div>${LEGEND}
+  <p class="mut small" id="hint" style="margin-top:8px">Touche le terrain ou glisse le gardien (G) à l'endroit choisi.</p>
+  <button class="btn pri full" id="ok">Valider ma position</button>
+  <div id="res"></div>`;
+  board = new Board($('#bd'), { view: p.view, init: p.init, steps: [] }, { drag: true });
+  if (p.cone) board.fx({ cone: 1 });
+  $('#ok').onclick = () => {
+    const g = board.g(), d = Math.hypot(g[0] - p.ideal[0], g[1] - p.ideal[1]);
+    const st = d <= p.tol ? 3 : d <= p.tol * 2 ? 2 : 1;
+    if (st > (S.pl[id] || 0)) { S.pl[id] = st; save(); }
+    board.lock(true); board.ideal(p.ideal, p.tol);
+    $('#ok').style.display = 'none'; $('#hint').style.display = 'none';
+    $('#res').innerHTML = `<div class="fb"><b>${['', 'Pas encore', 'Presque !', 'Parfait !'][st]} ${stars(st)}</b><p>${st === 3 ? '' : `Tu étais à ${d.toFixed(0)} m de la zone idéale (cercle vert). `}${p.why}</p></div>
+    <div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" id="re">↺ Réessayer</button>${nx ? `<a class="btn pri" href="#p/${nx.id}">Suivant →</a>` : `<a class="btn pri" href="#defis">Terminer ✓</a>`}</div>`;
+    $('#re').onclick = () => vPlace(id);
+  };
+}
+
+function vSit(id) {
+  const x = SITS.find(s => s.id === id); if (!x) return vHome();
+  if (x.k === 'raf') return vRafale(x); if (x.k === 'mur') return vMur(x); if (x.k === 'cor') return vCorner(x);
+  const K = KINDS[x.k], pre = x.pre || [], aft = x.after || [], all = pre.concat(aft), txt = x.k === 'lis' || x.k === 'err', timed = !!K.slow;
+  const q = x.k === 'sor' ? 'Tu sors ou tu restes ?' : x.q;
+  app.innerHTML = hdr('defis', K.n, x.t, lvl(x.lvl)) + `
+  <div class="card" style="margin-bottom:8px;min-height:5.2em"><p style="margin:0;font-size:17px;line-height:1.35" id="ctx">${x.ctx}</p></div>
+  <div id="bd"></div><div id="qa" style="margin-top:10px"></div>`;
+  let who = null, done = false, t0 = 0;
+  board = new Board($('#bd'), { view: x.view, init: x.init, lb: x.lb, steps: pre.concat(aft) }, { pick: x.k === 'qui' ? pid => { if (done || !t0) return; who = pid; board.mark(pid); words(); } : null });
+  $('#bd').classList.add('sit');
+  const run = (a, b, cb) => { if (a >= b) return cb && later(cb, 300); if (all[a].t) $('#ctx').textContent = all[a].t; board.go(a, true); later(() => run(a + 1, b, cb), noMotion ? 500 : all[a].t ? 1700 : 1250); };
+  const stop = () => `<span class="lvl" style="border-color:var(--bad);color:var(--bad);margin-right:8px;vertical-align:2px">Stop</span><b>${q.replace(/ ([?!:;])/g, '\u00A0$1')}</b>`;
+  const words = () => {
+    if ($('#os')) return;
+    const opts = x.k === 'sor' ? [{ t: "J'y vais !", ok: x.a === 'go' }, { t: 'Je reste !', ok: x.a === 'stay' }] : shuffle(x.o.map((t, j) => ({ t, ok: j === 0 })));
+    $('#qa').insertAdjacentHTML('beforeend', `<div id="os" class="${txt ? '' : 'words'}">${opts.map(o => `<button class="opt">${o.t}</button>`).join('')}</div>` + (timed ? `<div class="tbar"><i style="transition-duration:${K.slow}s"></i></div>` : ''));
+    if (timed) { t0 = performance.now(); requestAnimationFrame(() => requestAnimationFrame(() => { const b = $('.tbar i'); if (b) b.style.width = '0%'; })); }
+    [...$('#os').children].forEach((b, j) => b.onclick = () => answer(opts, j));
+    if (x.k === 'qui') $('#os').scrollIntoView({ block: 'nearest' });
+  };
+  const ask = () => {
+    $('#ctx').innerHTML = stop();
+    $('#qa').innerHTML = (x.k === 'qui' ? '<p class="mut small" id="hint">Touche d\'abord le coéquipier à qui tu parles (cercles pointillés).</p>' : '');
+    t0 = 1; if (x.k !== 'qui') words();
+    if (x.k === 'err') {
+      $('#qa').insertAdjacentHTML('beforeend', '<button class="btn full" id="rp">↺ Revoir l\'action</button>');
+      $('#rp').onclick = () => { if (done) return; $('#rp').disabled = true; tms.forEach(clearTimeout); tms = []; board.reset(); $('#ctx').textContent = x.ctx;
+        later(() => run(0, pre.length, () => { if (done) return; $('#ctx').innerHTML = stop(); $('#rp').disabled = false; }), 500); };
+    }
+  };
+  const answer = (opts, j) => {
+    if (done) return; done = true;
+    const sec = (performance.now() - t0) / 1000, okW = opts[j].ok, okP = x.k !== 'qui' || who === x.who;
+    [...$('#os').children].forEach((b, n) => { if (opts[n].ok) b.classList.add('ok'); else if (n === j) b.classList.add('bad'); b.disabled = true; });
+    const tb = $('.tbar'); if (tb) tb.remove();
+    const rp = $('#rp'); if (rp) rp.remove();
+    tms.forEach(clearTimeout); tms = [];
+    let st, msg;
+    if (timed) { st = !okW ? 0 : sec <= K.fast ? 3 : sec <= K.slow ? 2 : 1; msg = (x.k === 'sor' ? ['Mauvaise décision', 'Bonne décision, mais trop tard', 'Bonne décision, un peu lente', 'Parfait !'] : ['Pas le bon mot', 'Bon mot, mais trop tard', 'Bon mot, un peu lent', 'Parfait !'])[st]; }
+    else if (x.k === 'qui') { st = okW && okP ? 3 : okW || okP ? 1 : 0; msg = st === 3 ? 'Parfait !' : okW ? 'Bon mot, mauvais joueur' : okP ? 'Bon joueur, mauvais mot' : 'Pas cette fois'; board.mark(x.who, 'good'); }
+    else { st = okW ? 3 : 0; msg = okW ? (x.k === 'err' ? 'Bien vu !' : 'Bien lu !') : 'Pas cette fois'; }
+    run(pre.length, all.length);
+    sitEnd(x, st, msg, (timed && okW ? `Ta réponse : ${sec.toFixed(1).replace('.', ',')} s. ` : '') + x.w);
+  };
+  later(() => run(0, pre.length, ask), 900);
+}
+
+/* fin commune des situations : étoiles, explication, rejouer / suivant */
+function sitEnd(x, st, msg, body) {
+  const same = SITS.filter(s => s.k === x.k), nx = same[same.indexOf(x) + 1];
+  if (st > (S.si[x.id] || 0)) { S.si[x.id] = st; save(); }
+  $('#qa').insertAdjacentHTML('beforeend', `<div class="fb" style="border-color:var(--${st >= 2 ? 'ok' : st ? 'acc' : 'bad'})"><b>${msg} ${stars(st)}</b>${body.startsWith('<') ? body : `<p>${body}</p>`}</div>
+  <div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" id="re">↺ Rejouer</button>${nx ? `<a class="btn pri" href="#x/${nx.id}">Suivant →</a>` : `<a class="btn pri" href="#defis">Terminer ✓</a>`}</div>`);
+  $('#re').onclick = () => { stopAll(); vSit(x.id); window.scrollTo(0, 0); };
+}
+const sitTop = x => hdr('defis', KINDS[x.k].n, x.t, lvl(x.lvl)) + `<div class="card" style="margin-bottom:8px"><p style="margin:0;font-size:17px;line-height:1.35" id="ctx">${x.ctx}</p></div><div id="bd"></div><div id="qa" style="margin-top:10px"></div>`;
+
+/* ---------- courte ou longue, en rafale ---------- */
+function vRafale(x) {
+  const T = KINDS.raf.slow, N = x.items.length;
+  app.innerHTML = sitTop(x);
+  const mk = (init, steps) => { if (board) board.stop(); board = new Board($('#bd'), { view: x.view, init: Object.assign({}, x.base, init), lb: x.lb, steps }); };
+  mk(x.base ? {} : { g:[34,99.5], b:[34,98.2] }, []);
+  $('#qa').innerHTML = `<p class="mut small">${N} situations. Tu as ${T} secondes pour chacune : regarde qui est marqué, qui est libre, puis touche « Courte » ou « Longue ».</p><button class="btn pri full" id="go">▶ Départ</button>`;
+  let its, i, score, tsum, miss, open = false, to = 0, t0 = 0;
+  const show = () => {
+    const it = its[i]; mk(it.init, [{ mv: { b: it.to } }]);
+    $('#ctx').innerHTML = `<span class="lvl" style="margin-right:8px;vertical-align:2px">${i + 1} / ${N}</span><b>${it.s}</b>`;
+    [...$('#os').children].forEach(b => { b.className = 'opt'; b.disabled = false; });
+    $('#rf').innerHTML = '';
+    const bar = $('.tbar i'); bar.style.transition = 'none'; bar.style.width = '100%'; void bar.offsetWidth; bar.style.transition = `width ${T}s linear`; bar.style.width = '0%';
+    open = true; t0 = performance.now(); to = setTimeout(() => ans(null), T * 1000); tms.push(to);
+  };
+  const ans = a => {
+    if (!open) return; open = false; clearTimeout(to);
+    const it = its[i], sec = (performance.now() - t0) / 1000, ok = a === it.a, bar = $('.tbar i');
+    const w = getComputedStyle(bar).width; bar.style.transition = 'none'; bar.style.width = w;
+    [...$('#os').children].forEach(b => { if (b.dataset.a === it.a) b.classList.add('ok'); else if (b.dataset.a === a) b.classList.add('bad'); b.disabled = true; });
+    if (ok) { score++; tsum += sec; } else miss.push(it);
+    board.go(0, true);
+    $('#rf').innerHTML = `<b style="color:var(--${ok ? 'ok' : 'bad'})">${ok ? 'Oui !' : a ? 'Non.' : 'Trop tard.'}</b> ${it.w}`;
+    later(() => { i++; i < N ? show() : end(); }, ok ? 1600 : 3400);
+  };
+  const start = () => {
+    its = shuffle(x.items); i = 0; score = 0; tsum = 0; miss = [];
+    $('#qa').innerHTML = `<div class="tbar" style="margin-top:0"><i></i></div><div id="os" class="words"><button class="opt" data-a="c">Courte</button><button class="opt" data-a="l">Longue</button></div><p id="rf" style="min-height:4.4em;margin:10px 2px 0;line-height:1.4" aria-live="polite"></p>`;
+    [...$('#os').children].forEach(b => b.onclick = () => ans(b.dataset.a));
+    show();
+  };
+  const end = () => {
+    const st = score >= N - 1 ? 3 : score >= N - 3 ? 2 : score >= N - 5 ? 1 : 0;
+    if (board) board.stop(); board = null; $('#bd').remove();
+    $('#ctx').parentNode.outerHTML = `<div class="card" style="text-align:center;padding:24px 14px"><div class="big">${score}/${N}</div><p style="margin:10px 0 0">${score ? `Temps moyen sur tes bonnes réponses : ${(tsum / score).toFixed(1).replace('.', ',')} s.` : 'Revois la leçon « Courte ou longue ? Compte les joueurs ».'}</p></div>`;
+    $('#qa').innerHTML = '';
+    sitEnd(x, st, ['On recommence', 'Pas encore', 'Solide !', 'Parfait !'][st], miss.length ? `<p>À revoir :</p><ul class="recap">${miss.map(m => `<li><b>${m.s}</b> ${m.a === 'c' ? 'Courte' : 'Longue'}. ${m.w}</li>`).join('')}</ul>` : `<p>${st === 3 && score === N ? 'Sans faute. ' : ''}Tu comptes vite et tu choisis bien : c'est ça, être le premier attaquant.</p>`);
+    window.scrollTo(0, 0);
+  };
+  $('#go').onclick = start;
+}
+
+/* ---------- place ton mur ---------- */
+function vMur(x) {
+  const R = 9.15, SP = 1.2, B = x.init.b, P = [x.post === 'g' ? 30.34 : 37.66, 105];
+  const aP = Math.atan2(P[1] - B[1], P[0] - B[0]), aC = Math.atan2(105 - B[1], 34 - B[0]), side = Math.sign(aP - aC) || 1;
+  const outer = (th, n) => side * (th + side * (n - 1) / 2 * SP / R - aP) * R;   // mètres dont le joueur du bout dépasse la ligne ballon–poteau
+  const ideal = n => aP + side * (0.6 - (n - 1) / 2 * SP) / R;
+  let n = 3, th = aC - side * 0.3, done = false;
+  app.innerHTML = sitTop(x);
+  board = new Board($('#bd'), { view: x.view, init: x.init, steps: [] });
+  $('#bd').classList.add('sit', 'drag'); board.fx({ cone: 1 });
+  const row = (t, m) => { const c = [B[0] + R * Math.cos(t), B[1] + R * Math.sin(t)], tg = [-Math.sin(t), Math.cos(t)]; return { c, tg, pts: Array.from({ length: m }, (_, i) => { const o = (i - (m - 1) / 2) * SP; return [c[0] + tg[0] * o, c[1] + tg[1] * o]; }) }; };
+  const arc = `<circle cx="${B[0]}" cy="${B[1]}" r="${R}" fill="none" stroke="rgba(255,255,255,.45)" stroke-width=".22" stroke-dasharray=".8 .8"/>`;
+  const draw = (extra = '') => { board.over.innerHTML = arc + extra + row(th, n).pts.map(p => `<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.1" class="wall"/>`).join(''); };
+  $('#qa').innerHTML = `<div id="tools"><p class="mut small" style="margin:0">Combien de joueurs dans ton mur ?</p>
+    <div class="seg" id="seg">${[1,2,3,4,5].map(v => `<button class="btn" data-n="${v}" aria-label="${v} joueur${v > 1 ? 's' : ''}">${v}</button>`).join('')}</div>
+    <div class="ctl" style="grid-template-columns:56px 1fr 56px;align-items:center"><button class="btn" id="lf" aria-label="Décaler le mur à gauche">◀</button><span class="mut small" style="text-align:center;line-height:1.3">Glisse ton doigt sur le terrain pour déplacer le mur</span><button class="btn" id="rt" aria-label="Décaler le mur à droite">▶</button></div>
+    <button class="btn pri full" id="ok">Valider mon mur</button></div>`;
+  const clamp = t => Math.max(aC - .55, Math.min(aC + .55, t));
+  const seg = () => [...$('#seg').children].forEach(b => b.classList.toggle('on', +b.dataset.n === n));
+  [...$('#seg').children].forEach(b => b.onclick = () => { n = +b.dataset.n; seg(); draw(); });
+  $('#lf').onclick = () => { th = clamp(th + .3 / R); draw(); };
+  $('#rt').onclick = () => { th = clamp(th - .3 / R); draw(); };
+  let dn = null;
+  const svg = board.svg;
+  svg.addEventListener('pointerdown', e => { if (done) return; dn = { q: board.pt(e), th }; try { svg.setPointerCapture(e.pointerId); } catch (z) {} e.preventDefault(); });
+  svg.addEventListener('pointermove', e => { if (!dn || done) return; const q = board.pt(e), tg = [-Math.sin(dn.th), Math.cos(dn.th)]; th = clamp(dn.th + ((q[0] - dn.q[0]) * tg[0] + (q[1] - dn.q[1]) * tg[1]) / R); draw(); });
+  ['pointerup', 'pointercancel'].forEach(k => svg.addEventListener(k, () => dn = null));
+  seg(); draw();
+  $('#ok').onclick = () => {
+    done = true; $('#bd').classList.remove('drag');
+    const o = outer(th, n), okN = x.n.includes(n), near = Math.min(...x.n.map(v => Math.abs(v - n))) === 1;
+    const okP = o >= 0 && o <= 2.1, nearP = o >= -.8 && o <= 3.3;
+    const st = okN && okP ? 3 : (okN && nearP) || (near && okP) ? 2 : 1;
+    const nI = okN ? n : x.n[0], tI = ideal(nI), w = row(tI, nI), h = nI / 2 * SP;
+    const ends = [-h, h].map(s => [w.c[0] + w.tg[0] * s, w.c[1] + w.tg[1] * s]), prj = ends.map(e => [B[0] + (e[0] - B[0]) * (105 - B[1]) / (e[1] - B[1]), 105]);
+    const g = x.init.g;
+    draw(`<polygon points="${ends[0]} ${ends[1]} ${prj[1]} ${prj[0]}" fill="rgba(53,201,122,.38)" stroke="#35C97A" stroke-width=".25"/>` + (st === 3 ? '' : w.pts.map(p => `<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.2" class="ghost"/>`).join('')) + `<circle cx="${g[0]}" cy="${g[1]}" r="2.3" fill="rgba(254,228,56,.16)" stroke="#FEE438" stroke-width=".3" stroke-dasharray="1 .8"/>`);
+    $('#tools').remove();
+    const mN = okN ? `${n} joueur${n > 1 ? 's' : ''} : bon choix.` : `Tu as mis ${n} joueur${n > 1 ? 's' : ''} ; ici, il en faut ${x.n.join(' ou ')}.`;
+    const mP = okP ? 'Ton premier poteau est bien couvert.' : o < 0 ? 'Ton mur laisse le premier poteau ouvert : décale-le vers l\'extérieur.' : 'Ton mur est trop décalé vers l\'extérieur : le joueur du bout dépasse seulement un peu la ligne ballon–poteau.';
+    sitEnd(x, st, ['', 'Pas encore', 'Presque !', 'Parfait !'][st], `<p>${mN} ${mP}</p><p>${st === 3 ? '' : 'Les cercles blancs montrent le bon mur. '}La zone verte est ce que le mur protège ; le cercle jaune, c'est ta place. ${x.w}</p>`);
+  };
+}
+
+/* ---------- organise ton corner ---------- */
+function vCorner(x) {
+  const need = x.need, sp = shuffle(x.spots), L = 'ABCDEFGH', sel = new Set();
+  app.innerHTML = sitTop(x);
+  board = new Board($('#bd'), { view: x.view, init: x.init, lb: x.lb, steps: [] });
+  $('#bd').classList.add('sit');
+  const k = board.k;
+  board.over.innerHTML = sp.map((s, j) => `<g class="spot" data-j="${j}" transform="translate(${s.p[0]} ${s.p[1]})" role="button" aria-label="Endroit ${L[j]}"><circle r="${4.3 * k}" fill="transparent"/><circle r="${2.6 * k}" class="bg"/><circle r="${2.6 * k}" class="pk"/><text class="elb" style="font-size:${2.1 * k}px" fill="#fff">${L[j]}</text></g>`).join('');
+  $('#qa').innerHTML = `<div id="tools"><p class="mut small" style="margin:0">Touche les ${need} endroits où tu envoies tes joueurs libres. Choisis : <b id="cnt">0</b> / ${need}</p><button class="btn pri full" id="ok" disabled>Valider mon organisation</button></div>`;
+  const nodes = [...board.over.children];
+  nodes.forEach((g, j) => g.addEventListener('click', () => {
+    if (!$('#ok')) return;
+    if (sel.has(j)) sel.delete(j); else if (sel.size < need) sel.add(j); else return;
+    g.classList.toggle('sel', sel.has(j)); $('#cnt').textContent = sel.size; $('#ok').disabled = sel.size !== need;
+  }));
+  $('#ok').onclick = () => {
+    const good = sp.map((s, j) => j).filter(j => sp[j].ok), hit = good.filter(j => sel.has(j)).length;
+    nodes.forEach((g, j) => { g.classList.remove('sel'); if (sp[j].ok) g.classList.add('good'); else if (sel.has(j)) g.classList.add('wrong'); else g.style.opacity = .35; });
+    const to = {}; x.free.forEach((id, n) => { if (good[n] != null) to[id] = sp[good[n]].p; }); board.move(to, 1100);
+    later(() => good.forEach(j => nodes[j].style.display = 'none'), noMotion ? 0 : 1150);
+    $('#tools').remove();
+    const lines = sp.map((s, j) => ({ s, j })).filter(o => o.s.ok || sel.has(o.j)).map(o => `<li><b>${L[o.j]} · ${o.s.n}</b> ${o.s.ok ? (sel.has(o.j) ? '✓' : '(oublié)') : '✗'} ${o.s.w}</li>`).join('');
+    sitEnd(x, hit === need ? 3 : hit, ['Pas encore', 'Un bon choix sur ' + need, 'Presque !', 'Parfait !'][hit === need ? 3 : hit], `<ul class="recap" style="margin-top:6px">${lines}</ul><p>${x.w}</p>`);
+  };
+}
+
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function vQuiz(id) {
+  const all = id === 'all', m = MOD(id);
+  const qs = all ? shuffle(QUIZ).slice(0, 10) : shuffle(QUIZ.filter(x => x.m === id));
+  if (!qs.length) return vHome();
+  let i = 0, score = 0;
+  const backTo = all ? 'defis' : 'm/' + id;
+  const ask = () => {
+    const q = qs[i], opts = shuffle(q.o.map((t, j) => ({ t, ok: j === 0 })));
+    app.innerHTML = hdr(backTo, all ? 'Quiz éclair' : 'Quiz · ' + m.n, `Question ${i + 1} / ${qs.length}`) + `
+    <div class="bar" style="margin-bottom:14px"><i style="width:${100 * i / qs.length}%"></i></div>
+    <p style="font-size:19px;line-height:1.35;font-weight:600">${q.q}</p>
+    <div id="os">${opts.map((o, j) => `<button class="opt" data-j="${j}">${o.t}</button>`).join('')}</div><div id="res"></div>`;
+    [...$('#os').children].forEach((b, j) => b.onclick = () => {
+      if ($('#res').innerHTML) return;
+      const good = opts[j].ok; if (good) score++;
+      [...$('#os').children].forEach((x, k) => { if (opts[k].ok) x.classList.add('ok'); else if (k === j) x.classList.add('bad'); x.disabled = true; });
+      $('#res').innerHTML = `<div class="fb" style="border-color:var(--${good ? 'ok' : 'bad'})"><b>${good ? 'Bien joué !' : 'Pas tout à fait'}</b><p>${q.w}</p></div><button class="btn pri full" id="nq">${i === qs.length - 1 ? 'Voir mon résultat' : 'Question suivante →'}</button>`;
+      $('#nq').onclick = () => { i++; i < qs.length ? ask() : end(); window.scrollTo(0, 0); };
+      $('#nq').scrollIntoView({ block: 'nearest', behavior: noMotion ? 'auto' : 'smooth' });
+    });
+  };
+  const end = () => {
+    const pct = Math.round(100 * score / qs.length);
+    if (pct > (S.qz[id] || 0)) { S.qz[id] = pct; save(); }
+    app.innerHTML = hdr(backTo, all ? 'Quiz éclair' : 'Quiz · ' + m.n, 'Résultat') + `
+    <div class="card" style="text-align:center;padding:28px 14px"><div class="big">${score}/${qs.length}</div><p style="margin-top:10px">${pct === 100 ? 'Sans faute. Mur infranchissable !' : pct >= 70 ? 'Solide. Revois les leçons des questions ratées.' : 'Revois les leçons animées, puis réessaie : tu vas l\'avoir.'}</p></div>
+    <div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" id="re">↺ Refaire</button><a class="btn pri" href="#${backTo}">Continuer →</a></div>`;
+    $('#re').onclick = () => vQuiz(id);
+  };
+  ask();
+}
+
+function vDefis() {
+  app.innerHTML = `<div class="brand"><h1>Défis</h1></div>
+  <p class="mut">Teste ton placement et tes décisions.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">${Object.keys(KINDS).map(k => `<a class="lvl" style="font-size:13px;padding:6px 10px;color:var(--ink)" href="#defis" data-go="k-${k}">${KINDS[k].n}</a>`).join('')}</div>
+  <a class="row" href="#q/all" style="--c:var(--acc)"><span class="dot"></span><span class="tx"><b>Quiz éclair</b><span>10 questions mélangées, tous les thèmes</span></span><span class="st">${S.qz.all != null ? 'Record ' + S.qz.all + ' %' : '→'}</span></a>
+  <a class="row" href="#regles" style="--c:var(--acc);margin-top:8px"><span class="dot"></span><span class="tx"><b>Règles du gardien</b><span>${RULES.length} questions · lois du jeu 2025/26</span></span><span class="st">${S.qz.regles != null ? 'Record ' + S.qz.regles + ' %' : '→'}</span></a>
+  ${Object.keys(KINDS).map(k => `<h2 id="k-${k}">${KINDS[k].n}</h2><p class="mut small">${KINDS[k].d}</p><div class="list">${SITS.filter(x => x.k === k).map(x => `<a class="row" style="--c:${MOD(x.m).c}" href="#x/${x.id}"><span class="dot"></span><span class="tx"><b>${x.t}</b><span>${MOD(x.m).n}</span></span><span class="st">${stars(S.si[x.id])}</span></a>`).join('')}</div>`).join('')}
+  <h2>Place-toi</h2>
+  <div class="list">${PLACES.map(x => `<a class="row" style="--c:${MOD(x.m).c}" href="#p/${x.id}"><span class="dot"></span><span class="tx"><b>${x.t}</b><span>${MOD(x.m).n}</span></span><span class="st">${stars(S.pl[x.id])}</span></a>`).join('')}</div>
+  <h2>Quiz par thème</h2>
+  <div class="list">${MODULES.filter(m => QUIZ.some(q => q.m === m.id)).map(m => `<a class="row" style="--c:${m.c}" href="#q/${m.id}"><span class="dot"></span><span class="tx"><b>${m.n}</b><span>${QUIZ.filter(q => q.m === m.id).length} questions</span></span><span class="st">${S.qz[m.id] != null ? S.qz[m.id] + ' %' : 'À faire'}</span></a>`).join('')}</div>`;
+  app.querySelectorAll('[data-go]').forEach(a => a.onclick = e => { e.preventDefault(); const h = document.getElementById(a.dataset.go); if (h) h.scrollIntoView({ block: 'start', behavior: noMotion ? 'auto' : 'smooth' }); });
+}
+
+function vProg() {
+  const a = allStats(), st = PLACES.reduce((n, p) => n + (S.pl[p.id] || 0), 0) + SITS.reduce((n, p) => n + (S.si[p.id] || 0), 0);
+  app.innerHTML = `<div class="brand"><h1>Progrès</h1></div>
+  <div class="card hero"><div class="pct">${a.pct}%</div><div style="flex:1"><b>${a.done} étapes sur ${a.total}</b><div class="small mut">${Object.keys(S.seen).length} leçons vues · ${st} étoiles sur ${(PLACES.length + SITS.length) * 3}</div><div class="bar" style="margin-top:8px"><i style="width:${a.pct}%"></i></div></div></div>
+  <h2>Entraînement</h2>
+  <div class="card small"><p style="margin:0 0 4px">Séances validées : <b>${Object.keys(S.sd).filter(sdDone).length}</b> · série en cours : <b>${streak()}</b></p><p style="margin:0 0 4px">Questions maîtrisées : <b>${revMastered()} / ${QUIZ.length}</b></p><p style="margin:0 0 4px">Programme jeu au pied : <b>${Object.keys(S.pp).length} / ${PIED.reduce((n, w) => n + w.s.length, 0)}</b> séances</p><p style="margin:0 0 4px">Matchs dans le carnet : <b>${S.cn.length}</b></p><p style="margin:0 0 4px">Règles du gardien : <b>${S.qz.regles != null ? 'record ' + S.qz.regles + ' %' : 'à faire'}</b></p><p style="margin:0">Analyses vidéo : <b>${S.av.length}</b></p></div>
+  <h2>Par thème</h2>
+  <div class="list">${MODULES.map(m => { const s = modStats(m.id); return `<a class="row" style="--c:${m.c};display:block" href="#m/${m.id}"><span style="display:flex;justify-content:space-between;margin-bottom:8px"><b>${m.n}</b><span class="mut small">${s.done}/${s.total}</span></span><span class="bar"><i style="width:${s.pct}%;background:${m.c}"></i></span></a>`; }).join('')}</div>
+  <h2>Ton prénom</h2>
+  <input type="text" id="nm" maxlength="20" placeholder="Pour personnaliser l'accueil" value="${esc(S.name)}" aria-label="Ton prénom">
+  <h2>Pour les parents</h2>
+  <div class="card small"><p>La progression est gardée seulement sur cet appareil. Une étape compte quand la leçon est vue jusqu'au bout, qu'un défi obtient au moins 2 étoiles ou qu'un quiz atteint 70 %.</p><p style="margin:0">Ces repères sont généraux : les consignes de son entraîneur de gardiens passent toujours en premier.</p></div>
+  <button class="btn full" id="rz">Effacer ma progression</button><div id="rzc"></div>${ACCES ? '<button class="btn full" id="lk">Verrouiller l\'appli sur cet appareil</button>' : ''}`;
+  $('#nm').oninput = e => { S.name = e.target.value.trim(); save(); };
+  if ($('#lk')) $('#lk').onclick = () => { try { localStorage.removeItem('gk99acc'); } catch (x) {} route(); };
+  $('#rz').onclick = () => { $('#rzc').innerHTML = `<div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" id="rn">Annuler</button><button class="btn pri" id="ry">Oui, tout effacer</button></div>`; $('#rn').onclick = () => $('#rzc').innerHTML = ''; $('#ry').onclick = () => { S = BLANK(); save(); vProg(); }; };
+}
+
+/* =====================================================================
+   LOT C — séance du jour, révision espacée, programme jeu au pied, carnet
+   ===================================================================== */
+const MOIS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const dnum = () => { const d = new Date(); return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5); };
+const keyOf = n => new Date(n * 864e5).toISOString().slice(0, 10);
+const frDate = k => { const [y, m, d] = k.split('-'); return `${+d} ${MOIS[+m - 1]} ${y}`; };
+const rng = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+const plural = (n, a, b) => n > 1 ? b : a;
+
+/* ---------- révision espacée (boîtes de Leitner) ---------- */
+const RV_INT = [0, 1, 3, 7, 14, 30];
+const qid = q => { let h = 0; for (const c of q.q) h = (h * 31 + c.charCodeAt(0)) | 0; return 'r' + (h >>> 0).toString(36); };
+function revQueue() {
+  const t = dnum(), due = [], fresh = [];
+  QUIZ.forEach(q => { const c = S.rv[qid(q)]; if (!c) fresh.push(q); else if (c.d <= t) due.push(q); });
+  return { due, fresh, t };
+}
+function revNext() {
+  const t = dnum(); let m = Infinity;
+  QUIZ.forEach(q => { const c = S.rv[qid(q)]; if (c && c.d > t) m = Math.min(m, c.d - t); });
+  return m;
+}
+const revMastered = () => QUIZ.filter(q => (S.rv[qid(q)] || { b: 0 }).b >= 4).length;
+
+function vRevision() {
+  const { due, fresh, t } = revQueue();
+  let qs = due.slice().sort((a, b) => S.rv[qid(a)].b - S.rv[qid(b)].b).slice(0, 10).map(q => ({ q, nw: false }));
+  if (qs.length < 6) qs = qs.concat(shuffle(fresh).slice(0, Math.min(5, 6 - qs.length)).map(q => ({ q, nw: true })));
+  const head = (title, sub) => hdr('seance', sub || 'Révision espacée', title);
+  if (!qs.length) {
+    const nx = revNext();
+    app.innerHTML = head('Tout est à jour') + `<div class="card" style="text-align:center;padding:24px 14px"><div class="big">✓</div><p style="margin:10px 0 0">${nx === Infinity ? 'Tu as vu toutes les questions.' : `Prochaine révision dans ${nx} jour${plural(nx, '', 's')}.`}</p></div>
+    <a class="btn pri full" href="#seance">Retour à ma séance</a>`;
+    return;
+  }
+  let i = 0, score = 0;
+  const first = qs.length;
+  const ask = () => {
+    const it = qs[i], q = it.q, opts = shuffle(q.o.map((x, j) => ({ t: x, ok: j === 0 })));
+    app.innerHTML = head(`Question ${Math.min(i + 1, qs.length)} / ${qs.length}`) + `
+    <div class="bar" style="margin-bottom:14px"><i style="width:${100 * i / qs.length}%"></i></div>
+    <p class="mut small" style="margin-bottom:6px">${it.retry ? 'Encore une fois, pour bien retenir' : it.nw ? 'Nouvelle question' : 'À revoir'} · ${MOD(q.m).n}</p>
+    <p style="font-size:19px;line-height:1.35;font-weight:600">${q.q}</p>
+    <div id="os">${opts.map((o, j) => `<button class="opt" data-j="${j}">${o.t}</button>`).join('')}</div><div id="res"></div>`;
+    [...$('#os').children].forEach((b, j) => b.onclick = () => {
+      if ($('#res').innerHTML) return;
+      const good = opts[j].ok;
+      [...$('#os').children].forEach((x, k) => { if (opts[k].ok) x.classList.add('ok'); else if (k === j) x.classList.add('bad'); x.disabled = true; });
+      if (!it.retry) {
+        const id = qid(q), c = S.rv[id] || { b: 0, d: t };
+        if (good) { score++; c.b = Math.min(5, c.b + 1); c.d = t + RV_INT[c.b]; } else { c.b = 1; c.d = t + 1; qs.push({ q, nw: false, retry: true }); }
+        S.rv[id] = c; save();
+      }
+      const last = i === qs.length - 1;
+      $('#res').innerHTML = `<div class="fb" style="border-color:var(--${good ? 'ok' : 'bad'})"><b>${good ? 'Bien joué !' : 'Pas tout à fait'}</b><p>${q.w}</p>${good ? '' : `<p class="small"><a href="#m/${q.m}" style="text-decoration:underline">Revoir le thème : ${MOD(q.m).n}</a></p>`}</div><button class="btn pri full" id="nq">${last ? 'Voir mon résultat' : 'Question suivante →'}</button>`;
+      $('#nq').onclick = () => { i++; i < qs.length ? ask() : end(); window.scrollTo(0, 0); };
+      $('#nq').scrollIntoView({ block: 'nearest', behavior: noMotion ? 'auto' : 'smooth' });
+    });
+  };
+  const end = () => {
+    const nx = revNext(), rest = revQueue();
+    app.innerHTML = head('Résultat') + `
+    <div class="card" style="text-align:center;padding:28px 14px"><div class="big">${score}/${first}</div><p style="margin-top:10px">${score === first ? 'Sans faute. Ces questions reviendront de plus en plus tard.' : 'Les questions ratées reviennent demain.'}</p><p class="mut small" style="margin:0">${rest.due.length ? `Encore ${rest.due.length} à revoir aujourd'hui.` : nx === Infinity ? '' : `Prochaine révision dans ${nx} jour${plural(nx, '', 's')}.`}</p></div>
+    <div class="ctl" style="grid-template-columns:1fr 1fr">${rest.due.length || rest.fresh.length ? '<button class="btn" id="re">Continuer</button>' : '<span></span>'}<a class="btn pri" href="#seance">Ma séance →</a></div>`;
+    const re = $('#re'); if (re) re.onclick = () => { vRevision(); window.scrollTo(0, 0); };
+  };
+  ask();
+}
+
+/* ---------- séance du jour ---------- */
+const sdDone = k => ((S.sd[k] && S.sd[k].done) || []).length >= 3;
+function streak() { let n = dnum(), c = 0; if (!sdDone(keyOf(n))) n--; while (sdDone(keyOf(n))) { c++; n--; } return c; }
+function makePlan(seed) {
+  const r = rng(seed), pick = a => a[Math.floor(r() * a.length)];
+  const ranked = MODULES.map(m => ({ id: m.id, s: modStats(m.id).pct + r() * 30 })).sort((a, b) => a.s - b.s).map(o => o.id);
+  const foc = ranked[0], inFoc = SCENES.filter(x => x.m === foc);
+  const unseen = inFoc.find(x => !S.seen[x.id]) || ranked.map(id => SCENES.find(x => x.m === id && !S.seen[x.id])).find(Boolean);
+  const sc = (unseen || pick(inFoc.length ? inFoc : SCENES)).id;
+  const stOf = t => (t.t === 'x' ? S.si[t.id] : S.pl[t.id]) || 0;
+  const all = SITS.map(x => ({ t: 'x', id: x.id, m: x.m, l: x.lvl })).concat(PLACES.map(x => ({ t: 'p', id: x.id, m: x.m, l: x.lvl })));
+  let pool = all.filter(t => t.m === foc && stOf(t) < 3);
+  if (!pool.length) pool = all.filter(t => stOf(t) < 3);
+  if (!pool.length) pool = all;
+  const lo = Math.min(...pool.map(t => t.l)); pool = pool.filter(t => t.l === lo);
+  const tk = pick(pool), dr = DRILLS[foc] || DRILLS.m1;
+  return { foc, sc, tk: { t: tk.t, id: tk.id }, dr: Math.floor(r() * dr.length) };
+}
+const planOk = p => p && SCENES.some(x => x.id === p.sc) && DRILLS[p.foc] && DRILLS[p.foc][p.dr] != null && (p.tk.t === 'x' ? SITS : PLACES).some(x => x.id === p.tk.id);
+function todayPlan() {
+  const k = keyOf(dnum()), day = S.sd[k] || (S.sd[k] = { r: 0, done: [], plan: null });
+  if (!planOk(day.plan)) { day.plan = makePlan(dnum() * 31 + day.r); day.done = []; save(); }
+  return day;
+}
+
+function vSeance() {
+  const day = todayPlan(), P = day.plan, k = keyOf(dnum()), rq = revQueue();
+  const sc = SCENES.find(x => x.id === P.sc), tk = P.tk.t === 'x' ? SITS.find(x => x.id === P.tk.id) : PLACES.find(x => x.id === P.tk.id);
+  const nRev = rq.due.length, nNew = Math.min(5, rq.fresh.length), canRev = nRev + nNew > 0;
+  const steps = [
+    { t: 'Échauffement : révision', d: canRev ? `${nRev ? nRev + ' carte' + plural(nRev, '', 's') + ' à revoir' : ''}${nRev && nNew ? ' · ' : ''}${nNew && nRev < 6 ? nNew + ' nouvelle' + plural(nNew, '', 's') : ''}` : 'Tout est à jour : fais un quiz éclair.', href: canRev ? '#revision' : '#q/all', min: 5 },
+    { t: 'Apprendre : ' + sc.t, d: 'Leçon animée · ' + MOD(sc.m).n, href: '#s/' + sc.id, min: 5 },
+    { t: 'Jouer : ' + tk.t, d: (P.tk.t === 'x' ? KINDS[tk.k].n : 'Place-toi') + ' · ' + MOD(tk.m).n, href: (P.tk.t === 'x' ? '#x/' : '#p/') + tk.id, min: 5 },
+    { t: 'Sur le terrain', d: DRILLS[P.foc][P.dr], href: '', min: 10 }
+  ];
+  const nd = day.done.length, sk = streak(), tot = Object.keys(S.sd).filter(sdDone).length, a = revQueue();
+  const pd = PIED.reduce((n, w, i) => n + w.s.filter((x, j) => S.pp[`w${i + 1}s${j + 1}`]).length, 0), pt = PIED.reduce((n, w) => n + w.s.length, 0);
+  app.innerHTML = `<div class="brand"><h1>Séance</h1></div>
+  <p class="mut">Environ 25 minutes. Fais au moins 3 étapes sur 4 pour valider ta séance.</p>
+  <div class="card hero" style="margin-top:10px"><div class="pct">${sk}</div><div style="flex:1"><b>${sk > 0 ? plural(sk, 'jour de suite', 'jours de suite') : 'Commence ta série'}</b><div class="small mut">${tot} séance${plural(tot, '', 's')} validée${plural(tot, '', 's')} · aujourd'hui ${nd}/4</div><div class="bar" style="margin-top:8px"><i style="width:${nd * 25}%"></i></div></div></div>
+  <h2>Ma séance du jour</h2>
+  <p class="mut small">Thème : <b style="color:var(--ink)">${MOD(P.foc).n}</b>. C'est là que tu as le plus à gagner.</p>
+  <div class="list">${steps.map((s, i) => `<div class="row" style="padding:6px 12px 6px 4px"><button class="tick" data-i="${i}" aria-pressed="${day.done.includes(i)}" aria-label="${day.done.includes(i) ? 'Étape faite' : 'Marquer comme faite'} : ${esc(s.t)}"><span class="chk ${day.done.includes(i) ? 'on' : ''}">✓</span></button>${s.href ? `<a class="tx" href="${s.href}" style="padding:6px 0"><b>${esc(s.t)}</b><span>${esc(s.d)}</span></a><span class="st" aria-hidden="true">›</span>` : `<div class="tx" style="padding:6px 0"><b>${s.t}</b><span style="font-size:15px;color:var(--ink);line-height:1.35">${s.d}</span></div>`}</div>`).join('')}</div>
+  ${nd >= 3 ? `<div class="fb" style="border-color:var(--ok)"><b>Séance validée !</b><p>${nd === 4 ? 'Les quatre étapes sont faites. ' : ''}Reviens demain pour continuer ta série.</p></div>` : ''}
+  ${nd === 0 ? '<button class="btn full" id="rr">↺ Une autre séance</button>' : ''}
+  <h2>Aller plus loin</h2>
+  <div class="list">
+    <a class="row" href="#revision"><span class="tx"><b>Révision espacée</b><span>${a.due.length} à revoir · ${a.fresh.length} nouvelle${plural(a.fresh.length, '', 's')} · ${revMastered()} maîtrisée${plural(revMastered(), '', 's')}</span></span><span class="st">›</span></a>
+    <a class="row" href="#pied"><span class="tx"><b>Programme jeu au pied</b><span>4 semaines · ${pd}/${pt} séances faites</span></span><span class="st">›</span></a>
+    <a class="row" href="#carnet"><span class="tx"><b>Carnet d'après-match</b><span>${S.cn.length} match${plural(S.cn.length, '', 's')} noté${plural(S.cn.length, '', 's')}</span></span><span class="st">›</span></a>
+  </div>
+  <h2>Mental et règles</h2>
+  <div class="list">
+    <a class="row" href="#routine"><span class="tx"><b>Routine d'avant-match</b><span>${roToday()} geste${plural(roToday(), '', 's')} fait${plural(roToday(), '', 's')} aujourd'hui</span></span><span class="st">›</span></a>
+    <a class="row" href="#erreur"><span class="tx"><b>Après une erreur</b><span>Ma routine en 4 temps · ${ERREUR.scen.length} mises en situation</span></span><span class="st">›</span></a>
+    <a class="row" href="#lexique"><span class="tx"><b>Mon lexique</b><span>${LEX.length + S.lxn.length} mots-clés pour ta défense</span></span><span class="st">›</span></a>
+    <a class="row" href="#regles"><span class="tx"><b>Règles du gardien</b><span>${S.qz.regles != null ? 'Record ' + S.qz.regles + ' %' : RULES.length + ' questions sur les lois du jeu'}</span></span><span class="st">›</span></a>
+    <a class="row" href="#video"><span class="tx"><b>Analyse vidéo guidée</b><span>${S.av.length} analyse${plural(S.av.length, '', 's')} enregistrée${plural(S.av.length, '', 's')}</span></span><span class="st">›</span></a>
+  </div>`;
+  app.querySelectorAll('.tick').forEach(b => b.onclick = () => { const i = +b.dataset.i, j = day.done.indexOf(i); if (j < 0) day.done.push(i); else day.done.splice(j, 1); save(); vSeance(); });
+  const rr = $('#rr'); if (rr) rr.onclick = () => { day.r++; day.plan = makePlan(dnum() * 31 + day.r); save(); vSeance(); };
+}
+
+/* ---------- programme jeu au pied ---------- */
+function vPied(open) {
+  const pk = (i, j) => `w${i + 1}s${j + 1}`, wd = i => PIED[i].s.filter((x, j) => S.pp[pk(i, j)]).length;
+  const tot = PIED.reduce((n, w) => n + w.s.length, 0), dn = PIED.reduce((n, w, i) => n + wd(i), 0);
+  let cur = PIED.findIndex((w, i) => wd(i) < w.s.length); if (cur < 0) cur = 0;
+  open = open == null || isNaN(+open) ? cur : +open;
+  app.innerHTML = hdr('seance', 'Programme', 'Jeu au pied') + `
+  <div class="card"><p style="margin:0 0 8px">4 semaines, 3 séances de 20 minutes. Avance à ton rythme et garde deux jours de repos par semaine.</p><div class="bar"><i style="width:${Math.round(100 * dn / tot)}%"></i></div><p class="mut small" style="margin:6px 0 0">${dn} séance${plural(dn, '', 's')} sur ${tot}</p></div>
+  <div class="list" style="margin-top:12px">${PIED.map((w, i) => `<details class="card" ${i === open ? 'open' : ''}><summary><span><span class="mut small" style="display:block">Semaine ${w.w} · ${wd(i)}/${w.s.length}</span>${w.t}</span></summary>
+    <div style="padding:0 14px 14px"><p class="mut small">${w.obj}</p>
+    ${w.s.map((s, j) => `<div class="card" style="background:var(--card2);margin-bottom:8px"><b>${s.t}</b><ul style="margin:8px 0 10px;padding-left:20px">${s.items.map(x => `<li>${x}</li>`).join('')}</ul><button class="btn ${S.pp[pk(i, j)] ? '' : 'pri'} full" style="margin-top:0" data-pp="${pk(i, j)}" data-w="${i}">${S.pp[pk(i, j)] ? '✓ Séance faite (annuler)' : 'J\'ai fait cette séance'}</button></div>`).join('')}
+    <div class="card" style="background:var(--card2)"><b>Test de la semaine</b><p class="small" style="margin:6px 0 8px">${w.test.q}</p>
+      <div style="display:grid;grid-template-columns:56px 1fr 56px;gap:8px;align-items:center"><button class="btn" data-pt="${i}" data-d="-1" aria-label="Moins">−</button><div style="text-align:center"><span class="big" style="font-size:40px">${S.pt[w.w] == null ? '–' : S.pt[w.w]}</span><span class="mut"> / ${w.test.max}</span></div><button class="btn" data-pt="${i}" data-d="1" aria-label="Plus">+</button></div>
+      ${S.pt[w.w] != null && i > 0 && S.pt[PIED[i - 1].w] != null && PIED[i - 1].test.max === w.test.max ? `<p class="small mut" style="margin:8px 0 0">Semaine précédente : ${S.pt[PIED[i - 1].w]} / ${w.test.max}</p>` : ''}</div></div></details>`).join('')}</div>
+  <p class="mut small" style="margin-top:12px">Si tu as mal, arrête. Les consignes de ton entraîneur de gardiens passent toujours en premier.</p>`;
+  app.querySelectorAll('[data-pp]').forEach(b => b.onclick = () => { const id = b.dataset.pp; if (S.pp[id]) delete S.pp[id]; else S.pp[id] = keyOf(dnum()); save(); vPied(b.dataset.w); });
+  app.querySelectorAll('[data-pt]').forEach(b => b.onclick = () => { const i = +b.dataset.pt, w = PIED[i], v = S.pt[w.w] == null ? (+b.dataset.d > 0 ? 0 : 1) : S.pt[w.w]; S.pt[w.w] = Math.max(0, Math.min(w.test.max, v + +b.dataset.d)); save(); vPied(i); });
+}
+
+/* ---------- carnet d'après-match ---------- */
+const RES = { V: 'Victoire', N: 'Nulle', D: 'Défaite' }, ATT = { o: 'Oui', p: 'En partie', n: 'Non' };
+const segH = (name, vals, cur, c3) => `<div class="seg ${c3 ? 'c3' : ''}" role="group" data-seg="${name}">${vals.map(([v, l]) => `<button type="button" class="btn ${String(cur) === String(v) ? 'on' : ''}" data-v="${v}" aria-pressed="${String(cur) === String(v)}">${l}</button>`).join('')}</div>`;
+
+function vCarnet(b) {
+  if (b === 'new') return vCarnetForm();
+  const L = S.cn, lastN = L.slice(0, 5), last = L[0];
+  const avg = id => { const v = lastN.map(e => e.rt && e.rt[id]).filter(Boolean); return v.length ? v.reduce((s, x) => s + x, 0) / v.length : 0; };
+  app.innerHTML = hdr('seance', 'Après chaque match', 'Mon carnet') + `
+  <a class="btn pri full" href="#carnet/new" style="margin-top:0">+ Nouveau match</a>
+  ${last && last.obj ? `<div class="card" style="margin-top:12px;border-left:5px solid var(--acc)"><div class="mut small">Ton objectif pour le prochain match</div><p style="margin:4px 0 0;font-size:17px">${esc(last.obj)}</p></div>` : ''}
+  ${L.length ? `<h2>Mes 5 derniers matchs</h2><div class="card">${CARNET.crit.map(c => { const v = avg(c.id); return `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between"><span>${c.n}</span><b>${v ? v.toFixed(1).replace('.', ',') + ' / 5' : '–'}</b></div><div class="bar" style="margin-top:4px"><i style="width:${v * 20}%"></i></div></div>`; }).join('')}<p class="mut small" style="margin:0">${L.length < 3 ? 'Note quelques matchs de plus pour voir ta progression.' : 'Une note basse n\'est pas un échec : c\'est ton prochain objectif.'}</p></div>
+  <h2>Mes matchs</h2><div class="list">${L.map(e => `<details class="card"><summary><span><span class="mut small" style="display:block">${frDate(e.d)}${e.res ? ' · ' + RES[e.res] : ''}</span>${e.opp ? 'Contre ' + esc(e.opp) : 'Match'}</span></summary>
+    <div style="padding:0 14px 14px">${CARNET.crit.filter(c => e.rt && e.rt[c.id]).map(c => `<p style="margin:0 0 4px"><span class="mut">${c.n} :</span> <b>${e.rt[c.id]} / 5</b></p>`).join('')}
+    ${['bien', 'trav', 'err', 'obj'].filter(f => e[f]).map(f => `<p style="margin:10px 0 0"><span class="mut small" style="display:block">${CARNET.q[f]}</span>${esc(e[f])}</p>`).join('')}
+    ${e.att ? `<p style="margin:10px 0 0"><span class="mut">Objectif précédent atteint :</span> <b>${ATT[e.att]}</b></p>` : ''}
+    <button class="btn full" data-del="${e.id}" style="min-height:44px">Supprimer ce match</button><div data-cf="${e.id}"></div></div></details>`).join('')}</div>
+  <button class="btn full" id="cp">Copier le carnet pour mon entraîneur</button><div id="cpr"></div>` : '<p class="mut" style="margin-top:14px">Rien encore. Après ton prochain match, prends 3 minutes pour le noter. Le carnet reste sur cet appareil.</p>'}`;
+  app.querySelectorAll('[data-del]').forEach(btn => btn.onclick = () => {
+    const id = btn.dataset.del, box = app.querySelector(`[data-cf="${id}"]`);
+    box.innerHTML = '<div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" data-n="1">Annuler</button><button class="btn pri" data-y="1">Oui, supprimer</button></div>';
+    box.querySelector('[data-n]').onclick = () => box.innerHTML = '';
+    box.querySelector('[data-y]').onclick = () => { S.cn = S.cn.filter(e => String(e.id) !== id); save(); vCarnet(); };
+  });
+  const cp = $('#cp');
+  if (cp) cp.onclick = () => {
+    const txt = L.slice().reverse().map(e => `${frDate(e.d)}${e.res ? ' · ' + RES[e.res] : ''}${e.opp ? ' · contre ' + e.opp : ''}\n` + CARNET.crit.filter(c => e.rt && e.rt[c.id]).map(c => `${c.n} : ${e.rt[c.id]}/5`).join('\n') + ['bien', 'trav', 'err', 'obj'].filter(f => e[f]).map(f => `\n${CARNET.q[f]} : ${e[f]}`).join('')).join('\n\n');
+    const ok = () => $('#cpr').innerHTML = '<p class="small" style="color:var(--ok)">Copié ✓</p>';
+    const fb = () => { $('#cpr').innerHTML = `<textarea readonly id="cpt" aria-label="Carnet à copier" style="min-height:140px;margin-top:8px">${esc(txt)}</textarea>`; $('#cpt').select(); };
+    try { navigator.clipboard.writeText(txt).then(ok, fb); } catch (e) { fb(); }
+  };
+}
+
+function vCarnetForm() {
+  const D = S.cd, last = S.cn[0], rt = D.rt || (D.rt = {});
+  const ta = (f, rows) => `<label class="lab" for="f-${f}">${CARNET.q[f]}</label><textarea id="f-${f}" data-f="${f}" maxlength="300" rows="${rows || 2}">${esc(D[f] || '')}</textarea>`;
+  app.innerHTML = hdr('carnet', 'Après le match', 'Nouveau match') + `
+  <label class="lab" for="f-opp">Adversaire (facultatif)</label><input type="text" id="f-opp" data-f="opp" maxlength="40" value="${esc(D.opp || '')}">
+  <div class="lab">Résultat</div>${segH('res', [['V', 'Victoire'], ['N', 'Nulle'], ['D', 'Défaite']], D.res, 1)}
+  <h2>Comment ça s'est passé ?</h2><p class="mut small">1 = à travailler, 5 = très bien. Sois honnête : c'est pour toi.</p>
+  ${CARNET.crit.map(c => `<div class="lab" id="l-${c.id}">${c.n}</div><div class="mut small" style="margin:-2px 0 2px">${c.h}</div>${segH('rt-' + c.id, [1, 2, 3, 4, 5].map(v => [v, v]), rt[c.id])}`).join('')}
+  <h2>En quelques mots</h2>
+  ${ta('bien')}${ta('trav')}${ta('err')}
+  ${last && last.obj ? `<div class="lab">Ton objectif d'avant : « ${esc(last.obj)} »</div><div class="mut small" style="margin:-2px 0 2px">Atteint ?</div>${segH('att', [['o', 'Oui'], ['p', 'En partie'], ['n', 'Non']], D.att, 1)}` : ''}
+  ${ta('obj')}
+  <button class="btn pri full" id="sv" ${D.res ? '' : 'disabled'}>Enregistrer</button>
+  <p class="mut small" id="svh" style="margin-top:6px">${D.res ? '' : 'Choisis d\'abord le résultat du match.'}</p>`;
+  app.querySelectorAll('[data-f]').forEach(el => el.oninput = () => { D[el.dataset.f] = el.value; save(); });
+  app.querySelectorAll('[data-seg]').forEach(g => [...g.children].forEach(b => b.onclick = () => {
+    const n = g.dataset.seg, v = b.dataset.v;
+    if (n.startsWith('rt-')) rt[n.slice(3)] = +v; else D[n] = v;
+    [...g.children].forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); });
+    if (D.res) { $('#sv').disabled = false; $('#svh').textContent = ''; }
+    save();
+  }));
+  $('#sv').onclick = () => {
+    const e = { id: Date.now(), d: keyOf(dnum()), opp: (D.opp || '').trim(), res: D.res, rt: Object.assign({}, rt), bien: (D.bien || '').trim(), trav: (D.trav || '').trim(), err: (D.err || '').trim(), obj: (D.obj || '').trim() };
+    if (D.att) e.att = D.att;
+    S.cn.unshift(e); S.cd = {}; save(); location.hash = '#carnet';
+  };
+}
+
+/* =====================================================================
+   LOT D — lexique, routine d'avant-match, erreur, règles, analyse vidéo
+   ===================================================================== */
+const lxWord = x => (S.lx[x.id] || '').trim() || x.w;
+const chipH = (name, vals, cur) => `<div class="chips" data-chip="${name}">${vals.map(v => `<button type="button" class="chip ${cur === v ? 'on' : ''}" aria-pressed="${cur === v}" data-v="${esc(v)}">${esc(v)}</button>`).join('')}</div>`;
+const segD = (name, vals, cur, cls) => `<div class="seg ${cls}" role="group" data-seg="${name}">${vals.map(([v, l]) => `<button type="button" class="btn ${cur === v ? 'on' : ''}" data-v="${v}" aria-pressed="${cur === v}">${l}</button>`).join('')}</div>`;
+const EXTRA = {
+  m4: [['#regles', 'Règles du gardien', 'Les 8 secondes et les autres lois']],
+  m8: [['#regles', 'Règles du gardien', 'Penalty, coup de pied de but, quiz']],
+  m9: [['#lexique', 'Mon lexique', 'Tes mots-clés, en français et en anglais'], ['#erreur', 'Après une erreur', 'Ma routine en 4 temps'], ['#routine', "Routine d'avant-match", 'Du sac à la veille jusqu\'au coup d\'envoi']]
+};
+const roToday = () => S.ro.d === keyOf(dnum()) ? S.ro.done.length : 0;
+
+/* quiz simple en plusieurs questions : qs au format QUIZ (première option = bonne) */
+function miniQuiz(qs, o) {
+  qs = shuffle(qs); let i = 0, score = 0;
+  const ask = () => {
+    const q = qs[i], opts = shuffle(q.o.map((t, j) => ({ t, ok: j === 0 })));
+    app.innerHTML = hdr(o.back, o.small, `Question ${i + 1} / ${qs.length}`) + `
+    <div class="bar" style="margin-bottom:14px"><i style="width:${100 * i / qs.length}%"></i></div>
+    <p style="font-size:19px;line-height:1.35;font-weight:600">${q.q}</p>
+    <div id="os">${opts.map((x, j) => `<button class="opt" data-j="${j}">${x.t}</button>`).join('')}</div><div id="res"></div>`;
+    [...$('#os').children].forEach((b, j) => b.onclick = () => {
+      if ($('#res').innerHTML) return;
+      const good = opts[j].ok; if (good) score++;
+      [...$('#os').children].forEach((x, k) => { if (opts[k].ok) x.classList.add('ok'); else if (k === j) x.classList.add('bad'); x.disabled = true; });
+      $('#res').innerHTML = `<div class="fb" style="border-color:var(--${good ? 'ok' : 'bad'})"><b>${good ? 'Bien joué !' : 'Pas tout à fait'}</b><p>${q.w}</p></div><button class="btn pri full" id="nq">${i === qs.length - 1 ? 'Voir mon résultat' : 'Question suivante →'}</button>`;
+      $('#nq').onclick = () => { i++; i < qs.length ? ask() : end(); window.scrollTo(0, 0); };
+      $('#nq').scrollIntoView({ block: 'nearest', behavior: noMotion ? 'auto' : 'smooth' });
+    });
+  };
+  const end = () => {
+    const pct = Math.round(100 * score / qs.length); o.done(pct);
+    app.innerHTML = hdr(o.back, o.small, 'Résultat') + `
+    <div class="card" style="text-align:center;padding:28px 14px"><div class="big">${score}/${qs.length}</div><p style="margin-top:10px">${o.msg(pct)}</p></div>
+    <div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" id="re">↺ Refaire</button><a class="btn pri" href="#${o.back}">Continuer →</a></div>`;
+    $('#re').onclick = () => { miniQuiz(qs, o); window.scrollTo(0, 0); };
+  };
+  ask();
+}
+
+/* ---------- 3 · lexique personnalisable ---------- */
+function vLexique(b) {
+  if (b === 'test') return lexTest();
+  if (b === 'test-en') return lexTest(true);
+  const own = S.lxn;
+  app.innerHTML = hdr('seance', 'Ton équipe, tes mots', 'Mon lexique') + `
+  <div class="card"><p style="margin:0">Les mots doivent être les mêmes pour toute ton équipe. Si ton entraîneur en utilise d'autres, remplace-les ici. Tu peux aussi ajouter les tiens.</p></div>
+  <div class="ctl" style="grid-template-columns:1fr 1fr;margin-top:12px"><a class="btn pri" href="#lexique/test">Me tester</a><a class="btn" href="#lexique/test-en">Test en anglais</a></div>
+  <div class="card" style="margin-top:12px"><p class="small" style="margin:0"><span class="lvl l1">EN</span> ${LEX_EN_NOTE}</p></div>
+  <h2>Les mots de base</h2>
+  <div class="list">${LEX.map(x => `<div class="card"><div class="lxh"><b class="lxw">${esc(lxWord(x))}</b><button class="btn lxb" data-ed="${x.id}" aria-expanded="false">Changer</button></div>
+    <p style="margin:6px 0 2px">${x.s}</p><p class="mut small" style="margin:0">${x.q}</p>
+    <p class="small" style="margin:10px 0 0"><span class="lvl l1">EN</span> <b>${esc(x.en[0])}</b>${x.en.length > 1 ? ` <span class="mut">ou ${esc(x.en.slice(1).join(', '))}</span>` : ''}</p><div data-ef="${x.id}"></div></div>`).join('')}</div>
+  <h2>D'autres mots en anglais</h2>
+  <div class="list">${LEX_EN_EXTRA.map(x => `<div class="card"><div class="lxh"><b class="lxw">${esc(x.w)}</b></div><p style="margin:6px 0 2px">${x.s}</p><p class="mut small" style="margin:0">${x.q}</p></div>`).join('')}</div>
+  <h2>Mes mots à moi</h2>
+  ${own.length ? `<div class="list">${own.map(t => `<div class="card"><div class="lxh"><b class="lxw">${esc(t.w)}</b><button class="btn lxb" data-rm="${t.id}" aria-label="Retirer ${esc(t.w)}">Retirer</button></div>${t.s ? `<p style="margin:6px 0 0">${esc(t.s)}</p>` : ''}</div>`).join('')}</div>` : '<p class="mut small">Aucun pour l\'instant. Ajoute un mot que ton équipe utilise déjà.</p>'}
+  ${own.length < 10 ? `<label class="lab" for="n-w">Nouveau mot</label><input type="text" id="n-w" maxlength="20"><label class="lab" for="n-s">Ce que ça veut dire</label><input type="text" id="n-s" maxlength="80"><button class="btn full" id="n-ok" disabled>Ajouter</button>` : ''}`;
+  app.querySelectorAll('[data-ed]').forEach(btn => btn.onclick = () => {
+    const id = btn.dataset.ed, x = LEX.find(l => l.id === id), box = app.querySelector(`[data-ef="${id}"]`);
+    if (box.innerHTML) { box.innerHTML = ''; btn.setAttribute('aria-expanded', 'false'); return; }
+    btn.setAttribute('aria-expanded', 'true');
+    box.innerHTML = `<label class="lab" for="e-${id}">Ton mot pour « ${esc(x.w)} »</label><input type="text" id="e-${id}" maxlength="20" value="${esc(S.lx[id] || '')}" placeholder="${esc(x.w)}"><button class="btn full" data-rs style="min-height:44px">Remettre le mot d'origine</button>`;
+    const inp = box.querySelector('input'), wEl = btn.parentNode.querySelector('.lxw');
+    inp.oninput = () => { const v = inp.value.trim(); if (v) S.lx[id] = v; else delete S.lx[id]; save(); wEl.textContent = lxWord(x); };
+    box.querySelector('[data-rs]').onclick = () => { delete S.lx[id]; save(); inp.value = ''; wEl.textContent = x.w; };
+    inp.focus();
+  });
+  app.querySelectorAll('[data-rm]').forEach(btn => btn.onclick = () => { S.lxn = S.lxn.filter(t => String(t.id) !== btn.dataset.rm); save(); vLexique(); });
+  const nw = $('#n-w'), ns = $('#n-s'), nok = $('#n-ok');
+  if (nok) { nw.oninput = () => nok.disabled = !nw.value.trim(); nok.onclick = () => { S.lxn.push({ id: Date.now(), w: nw.value.trim(), s: ns.value.trim() }); save(); vLexique(); }; }
+}
+function lexTest(en) {
+  const L = shuffle(en ? LEX.map(x => ({ w: x.en[0], alt: x.en.slice(1), s: x.s, q: x.q })) : LEX.map(x => ({ w: lxWord(x), s: x.s, q: x.q })).concat(S.lxn.map(t => ({ w: t.w, s: t.s, q: '' }))));
+  let i = 0, ok = 0;
+  const show = () => {
+    const x = L[i];
+    app.innerHTML = hdr('lexique', 'Me tester', `Mot ${i + 1} / ${L.length}`) + `<div class="bar" style="margin-bottom:14px"><i style="width:${100 * i / L.length}%"></i></div>
+    <div class="card"><p class="mut small" style="margin:0 0 4px">${en ? 'Quel mot dis-tu en anglais pour ça ?' : 'Quel mot dis-tu pour ça ?'}</p><p style="font-size:20px;line-height:1.35;font-weight:600;margin:0">${esc(x.s || x.q || 'Un de tes mots à toi')}</p>${x.s && x.q ? `<p class="mut" style="margin:8px 0 0">${esc(x.q)}</p>` : ''}</div>
+    <div id="rv"></div><button class="btn pri full" id="sh">Voir le mot</button>`;
+    $('#sh').onclick = () => {
+      $('#sh').remove();
+      $('#rv').innerHTML = `<div class="card" style="text-align:center;margin-top:10px"><span class="lxw" style="font-size:34px">${esc(x.w)}</span>${x.alt && x.alt.length ? `<p class="mut small" style="margin:6px 0 0">ou ${esc(x.alt.join(', '))}</p>` : ''}</div><div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" id="no">Pas encore</button><button class="btn pri" id="yes">Je le savais</button></div>`;
+      const nx = g => () => { if (g) ok++; i++; i < L.length ? show() : fin(); window.scrollTo(0, 0); };
+      $('#no').onclick = nx(0); $('#yes').onclick = nx(1);
+    };
+  };
+  const fin = () => {
+    app.innerHTML = hdr('lexique', 'Me tester', 'Résultat') + `<div class="card" style="text-align:center;padding:28px 14px"><div class="big">${ok}/${L.length}</div><p style="margin-top:10px">${ok === L.length ? 'Tu connais tous tes mots.' : 'Relis ceux que tu ne savais pas, puis réessaie demain.'}</p></div>
+    <div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" id="re">↺ Refaire</button><a class="btn pri" href="#lexique">Mon lexique →</a></div>`;
+    $('#re').onclick = () => lexTest(en);
+  };
+  show();
+}
+
+/* ---------- 9 · routine d'avant-match ---------- */
+function vRoutine() {
+  const k = keyOf(dnum()); if (S.ro.d !== k) S.ro = { d: k, done: [] };
+  const P = S.rp, last = S.cn[0];
+  const ids = ROUTINE.reduce((a, r) => a.concat(r.items.map((_, j) => r.id + j)), []), nd = S.ro.done.filter(x => ids.includes(x)).length;
+  app.innerHTML = hdr('seance', 'Avant chaque match', 'Ma routine') + `
+  <div class="card hero" style="margin-top:0"><div class="pct">${nd}</div><div style="flex:1"><b>sur ${ids.length} gestes faits aujourd'hui</b><div class="bar" style="margin-top:8px"><i style="width:${Math.round(100 * nd / ids.length)}%"></i></div></div></div>
+  <h2>Ma routine à moi</h2>
+  <p class="mut small">Trois choses à toi, toujours pareilles.</p>
+  ${Object.keys(ROUTINE_PERSO).map(f => `<label class="lab" for="p-${f}">${ROUTINE_PERSO[f]}</label><input type="text" id="p-${f}" data-p="${f}" maxlength="80" value="${esc(P[f] || '')}">`).join('')}
+  ${last && last.obj && !P.obj ? `<p class="small mut" style="margin:6px 0 0">Dans ton carnet : « ${esc(last.obj)} » <button class="btn" id="useobj" style="display:inline-flex;min-height:44px;font-size:14px;margin-left:6px">Utiliser</button></p>` : ''}
+  ${ROUTINE.map(r => `<h2>${r.t}</h2><p class="mut small" style="margin-top:-6px">${r.q}</p><div class="list">${r.items.map((t, j) => { const id = r.id + j, on = S.ro.done.includes(id); return `<div class="row" style="padding:6px 12px 6px 4px;min-height:0"><button class="tick" data-id="${id}" aria-pressed="${on}" aria-label="${on ? 'Fait' : 'Marquer comme fait'} : ${esc(t)}"><span class="chk ${on ? 'on' : ''}">✓</span></button><div class="tx" style="padding:6px 0"><span style="font-size:15px;color:var(--ink);line-height:1.35">${t}</span></div></div>`; }).join('')}</div>`).join('')}
+  <button class="btn full" id="rz2">Tout décocher</button>
+  <p class="mut small" style="margin-top:12px">C'est une base. Si ton entraîneur a sa propre routine, suis la sienne en premier.</p>`;
+  const keep = () => { const y = scrollY; vRoutine(); scrollTo(0, y); };
+  app.querySelectorAll('[data-p]').forEach(el => el.oninput = () => { S.rp[el.dataset.p] = el.value; save(); });
+  const uo = $('#useobj'); if (uo) uo.onclick = () => { S.rp.obj = last.obj; save(); keep(); };
+  app.querySelectorAll('.tick').forEach(b => b.onclick = () => { const id = b.dataset.id, j = S.ro.done.indexOf(id); if (j < 0) S.ro.done.push(id); else S.ro.done.splice(j, 1); save(); keep(); });
+  $('#rz2').onclick = () => { S.ro.done = []; save(); keep(); };
+}
+
+/* ---------- 11 · gestion de l'erreur ---------- */
+function vErreur(b) {
+  if (b === 'quiz') return miniQuiz(ERREUR.scen, { back: 'erreur', small: 'Mises en situation', done: p => { if (p > (S.es || 0)) { S.es = p; save(); } }, msg: p => p === 100 ? 'Sans faute. Tu gardes la tête froide.' : p >= 70 ? 'Solide. Relis ta routine avant ton prochain match.' : 'Relis les 4 temps de ta routine, puis réessaie.' });
+  const E = S.er;
+  app.innerHTML = hdr('seance', 'Après un but ou une erreur', "L'erreur") + `
+  <div class="card" style="border-left:5px solid var(--bad)"><p style="margin:0">Tous les gardiens font des erreurs, même les meilleurs. Ce qui compte, c'est ce que tu fais dans les 10 secondes qui suivent. Une routine courte, toujours la même, te ramène dans le match.</p></div>
+  <h2>Ma routine en 4 temps</h2>
+  <div class="list">${ERREUR.steps.map((s, i) => `<div class="card" style="display:flex;gap:12px;align-items:flex-start"><span class="big" style="font-size:34px">${i + 1}</span><div><b>${s.t}</b><div class="mut small">${s.d}</div></div></div>`).join('')}</div>
+  <h2>Mon geste</h2>${chipH('g', ERREUR.gestes, E.g)}
+  <label class="lab" for="e-g">Ou écris le tien</label><input type="text" id="e-g" maxlength="40" value="${esc(E.g || '')}">
+  <h2>Mon mot</h2>${chipH('m', ERREUR.mots, E.m)}
+  <label class="lab" for="e-m">Ou écris le tien</label><input type="text" id="e-m" maxlength="40" value="${esc(E.m || '')}">
+  <button class="btn pri full" id="go">▶ Répéter ma routine</button><div id="run" style="margin-top:10px"></div>
+  <h2>Pour t'entraîner</h2>
+  <div class="list"><a class="row" href="#erreur/quiz"><span class="tx"><b>Mises en situation</b><span>${ERREUR.scen.length} questions : que fais-tu ?</span></span><span class="st">${S.es != null ? S.es + ' %' : 'À faire'}</span></a>
+  <a class="row" href="#carnet"><span class="tx"><b>Mon carnet d'après-match</b><span>Écris l'erreur et ce que tu en retiens</span></span><span class="st">›</span></a></div>`;
+  const sync = n => app.querySelectorAll(`[data-chip="${n}"] .chip`).forEach(c => { const on = c.dataset.v === (E[n] || ''); c.classList.toggle('on', on); c.setAttribute('aria-pressed', on); });
+  ['g', 'm'].forEach(n => {
+    const inp = $('#e-' + n);
+    inp.oninput = () => { E[n] = inp.value.trim(); save(); sync(n); };
+    app.querySelectorAll(`[data-chip="${n}"] .chip`).forEach(c => c.onclick = () => { E[n] = c.dataset.v; inp.value = E[n]; save(); sync(n); });
+  });
+  $('#go').onclick = () => {
+    const box = $('#run'), go = $('#go'); let i = 0; go.disabled = true;
+    const step = () => {
+      if (i >= ERREUR.steps.length) { box.innerHTML = '<div class="card guide" style="border-left-color:var(--ok)"><span class="disp" style="font-size:26px;color:var(--ok)">Prêt pour le prochain ballon</span></div>'; go.disabled = false; return; }
+      const s = ERREUR.steps[i], ex = i === 1 && E.g ? E.g : i === 2 && E.m ? '« ' + E.m + ' »' : s.d;
+      box.innerHTML = `<div class="card guide" aria-live="polite"><div class="mut small">Temps ${i + 1} sur ${ERREUR.steps.length}</div><div class="disp" style="font-size:30px;margin:6px 0">${s.t}</div><div style="font-size:18px">${esc(ex)}</div></div>`;
+      i++; later(step, 3000);
+    };
+    step();
+  };
+}
+
+/* ---------- 12 · règles du gardien ---------- */
+function vRegles(b) {
+  if (b === 'quiz') return miniQuiz(RULES, { back: 'regles', small: 'Quiz des règles', done: p => { if (p > (S.qz.regles || 0)) { S.qz.regles = p; save(); } }, msg: p => p === 100 ? 'Sans faute. Tu connais tes règles.' : p >= 70 ? 'Solide. Relis les règles que tu as ratées.' : 'Relis « Les règles en bref », puis réessaie.' });
+  app.innerHTML = hdr('defis', 'Lois du jeu', 'Règles du gardien') + `
+  <div class="card"><p style="margin:0">${RULES.length} questions sur ce qu'un gardien peut faire, et ce qu'il ne peut pas faire.</p></div>
+  <a class="btn pri full" href="#regles/quiz" style="margin-top:12px">Commencer le quiz${S.qz.regles != null ? ' · record ' + S.qz.regles + ' %' : ''}</a>
+  <h2>Les règles en bref</h2>
+  <div class="list">${RULES_BRIEF.map(c => `<details class="card"><summary>${c.h}</summary><ul>${c.l.map(x => `<li>${x}</li>`).join('')}</ul></details>`).join('')}</div>
+  <p class="mut small" style="margin-top:12px">${RULES_NOTE}</p>`;
+}
+
+/* ---------- 16 · analyse vidéo guidée ---------- */
+const AVLAB = { o: 'Souvent', p: 'Parfois', n: 'Rarement' }, AVSEG = [['o', 'Souvent'], ['p', 'Parfois'], ['n', 'Rarement']];
+function vVideo(b) {
+  if (b === 'new') return vVideoForm();
+  const L = S.av;
+  app.innerHTML = hdr('seance', 'Apprendre en regardant', 'Analyse vidéo') + `
+  <div class="card"><p style="margin:0">Regarde un extrait de ton match ou d'un autre gardien, avec ton parent ou ton entraîneur. L'outil te dit quoi observer et garde tes constats.</p></div>
+  <a class="btn pri full" href="#video/new" style="margin-top:12px">+ Nouvelle analyse</a>
+  ${L.length ? `<h2>Mes analyses</h2><div class="list">${L.map(e => { const f = VIDEO.focus.find(x => x.id === e.f), si = e.s === 'pro' ? 1 : 0; return `<details class="card"><summary><span><span class="mut small" style="display:block">${frDate(e.d)} · ${si ? 'Un autre gardien' : 'Mon match'}</span>${f ? f.n : 'Analyse'}${e.l ? ' · ' + esc(e.l) : ''}</span></summary>
+    <div style="padding:0 14px 14px">${f ? f.q.map((q, i) => `<p style="margin:0 0 6px"><span class="mut">${q[si]}</span> <b>${AVLAB[e.a[i]] || '–'}</b></p>`).join('') : ''}
+    ${e.bien ? `<p style="margin:10px 0 0"><span class="mut small" style="display:block">À garder</span>${esc(e.bien)}</p>` : ''}${e.trav ? `<p style="margin:10px 0 0"><span class="mut small" style="display:block">À travailler</span>${esc(e.trav)}</p>` : ''}
+    <button class="btn full" data-del="${e.id}" style="min-height:44px">Supprimer cette analyse</button><div data-cf="${e.id}"></div></div></details>`; }).join('')}</div>` : '<p class="mut" style="margin-top:14px">Rien encore. Choisis un extrait de 2 à 3 minutes pour commencer.</p>'}`;
+  app.querySelectorAll('[data-del]').forEach(btn => btn.onclick = () => {
+    const id = btn.dataset.del, box = app.querySelector(`[data-cf="${id}"]`);
+    box.innerHTML = '<div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" data-n="1">Annuler</button><button class="btn pri" data-y="1">Oui, supprimer</button></div>';
+    box.querySelector('[data-n]').onclick = () => box.innerHTML = '';
+    box.querySelector('[data-y]').onclick = () => { S.av = S.av.filter(e => String(e.id) !== id); save(); vVideo(); };
+  });
+}
+function vVideoForm() {
+  const D = S.avd, a = D.a || (D.a = []), f = VIDEO.focus.find(x => x.id === D.f), si = D.s === 'pro' ? 1 : 0;
+  const ta = (n, lab) => `<label class="lab" for="f-${n}">${lab}</label><textarea id="f-${n}" data-f="${n}" maxlength="300" rows="2">${esc(D[n] || '')}</textarea>`;
+  app.innerHTML = hdr('video', 'Nouvelle analyse', 'Que regardes-tu ?') + `
+  <div class="lab">La vidéo, c'est…</div>${segD('s', VIDEO.src, D.s || 'moi', 'c2')}
+  <label class="lab" for="f-l">Match ou nom du gardien (facultatif)</label><input type="text" id="f-l" data-f="l" maxlength="40" value="${esc(D.l || '')}">
+  <div class="lab">Ce que tu veux observer</div>${chipH('f', VIDEO.focus.map(x => x.n), f && f.n)}
+  ${f ? `<p class="mut small" style="margin:6px 0 0">${f.h}</p>
+  <h2>Comment faire</h2><div class="card"><ol style="margin:0;padding-left:20px">${VIDEO.steps.map(x => `<li>${x}</li>`).join('')}</ol></div>
+  <h2>Tes constats</h2><p class="mut small">Sur les moments que tu as arrêtés, est-ce vrai souvent, parfois ou rarement ?</p>
+  ${f.q.map((q, i) => `<div class="lab" id="q-${i}">${q[si]}</div>${segD('q' + i, AVSEG, a[i], 'c3')}`).join('')}
+  <h2>En quelques mots</h2>${ta('bien', 'Une chose à garder')}${ta('trav', 'Une chose à travailler')}
+  <button class="btn pri full" id="sv">Enregistrer</button>` : '<p class="mut small" style="margin-top:12px">Choisis d\'abord le thème, les questions apparaissent ensuite.</p>'}`;
+  app.querySelectorAll('[data-f]').forEach(el => el.oninput = () => { D[el.dataset.f] = el.value; save(); });
+  app.querySelectorAll('[data-chip="f"] .chip').forEach(c => c.onclick = () => { D.f = VIDEO.focus.find(x => x.n === c.dataset.v).id; D.a = []; save(); vVideoForm(); });
+  app.querySelectorAll('[data-seg]').forEach(g => [...g.children].forEach(btn => btn.onclick = () => {
+    const n = g.dataset.seg, v = btn.dataset.v;
+    if (n === 's') { D.s = v; save(); return vVideoForm(); }
+    a[+n.slice(1)] = v; save();
+    [...g.children].forEach(x => { x.classList.toggle('on', x === btn); x.setAttribute('aria-pressed', x === btn); });
+  }));
+  const sv = $('#sv'); if (sv) sv.onclick = () => {
+    S.av.unshift({ id: Date.now(), d: keyOf(dnum()), s: D.s || 'moi', f: D.f, l: (D.l || '').trim(), a: [0, 1, 2].map(i => a[i] || null), bien: (D.bien || '').trim(), trav: (D.trav || '').trim() });
+    S.av = S.av.slice(0, 30); S.avd = {}; save(); location.hash = '#video';
+  };
+}
+
+/* ---------- accès par mot de passe (barrière simple, côté appareil) ---------- */
+function sha256(str) {
+  const enc = new TextEncoder().encode(str), l = enc.length, n = ((l + 9 + 63) >> 6) << 6, b = new Uint8Array(n);
+  b.set(enc); b[l] = 0x80;
+  const dv = new DataView(b.buffer); dv.setUint32(n - 4, (l * 8) >>> 0); dv.setUint32(n - 8, Math.floor(l * 8 / 4294967296));
+  const K = [], H = []; let c = 0;
+  for (let p = 2; c < 64; p++) { let pr = true; for (let d = 2; d * d <= p; d++) if (p % d === 0) { pr = false; break; } if (pr) { K[c] = (Math.cbrt(p) % 1 * 4294967296) | 0; if (c < 8) H[c] = (Math.sqrt(p) % 1 * 4294967296) | 0; c++; } }
+  const w = new Int32Array(64), rr = (x, k) => (x >>> k) | (x << (32 - k));
+  for (let i = 0; i < n; i += 64) {
+    for (let j = 0; j < 16; j++) w[j] = dv.getInt32(i + j * 4);
+    for (let j = 16; j < 64; j++) { const a = w[j - 15], d = w[j - 2]; w[j] = (w[j - 16] + (rr(a, 7) ^ rr(a, 18) ^ (a >>> 3)) + w[j - 7] + (rr(d, 17) ^ rr(d, 19) ^ (d >>> 10))) | 0; }
+    let [A, B, C, D, E, F, G, Q] = H;
+    for (let j = 0; j < 64; j++) {
+      const t1 = (Q + (rr(E, 6) ^ rr(E, 11) ^ rr(E, 25)) + ((E & F) ^ (~E & G)) + K[j] + w[j]) | 0, t2 = ((rr(A, 2) ^ rr(A, 13) ^ rr(A, 22)) + ((A & B) ^ (A & C) ^ (B & C))) | 0;
+      Q = G; G = F; F = E; E = (D + t1) | 0; D = C; C = B; B = A; A = (t1 + t2) | 0;
+    }
+    [A, B, C, D, E, F, G, Q].forEach((v, j) => H[j] = (H[j] + v) | 0);
+  }
+  return H.map(v => (v >>> 0).toString(16).padStart(8, '0')).join('');
+}
+const accOK = () => { if (!ACCES) return true; try { return localStorage.getItem('gk99acc') === ACCES; } catch (e) { return false; } };
+function vLock() {
+  document.body.classList.add('locked');
+  app.innerHTML = `${COVER}<div class="lock"><h2>Accès</h2><p class="mut">Entre le mot de passe pour ouvrir l'école du gardien.</p>
+  <form id="lf" autocomplete="off"><input type="password" id="pw" aria-label="Mot de passe" placeholder="Mot de passe" autocapitalize="off" autocorrect="off" spellcheck="false"><div class="err" id="le" role="alert"></div><button class="btn pri full" type="submit">Entrer</button></form></div>`;
+  $('#lf').onsubmit = e => {
+    e.preventDefault();
+    const [salt, h] = ACCES.split(':');
+    if (sha256(salt + ':' + $('#pw').value) === h) { try { localStorage.setItem('gk99acc', ACCES); } catch (x) {} route(); }
+    else { $('#le').textContent = 'Mot de passe incorrect. Essaie encore.'; const i = $('#pw'); i.classList.remove('shake'); void i.offsetWidth; i.classList.add('shake'); i.select(); }
+  };
+}
+
+function route() {
+  stopAll();
+  if (!accOK()) { vLock(); return; }
+  document.body.classList.remove('locked');
+  const [a, b] = location.hash.slice(1).split('/');
+  ({ m: vModule, s: vScene, p: vPlace, x: vSit, q: vQuiz, defis: vDefis, progres: vProg, niv: vNiveau, seance: vSeance, revision: vRevision, pied: vPied, carnet: vCarnet, lexique: vLexique, routine: vRoutine, erreur: vErreur, regles: vRegles, video: vVideo }[a] || vHome)(b);
+  const tab = a === 'defis' || a === 'regles' || a === 'p' || a === 'x' || (a === 'q' && b === 'all') ? 'defis' : a === 'progres' ? 'progres' : ['seance', 'revision', 'pied', 'carnet', 'lexique', 'routine', 'erreur', 'video'].includes(a) ? 'seance' : 'home';
+  document.querySelectorAll('nav a').forEach(x => x.classList.toggle('on', x.dataset.t === tab));
+  window.scrollTo(0, 0);
+}
+addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>
