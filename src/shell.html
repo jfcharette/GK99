@@ -8,6 +8,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="GK99">
 <title>GK99 · École du gardien</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B1220'/%3E%3Cpath d='M12 50V18h40v32' fill='none' stroke='%23D9FF3F' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='40' r='7' fill='%23fff'/%3E%3C/svg%3E">
 <style>
 /*__FONTS__*/
@@ -1129,6 +1131,9 @@ function route() {
 }
 addEventListener('hashchange', route);
 route();
+</script>
+<script>
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}
 </script>
 </body>
 </html>

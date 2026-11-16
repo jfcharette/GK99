@@ -1,7 +1,7 @@
 # Assemble content.js + shell.html (+ polices, image d'accueil, mot de passe) en index.html.
 # Usage : python build.py   (dans le dossier src) ; écrit src/index.html ET ../index.html
 # Mot de passe : première ligne de acces.txt (dans src). Fichier absent ou vide = pas de mot de passe.
-import base64, hashlib, os
+import base64, hashlib, os, shutil
 here = os.path.dirname(os.path.abspath(__file__))
 rd = lambda n: open(os.path.join(here, n), encoding='utf-8').read()
 b64 = lambda p: base64.b64encode(open(os.path.join(here, p), 'rb').read()).decode()
@@ -23,4 +23,12 @@ if pw:
 out = s.replace('/*__FONTS__*/', fonts).replace('/*__IMG__*/', b64('accueil.jpg')).replace('/*__ACCES__*/', acces).replace('/*__CONTENT__*/', c)
 for d in (here, os.path.dirname(here)):
     open(os.path.join(d, 'index.html'), 'w', encoding='utf-8').write(out)
+# PWA : manifeste, icônes et service worker (version = empreinte de l'appli, pour que le hors-ligne se mette à jour)
+root = os.path.dirname(here)
+ver = hashlib.sha256(out.encode('utf-8')).hexdigest()[:10]
+open(os.path.join(root, 'sw.js'), 'w', encoding='utf-8').write(rd('sw.js').replace('__VERSION__', ver))
+shutil.copy(os.path.join(here, 'manifest.webmanifest'), root)
+os.makedirs(os.path.join(root, 'icons'), exist_ok=True)
+for f in os.listdir(os.path.join(here, 'icons')):
+    if f.endswith('.png'): shutil.copy(os.path.join(here, 'icons', f), os.path.join(root, 'icons', f))
 print('index.html écrit —', 'mot de passe activé' if acces else 'SANS mot de passe')

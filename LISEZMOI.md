@@ -67,3 +67,10 @@ Pour modifier : changer `src/content.js` ou `src/shell.html`, puis reconstruire.
 - À valider dans le lot G : les mots anglais avec son entraîneur (l'usage varie : KEEPER! ou KEEP!, TIME! ou TURN!, STEP UP! ou PUSH UP!, HERE! ou BACK! pour une passe en retrait). Aucun de ces mots n'est universel.
 - À valider dans le lot D : les mots du lexique et leur sens avec son entraîneur de gardiens, la routine d'avant-match (repas, échauffement) et la routine d'erreur. Les règles ne couvrent que les lois IFAB ; la ligue jeunesse peut en ajouter (le quiz le rappelle).
 - Technique lot D : données en fin de `content.js` (`LEX`, `ROUTINE`, `ERREUR`, `RULES`, `RULES_BRIEF`, `VIDEO`) ; moteur dans `shell.html` juste avant `function route()`, avec `miniQuiz(qs, options)` pour les quiz au format `QUIZ` (première option = bonne). Nouvelles clés de progression (`gk99`) : `lx` et `lxn` (mots changés et ajoutés), `ro` et `rp` (routine du jour et perso), `er` et `es` (geste et mot d'erreur, record des mises en situation), `av` et `avd` (analyses vidéo et brouillon) ; le record des règles est dans `qz.regles`. Le quiz des règles n'entre pas dans la révision espacée.
+
+## Lot H — Application installable (PWA) et GitHub
+- Publié sur GitHub (jfcharette/GK99) ; site : https://jfcharette.github.io/GK99/ (GitHub Pages, branche main, racine).
+- Ajouts : `manifest.webmanifest`, `sw.js` (hors ligne ; version = empreinte de l'appli, générée par build.py), `icons/` (192, 512, maskable, apple-touch ; source `src/icons/icon.svg`).
+- Chemins relatifs : fonctionne à n'importe quelle adresse (sous-dossier GitHub Pages, gk99.soccer, etc.).
+- `src/acces.txt` (mot de passe en clair) et `src/index.html` sont exclus de GitHub (.gitignore). Reconstruire avec `python build.py` dans `src`.
+- Installation : Chrome Android → menu ⋮ → « Installer l'application » / « Ajouter à l'écran d'accueil ».
