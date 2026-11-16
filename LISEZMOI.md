@@ -96,3 +96,9 @@ Pour modifier : changer `src/content.js` ou `src/shell.html`, puis reconstruire.
 - Nouvelle section **« Ta région : ARS Rive-Sud »** : volée interdite de U9 à U12 (permise dès U13), coup de pied de but et ligne de retrait en 9 c. 9 et 7 c. 7, ballon/durée/hors-jeu/remplacements/écart de 6 buts, cartons et suspensions, équipement, plafond en salle, jeu de tête (Canada Soccer, mai 2025). Liste de sources.
 - Quiz des règles : 12 → 18 questions.
 - Source régionale : règlements de la ligue adoptés au CA de l'ARSRS le 27 mars 2023 (version la plus récente trouvée en ligne). **À valider** : version en vigueur avec le club, et règles de la ligue si l'équipe joue en AAA/provincial.
+
+## Publication sur gk99.soccer (Namecheap)
+- Décision : l'appli **remplace l'ancien site** de gk99.soccer (micro-site d'équipe + ancien plan), après sauvegarde de l'ancien site.
+- Paquet prêt à déposer : `a-deposer/gk99-site.zip` (index.html, sw.js, manifest.webmanifest, icons/, .htaccess) et marche à suivre `a-deposer/PUBLIER-NAMECHEAP.md` (cPanel › File Manager : sauvegarder, vider, Upload, Extract). Aucun outil de publication Namecheap.
+- `.htaccess` : redirection HTTPS, type MIME du manifeste, pas de cache pour index.html / sw.js / manifeste (mises à jour immédiates).
+- Mises à jour : nouveau zip → Upload + Extract. GitHub Pages reste en place comme copie et historique.
