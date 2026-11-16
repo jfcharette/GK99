@@ -84,3 +84,9 @@ Pour modifier : changer `src/content.js` ou `src/shell.html`, puis reconstruire.
 - Fichiers : `src/content.js` (blocs PHYS, NUTR, OBJ, VTHEMES), `src/shell.html` (vPhysique, vNutrition, vObjectifs, videoThemes).
 - **À valider** : contenu physique (sauts pour un jeune de 12 ans) avec l'entraîneur ; nutrition et shake avec le médecin de famille ou un diététiste sportif ; données du produit à vérifier sur l'étiquette réelle.
 - Accès à la vidéo ajouté dans **Apprendre** (section « Apprendre en vidéo », entre Situations clés et Trois niveaux). Le bouton retour de la page Vidéo ramène là d'où l'on vient (Apprendre ou Séance), et l'onglet actif suit.
+
+## Lot J — Écrans et téléphone
+- Nouvelle page **Écrans et téléphone** (`#ecrans`), dans Séance › Mental et règles, avec un lien depuis la Routine d'avant-match.
+- Contenu : pourquoi (étude Fortes et coll. 2020, Journal of Sports Sciences : 30 min de réseaux sociaux ou de jeu vidéo avant un match simulé dégradent les décisions de passe de joueurs pros adultes), plan en 5 temps (veille, jour du match, dernière heure, arrivée, après le match), sommeil (Directives canadiennes 24 h : 9 à 11 h entre 5 et 13 ans ; Société canadienne de pédiatrie : écrans éteints au moins 1 h avant le coucher), sources.
+- Deux gestes ajoutés à la routine d'avant-match : « Écrans éteints au moins une heure avant de dormir » (la veille) et « Range ton téléphone dans ton sac, en mode Ne pas déranger » (à l'arrivée).
+

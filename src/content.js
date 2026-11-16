@@ -1043,7 +1043,8 @@ const ROUTINE = [
   { id: 'veille', t: "La veille", q: "Prépare tout pour être tranquille", items: [
     "Prépare ton sac : gants propres, souliers, bouteille d'eau, vêtements de rechange.",
     "Vérifie avec ton parent l'heure et le lieu du match.",
-    "Couche-toi à une heure raisonnable : bien dormir aide autant que s'entraîner."] },
+    "Couche-toi à une heure raisonnable : bien dormir aide autant que s'entraîner.",
+    "Écrans éteints au moins une heure avant de dormir."] },
   { id: 'matin', t: "Quelques heures avant", q: "Le jour du match", items: [
     "Mange un vrai repas que tu connais déjà. Rien de nouveau le jour du match.",
     "Bois de l'eau pendant la journée, pas seulement juste avant le match.",
@@ -1051,7 +1052,8 @@ const ROUTINE = [
   { id: 'arrivee', t: "À l'arrivée", q: "Environ une heure avant", items: [
     "Marche le terrain : où est le soleil, d'où vient le vent, comment est ta surface.",
     "Vérifie tes gants et tes souliers.",
-    "Dis à tes défenseurs tes mots-clés du jour."] },
+    "Dis à tes défenseurs tes mots-clés du jour.",
+    "Range ton téléphone dans ton sac, en mode « Ne pas déranger »."] },
   { id: 'chauffe', t: "L'échauffement", q: "Avec ton équipe ou ton entraîneur de gardiens", items: [
     "Suis l'échauffement prévu par ton entraîneur.",
     "Fais quelques ballons vers les coins et deux sorties sur un centre.",
@@ -1347,3 +1349,31 @@ const VTHEMES = [
 ];
 const VPROS = [["Manuel Neuer", "positionnement, gardien-libéro"], ["Ederson", "jeu au pied, relances"], ["Alisson Becker", "communication, sorties"], ["Gianluigi Donnarumma", "parades, présence physique"], ["David de Gea", "réflexes, arrêts au sol"]];
 const VCHAINES = [["GK Workouts", "Exercices de gardien filmés, séances reproductibles seul.", 'GK+Workouts+goalkeeper+training'], ["Tanner Speed Academy", "Vitesse et agilité pour jeunes sportifs.", 'Tanner+Speed+Academy+agility+soccer'], ["En français", "Tutoriels adaptés aux jeunes gardiens.", 'entra%C3%AEnement+gardien+but+jeune+technique']];
+
+/* ---------- ÉCRANS ET TÉLÉPHONE avant un match ou un entraînement ---------- */
+const ECRANS = {
+  intro: "Ton téléphone n'est pas un ennemi. Mais avant un match ou un entraînement, la façon dont tu l'utilises peut changer ta concentration et ton sommeil.",
+  pourquoi: [
+    "Une étude publiée en 2020 dans le Journal of Sports Sciences a fait jouer 25 joueurs professionnels (adultes) après 30 minutes de réseaux sociaux ou de jeu vidéo. Leurs décisions de passe ont été moins bonnes, et leur attention plus lente, qu'après 30 minutes de vidéos publicitaires.",
+    "Selon les chercheurs, ces activités créent une fatigue mentale, même quand on est assis. On ne la sent pas toujours, mais elle peut se voir sur le terrain.",
+    "Ton poste demande justement ça : de l'attention pendant tout le match et des décisions rapides (sortir ou rester, courte ou longue).",
+    "L'étude portait sur des adultes professionnels, pas sur des jeunes. Mais toi aussi, tu as besoin d'une tête fraîche pour décider vite."
+  ],
+  plan: [
+    { t: "La veille", l: ["Écrans éteints au moins une heure avant de dormir (Société canadienne de pédiatrie).", "Le plus simple : charge ton téléphone hors de ta chambre.", "Couche-toi et lève-toi à des heures régulières."] },
+    { t: "Le jour du match", l: ["Pas de longue séance de jeux vidéo le matin d'un match.", "Si tu utilises ton téléphone, préfère des messages courts aux vidéos qui défilent."] },
+    { t: "La dernière heure avant", l: ["Pas de réseaux sociaux ni de jeux vidéo dans les 30 à 60 minutes avant le match ou l'entraînement.", "Musique pour te concentrer : correct si ça t'aide, à condition de la choisir d'avance, sans faire défiler.", "Garde ton téléphone pour l'essentiel : savoir l'heure, joindre ton parent."] },
+    { t: "À l'arrivée", l: ["Téléphone rangé dans ton sac, en mode « Ne pas déranger ».", "Ta tête est au terrain : regarde le soleil, le vent, ta surface, parle à tes défenseurs.", "Remplace le téléphone par ta routine : respiration, geste de départ, objectif."] },
+    { t: "Après le match", l: ["D'abord ton carnet et la discussion avec ton entraîneur, ensuite les messages.", "Évite de lire les commentaires sur le match le soir même.", "Revoir une vidéo de ton match : oui, avec un adulte et en mode analyse (page Vidéo), pas pour te juger."] }
+  ],
+  sommeil: [
+    "Directives canadiennes en matière de mouvement sur 24 heures : de 9 à 11 heures de sommeil par nuit entre 5 et 13 ans, et de 8 à 10 heures entre 14 et 17 ans.",
+    "Les mêmes directives recommandent au plus 2 heures d'écran de loisir par jour.",
+    "Le sommeil fait partie de l'entraînement : c'est là que ton corps récupère et que tu grandis."
+  ],
+  src: [
+    ["Fortes et coll. (2020), Journal of Sports Sciences 38(5) : téléphone, jeux vidéo et décisions des joueurs", "https://lida.sport-iat.de/ta/Record/4060134?lng=en"],
+    ["Société canadienne de pédiatrie : promouvoir une saine utilisation des écrans", "https://www.cps.ca/en/media/promoting-healthy-screen-use-in-children-and-teens"],
+    ["Directives canadiennes en matière de mouvement sur 24 heures (5 à 17 ans)", "https://cichprofile.ca/module/9/section/3/page/canadian-24-hour-movement-guidelines-for-children-and-youth-ages-5-17-years-canada-2017/"]
+  ]
+};

@@ -807,6 +807,7 @@ function vSeance() {
   <h2>Mental et règles</h2>
   <div class="list">
     <a class="row" href="#routine"><span class="tx"><b>Routine d'avant-match</b><span>${roToday()} geste${plural(roToday(), '', 's')} fait${plural(roToday(), '', 's')} aujourd'hui</span></span><span class="st">›</span></a>
+    <a class="row" href="#ecrans"><span class="tx"><b>Écrans et téléphone</b><span>Avant un match ou un entraînement</span></span><span class="st">›</span></a>
     <a class="row" href="#erreur"><span class="tx"><b>Après une erreur</b><span>Ma routine en 4 temps · ${ERREUR.scen.length} mises en situation</span></span><span class="st">›</span></a>
     <a class="row" href="#lexique"><span class="tx"><b>Mon lexique</b><span>${LEX.length + S.lxn.length} mots-clés pour ta défense</span></span><span class="st">›</span></a>
     <a class="row" href="#regles"><span class="tx"><b>Règles du gardien</b><span>${S.qz.regles != null ? 'Record ' + S.qz.regles + ' %' : RULES.length + ' questions sur les lois du jeu'}</span></span><span class="st">›</span></a>
@@ -1006,6 +1007,7 @@ function vRoutine() {
   ${last && last.obj && !P.obj ? `<p class="small mut" style="margin:6px 0 0">Dans ton carnet : « ${esc(last.obj)} » <button class="btn" id="useobj" style="display:inline-flex;min-height:44px;font-size:14px;margin-left:6px">Utiliser</button></p>` : ''}
   ${ROUTINE.map(r => `<h2>${r.t}</h2><p class="mut small" style="margin-top:-6px">${r.q}</p><div class="list">${r.items.map((t, j) => { const id = r.id + j, on = S.ro.done.includes(id); return `<div class="row" style="padding:6px 12px 6px 4px;min-height:0"><button class="tick" data-id="${id}" aria-pressed="${on}" aria-label="${on ? 'Fait' : 'Marquer comme fait'} : ${esc(t)}"><span class="chk ${on ? 'on' : ''}">✓</span></button><div class="tx" style="padding:6px 0"><span style="font-size:15px;color:var(--ink);line-height:1.35">${t}</span></div></div>`; }).join('')}</div>`).join('')}
   <button class="btn full" id="rz2">Tout décocher</button>
+  <a class="row" href="#ecrans" style="margin-top:12px"><span class="tx"><b>Écrans et téléphone</b><span>Pourquoi ranger ton téléphone avant le match</span></span><span class="st">›</span></a>
   <p class="mut small" style="margin-top:12px">C'est une base. Si ton entraîneur a sa propre routine, suis la sienne en premier.</p>`;
   const keep = () => { const y = scrollY; vRoutine(); scrollTo(0, y); };
   app.querySelectorAll('[data-p]').forEach(el => el.oninput = () => { S.rp[el.dataset.p] = el.value; save(); });
@@ -1230,6 +1232,21 @@ function videoThemes() {
   <div class="card">${VCHAINES.map(c => `<p class="kv"><b>${c[0]}</b>${c[1]}<br>${ytA(c[2], 'Chercher')}</p>`).join('')}</div>`;
 }
 
+function vEcrans() {
+  const li = a => `<ul class="tl">${a.map(x => `<li>${x}</li>`).join('')}</ul>`;
+  app.innerHTML = hdr('seance', 'Avant un match ou un entraînement', 'Écrans et téléphone') + `
+  <div class="card"><p style="margin:0">${ECRANS.intro}</p></div>
+  <h2>Pourquoi</h2>
+  <div class="card">${li(ECRANS.pourquoi)}</div>
+  <h2>Ton plan</h2>
+  <div class="list">${ECRANS.plan.map((p, i) => `<details class="card" ${i === 2 ? 'open' : ''}><summary>${p.t}</summary><div style="padding:0 14px 14px">${li(p.l)}</div></details>`).join('')}</div>
+  <h2>Le sommeil</h2>
+  <div class="card">${li(ECRANS.sommeil)}</div>
+  <a class="row" href="#routine" style="margin-top:12px"><span class="tx"><b>Ma routine d'avant-match</b><span>Les gestes « écrans » y sont déjà, à cocher</span></span><span class="st">›</span></a>
+  <h2>Sources</h2>
+  <div class="list">${ECRANS.src.map(s => `<a class="row" href="${s[1]}" target="_blank" rel="noopener noreferrer"><span class="tx"><span style="color:var(--ink);font-size:15px">${s[0]}</span></span><span class="st" aria-hidden="true">↗</span></a>`).join('')}</div>`;
+}
+
 let prevA = null, vidBack = 'home';
 function route() {
   stopAll();
@@ -1238,8 +1255,8 @@ function route() {
   const [a, b] = location.hash.slice(1).split('/');
   if (a === 'video' && prevA !== 'video') vidBack = prevA === 'seance' ? 'seance' : 'home';
   prevA = a;
-  ({ m: vModule, s: vScene, p: vPlace, x: vSit, q: vQuiz, defis: vDefis, progres: vProg, niv: vNiveau, seance: vSeance, revision: vRevision, pied: vPied, carnet: vCarnet, lexique: vLexique, routine: vRoutine, erreur: vErreur, regles: vRegles, video: vVideo, physique: vPhysique, nutrition: vNutrition }[a] || vHome)(b);
-  const tab = a === 'defis' || a === 'regles' || a === 'p' || a === 'x' || (a === 'q' && b === 'all') ? 'defis' : a === 'progres' ? 'progres' : a === 'physique' ? 'physique' : a === 'nutrition' ? 'nutrition' : ['seance', 'revision', 'pied', 'carnet', 'lexique', 'routine', 'erreur'].includes(a) || (a === 'video' && vidBack === 'seance') ? 'seance' : 'home';
+  ({ m: vModule, s: vScene, p: vPlace, x: vSit, q: vQuiz, defis: vDefis, progres: vProg, niv: vNiveau, seance: vSeance, revision: vRevision, pied: vPied, carnet: vCarnet, lexique: vLexique, routine: vRoutine, erreur: vErreur, regles: vRegles, video: vVideo, ecrans: vEcrans, physique: vPhysique, nutrition: vNutrition }[a] || vHome)(b);
+  const tab = a === 'defis' || a === 'regles' || a === 'p' || a === 'x' || (a === 'q' && b === 'all') ? 'defis' : a === 'progres' ? 'progres' : a === 'physique' ? 'physique' : a === 'nutrition' ? 'nutrition' : ['seance', 'revision', 'pied', 'carnet', 'lexique', 'routine', 'erreur', 'ecrans'].includes(a) || (a === 'video' && vidBack === 'seance') ? 'seance' : 'home';
   document.querySelectorAll('nav a').forEach(x => x.classList.toggle('on', x.dataset.t === tab));
   window.scrollTo(0, 0);
 }
