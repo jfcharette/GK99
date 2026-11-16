@@ -166,10 +166,11 @@ textarea{display:block;width:100%;min-height:68px;border-radius:12px;border:1px 
 
 /* navigation */
 nav{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
-nav div{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+nav div{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr)}
 nav a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 0 8px;font-family:var(--body);font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.06em;color:var(--mut)}
 nav a svg{width:24px;height:24px}
-@media (max-width:360px){nav a{font-size:11px;letter-spacing:.02em}}
+@media (max-width:420px){nav a{font-size:11px;letter-spacing:.01em}}
+@media (max-width:360px){nav a{font-size:10.5px;letter-spacing:0;text-transform:none}nav a svg{width:22px;height:22px}}
 nav a.on{color:var(--acc)}
 :focus-visible{outline:3px solid var(--acc);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){.halo,.fx{animation:none}}
@@ -183,6 +184,19 @@ body.locked nav{display:none}
 .lock .err{color:var(--bad);min-height:24px;margin:8px 0 0;font-weight:600}
 .shake{animation:shk .3s}
 @keyframes shk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+/* lot H : physique, nutrition */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.chips .btn{min-height:44px;font-size:16px;padding:0 14px}
+.chips .btn.on{background:var(--acc);color:var(--acc-ink)}
+.chipd{display:inline-block;font-size:13px;padding:3px 10px;border-radius:99px;border:1px solid var(--line);color:var(--mut);margin:0 6px 6px 0}
+.yt{display:inline-flex;align-items:center;min-height:44px;color:var(--cyan);font-weight:600}
+ul.tl{margin:0;padding-left:20px}ul.tl li{margin:0 0 7px}ul.tl li:last-child{margin-bottom:0}
+.card.alt{background:var(--card2)}
+.kv{margin:0 0 10px}.kv b{display:block;font-family:var(--disp);font-style:italic;text-transform:uppercase;font-size:16px;letter-spacing:.03em;color:var(--acc)}
+.num{width:100%;min-height:48px}
+.cg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.cg label{display:block;font-size:13px;color:var(--mut);margin:0 0 3px}
+.res{margin-top:12px;border-left:4px solid var(--acc);padding:2px 0 2px 12px}
 </style>
 </head>
 <body>
@@ -191,6 +205,8 @@ body.locked nav{display:none}
   <a href="#" data-t="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V7h16v13"/><path d="M4 12h16M9 7v13M15 7v13"/></svg>Apprendre</a>
   <a href="#seance" data-t="seance"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>Séance</a>
   <a href="#defis" data-t="defis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>Défis</a>
+  <a href="#physique" data-t="physique"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11M17.5 6.5v11M3 9.5v5M21 9.5v5M6.5 12h11"/></svg>Physique</a>
+  <a href="#nutrition" data-t="nutrition"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8.5C9.5 6 4.5 7.5 4.5 12.5c0 4 3 8 5 8 1.3 0 1.7-.7 2.5-.7s1.2.7 2.5.7c2 0 5-4 5-8 0-5-5-6.5-7.5-4z"/><path d="M12 8.5c0-2 1-4 3-5"/></svg>Nutrition</a>
   <a href="#progres" data-t="progres"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V11M12 20V4M19 20v-6"/></svg>Progrès</a>
 </div></nav>
 
@@ -1374,6 +1390,177 @@ const QUIZ3 = [
   { q:"Penalty contre toi à la dernière minute. Dans ta tête ?", o:["La pression est sur le tireur : un plan clair, et je m'y tiens","Si je ne l'arrête pas, ce sera ma faute","Je changerai d'idée pendant sa course d'élan"], w:"Personne ne s'attend à ce que tu l'arrêtes : tu n'as rien à perdre. Choisis ton plan avant sa course et garde-le." }
 ];
 
+
+/* =====================================================================
+   LOT I — Onglets PHYSIQUE et NUTRITION, objectifs, thèmes vidéo
+   (repris du plan d'entraînement de départ, sans division, catégorie d'âge, club ni jours)
+   ===================================================================== */
+const YT = q => 'https://www.youtube.com/results?search_query=' + q;
+
+/* ---------- PHYSIQUE : un surplus à l'entraînement de l'École ---------- */
+const PHYS = {
+  tips: [
+    "Ces exercices s'ajoutent à ton entraînement à l'École. Ils sont un surplus, pas une obligation.",
+    "Choisis un ou deux exercices, ou un circuit, quand tu as de l'énergie.",
+    "La technique d'abord, la vitesse ensuite. 20 secondes bien faites valent mieux que 2 minutes mal faites.",
+    "Échauffe-toi 5 minutes avant. Pour les sauts et les chutes, demande à un adulte de te regarder et choisis une surface adaptée.",
+    "Fatigué ou mal quelque part ? Arrête et saute l'exercice. L'entraînement de l'École passe en premier.",
+    "Demande à ton entraîneur quels exercices lui semblent les plus utiles pour toi."
+  ],
+  cats: [['agi', 'Agilité'], ['pli', 'Pliométrie'], ['gai', 'Gainage'], ['gar', 'Technique'], ['mur', 'Solo au mur']],
+  ex: [
+    { id: 'echelle', c: 'agi', n: "Échelle d'agilité", d: "Motifs de base au sol : un pied par case, deux pieds, pas chassés. Maîtrise-les lentement avant d'accélérer.", k: ["Poids sur l'avant du pied, talons jamais au sol", "Bras en mouvement comme à la course", "Regarde devant, pas tes pieds", "Maîtrise lentement avant d'accélérer"], dose: ["3 passages par motif", "15 à 20 min"], q: 'agility+ladder+drills+soccer+youth+beginner+tutorial' },
+    { id: 'tdrill', c: 'agi', n: "T-drill (cônes)", d: "Sprint avant, déplacements latéraux, retour en arrière. Ça ressemble aux vrais mouvements dans les buts.", k: ["Touche chaque cône avec la main", "Ne croise jamais les pieds en latéral", "Reste bas, en position athlétique", "Sprint maximum sur le retour final"], dose: ["5 à 6 répétitions", "Récupération 45 s"], q: 'T+drill+agility+soccer+goalkeeper+tutorial' },
+    { id: 'box', c: 'pli', n: "Sauts sur caisse", d: "Sauts sur une caisse stable pour développer l'explosivité verticale. Apprends d'abord à bien atterrir, ensuite seulement à aller vite.", k: ["Fléchis les genoux à l'atterrissage", "Atterris sur l'avant du pied, sans bruit", "Balance les bras pour t'aider à sauter", "Descends en marchant, jamais en sautant"], dose: ["3 × 8", "Récupération 90 s"], q: 'box+jump+technique+youth+beginner+tutorial' },
+    { id: 'lateral', c: 'pli', n: "Sauts latéraux", d: "Sauts d'un pied à l'autre, sur le côté. C'est l'exercice de saut le plus proche d'un plongeon : même poussée.", k: ["Pousse avec une seule jambe, atterris sur l'autre", "Passe le moins de temps possible au sol", "Va loin, pas seulement vite", "Le genou d'atterrissage reste fléchi"], dose: ["3 × 8 bonds", "Récupération 60 s"], q: 'lateral+bounds+plyometric+goalkeeper+soccer+tutorial' },
+    { id: 'corde', c: 'pli', n: "Corde à sauter", d: "Coordination, rythme des pieds, activation des mollets. En début de séance, comme échauffement et non comme cardio.", k: ["Saute bas : juste assez pour passer la corde", "Poids sur l'avant du pied en tout temps", "Coudes près du corps, les poignets font tourner la corde", "Respire de façon régulière et calme"], dose: ["3 × 1 min", "En début de séance"], q: 'jump+rope+technique+beginner+kids+tutorial' },
+    { id: 'planche', c: 'gai', n: "Planche frontale", d: "Le gainage contrôle la direction et la précision de ton corps pendant un plongeon. 20 secondes bien faites valent mieux que 2 minutes mal faites.", k: ["Corps droit : pas de dos creux, pas de fesses en l'air", "Contracte les abdos et les fessiers", "Regard vers le sol, cou dans l'axe du dos", "Respire normalement, ne retiens pas ton souffle"], dose: ["3 × 25 s", "Récupération 20 s"], q: 'perfect+plank+form+tutorial+kids+beginner' },
+    { id: 'lat', c: 'gai', n: "Planche latérale", d: "Elle renforce les muscles des côtés du tronc, ceux qui travaillent dans les plongeons latéraux. Fais les deux côtés.", k: ["Hanches soulevées : ne les laisse pas descendre", "Pied du dessus aligné avec celui du dessous", "Épaule directement au-dessus du coude"], dose: ["3 × 20 s par côté"], q: 'side+plank+correct+form+tutorial+youth' },
+    { id: 'super', c: 'gai', n: "Superman", d: "Couché sur le ventre, lève les bras et les jambes en même temps. Ça renforce le bas du dos, important pour ta stabilité.", k: ["Lève en expirant, tiens 2 à 3 secondes en haut", "Regard vers le sol : ne force pas sur ton cou", "Les bras et les jambes montent ensemble", "Mouvement lent et contrôlé"], dose: ["3 × 10", "Pause de 2 s en haut"], q: 'superman+exercise+back+kids+tutorial+form' },
+    { id: 'chutes', c: 'gar', n: "Chutes depuis les genoux", d: "La base de tous les plongeons. Apprends à tomber correctement depuis les genoux : ça protège tes hanches et ça enseigne la bonne technique.", k: ["La hanche du bas touche le sol en premier, pas le coude", "Mains en W derrière le ballon imaginaire", "Bras du dessus au-dessus de la tête", "Relève-toi vite et recommence"], dose: ["3 × 10 par côté", "Surface molle"], q: 'goalkeeper+collapse+dive+technique+from+knees+beginner+youth' },
+    { id: 'set', c: 'gar', n: "Position de base et déplacements latéraux", d: "La position de base et les déplacements sur le côté. On les néglige souvent, mais un bon placement vaut plus que des réflexes.", k: ["Pieds à la largeur des épaules, un peu fléchis", "Poids sur la pointe des pieds, jamais sur les talons", "En latéral : glisse (pas chassés), ne croise jamais les pieds"], dose: ["5 min", "Avant chaque séance"], q: 'goalkeeper+set+position+footwork+lateral+movement+tutorial' },
+    { id: 'mur', c: 'mur', n: "Réflexes au mur : ballon", d: "Lance le ballon contre le mur et attrape le rebond. Varie la force, la hauteur et la distance. C'est l'un des meilleurs exercices en solo.", k: ["Prise en W à chaque ballon (les pouces se touchent)", "Utilise les deux mains, pas toujours la main forte", "Lance de plus en plus fort, progressivement", "Déplace-toi sur le côté entre les lancers"], dose: ["5 à 10 min", "Aussi possible à la maison"], q: 'goalkeeper+solo+wall+drill+reaction+handling+tutorial' },
+    { id: 'tennis', c: 'mur', n: "Réflexes au mur : balle de tennis", d: "Une balle de tennis contre le mur. Le rebond est plus rapide et imprévisible : ton cerveau doit réagir plus vite.", k: ["Commence de près (1 m), puis recule peu à peu", "Attrape à une main, en alternant gauche et droite", "Variante : lance-la sur le sol devant le mur"], dose: ["3 à 5 min", "Aussi possible à la maison"], q: 'goalkeeper+tennis+ball+wall+reflex+drill+tutorial' }
+  ],
+  circ: [
+    { id: 'c1', n: "Circuit force et agilité", min: "environ 45 minutes", note: "Mets une minuterie et suis l'ordre. Si un mouvement n'est pas clair, ouvre sa fiche dans Exercices.", s: [
+      ["Corde à sauter", "3 × 1 min · échauffement"],
+      ["Mobilité dynamique : hanches, chevilles, épaules", "5 min"],
+      ["Échelle d'agilité : 3 motifs différents", "3 passages par motif"],
+      ["T-drill (cônes)", "5 à 6 répétitions · récupération 45 s"],
+      ["Sauts latéraux", "3 × 8 bonds · récupération 60 s"],
+      ["Sauts sur caisse", "3 × 8 · récupération 90 s"],
+      ["Planche frontale", "3 × 25 s · récupération 20 s"],
+      ["Planche latérale, côté gauche puis côté droit", "3 × 20 s par côté"],
+      ["Superman", "3 × 10 · pause de 2 s en haut"],
+      ["Étirements : quadriceps, ischios, hanches", "10 min"]
+    ] },
+    { id: 'c2', n: "Circuit activation légère", min: "environ 35 minutes", note: "Intensité légère, environ 60 %. Le but est de t'activer, pas de te fatiguer.", s: [
+      ["Corde à sauter et mobilité", "5 min"],
+      ["Position de base et déplacements latéraux", "5 min"],
+      ["Ballon de soccer contre le mur, prise en W", "8 min"],
+      ["Chutes depuis les genoux", "3 × 10 par côté"],
+      ["Balle de tennis, réflexes", "3 à 5 min"],
+      ["Dégagements à la volée, technique du pied", "5 min · vise une zone"],
+      ["Planche et gainage latéral, légers", "2 × 20 s de chaque"],
+      ["Étirements et retour au calme", "5 min"]
+    ] }
+  ]
+};
+
+/* ---------- NUTRITION ----------
+   Chiffres tirés de Santé Canada, de la Société canadienne de pédiatrie, de SickKids, de Nemours,
+   de l'Académie américaine de pédiatrie et de Sports Dietitians Australia (voir NUTR.src).
+   Information générale : pas un avis médical. */
+const NUTR = {
+  base: [
+    "Mange pour jouer, récupérer et grandir. Pas pour te priver.",
+    "Tu t'entraînes presque chaque jour : ton corps a besoin de beaucoup d'énergie, plus que celui d'un enfant peu actif.",
+    "Ne saute jamais un repas. Vise 3 repas et 1 à 3 collations, aux 2 à 4 heures environ.",
+    "Dans ton assiette : la moitié en légumes et fruits, un quart en grains entiers (pâtes, riz, pain), un quart en protéines (guide alimentaire canadien).",
+    "Environ la moitié de ton énergie vient des glucides : pâtes, riz, pain, fruits, patate douce, gruau.",
+    "Si tu as une allergie ou une intolérance, adapte les idées de cette page. Rien de nouveau le jour d'un match."
+  ],
+  repartition: "Santé Canada : pour un garçon de 9 à 18 ans, les glucides fournissent 45 à 65 % de l'énergie, les gras 25 à 35 % et les protéines 10 à 30 %.",
+  prot: [
+    "Besoin de base selon Santé Canada : 0,95 g de protéines par kg et par jour de 9 à 13 ans (environ 34 g à 36 kg), puis 0,85 g par kg de 14 à 18 ans (52 g par jour).",
+    "Pour de jeunes athlètes, Nemours parle d'environ 1,0 à 1,3 g par kg (0,45 à 0,6 g par livre). À 40 kg, ça fait environ 40 à 53 g par jour. Manger bien plus que ça n'apporte pas de bénéfice supplémentaire.",
+    "Répartis-les sur la journée, à chaque repas et chaque collation, plutôt qu'en une seule fois.",
+    "Repères approximatifs : 1 verre de lait (250 mL) ≈ 8 g · 1 œuf ≈ 6 g · 100 g de poulet ou de dinde cuit ≈ 25 à 30 g · 1 petite conserve de thon ≈ 20 g · ¾ tasse de lentilles cuites ≈ 12 à 14 g · 2 c. à soupe de beurre d'amande ≈ 7 g."
+  ],
+  quand: [
+    { t: "La veille", l: ["Souper riche en glucides : pâtes ou riz, avec du poulet et des légumes cuits.", "Bois régulièrement tout au long de la journée.", "Évite les aliments très gras, frits ou que tu ne connais pas.", "Dessert léger : fruit ou compote sans sucre ajouté."] },
+    { t: "3 à 4 heures avant : le vrai repas", l: ["Glucides + protéines maigres, peu de gras. Exemples : gruau avec lait et fruits + œufs ; pâtes avec poulet ; sandwich à la dinde sur pain de blé entier + fruit.", "Laisse au moins 2 heures entre le repas et l'effort. Match tôt le matin : déjeune environ 2 heures avant.", "Bois 400 à 600 mL d'eau, 2 à 3 heures avant (repère de la Société canadienne de pédiatrie)."] },
+    { t: "30 à 60 minutes avant : la collation", l: ["Petite et facile à digérer : pomme, compote, raisins, tranche de pain avec confiture, barre de céréales douce.", "Peu de gras et peu de fibres. Rien de nouveau.", "Pendant l'échauffement, bois environ 240 mL (8 oz). Boire trop juste avant le match peut donner un point de côté."] },
+    { t: "Pendant", l: ["L'eau d'abord : environ 150 à 300 mL toutes les 15 à 20 minutes d'effort.", "À la mi-temps : un quartier d'orange, quelques raisins, de l'eau.", "Tournoi avec plusieurs matchs dans la journée : bois 100 à 200 mL après chaque match, et grignote des glucides légers (fruit, compote, craquelins).", "Boisson sportive : seulement pour un effort long (plus de 60 à 75 minutes), une journée chaude ou un tournoi. Sinon, l'eau suffit.", "Évite les boissons énergisantes (caféine et sucre). La limite de caféine de Santé Canada est de 85 mg par jour à 10-12 ans, et de 2,5 mg par kg dès 13 ans. Évite aussi les boissons gazeuses autour de l'effort."] },
+    { t: "Dans les 30 minutes après", l: ["Glucides + un peu de protéines : lait au chocolat + fruit ; smoothie (lait, fruits rouges, graines de chia) ; sandwich à la dinde.", "Repère de SickKids pour jeunes athlètes : environ 45 à 60 g de glucides avec 15 à 20 g de protéines (3 glucides pour 1 protéine).", "Un vrai repas complet dans les 2 heures : protéines + féculents + légumes.", "Bois après l'effort, à raison d'environ ½ tasse toutes les 15 minutes. Après un match très chaud, bois davantage."] }
+  ],
+  menus: [
+    { t: "Une journée d'entraînement", l: [
+      ["Déjeuner", "Gruau avec lait, fruits rouges ou pomme tranchée, filet de miel. Œufs brouillés (2) + rôtie de blé entier. Jus d'orange pressé."],
+      ["Dîner", "Sandwich au poulet, au thon ou à la dinde sur pain de blé entier. Légumes coupés (carottes, céleri, poivrons) avec houmous, un fruit."],
+      ["1 h avant", "Tranche de pain avec beurre d'amande ou de tournesol + petite pomme, ou barre de céréales faible en gras + eau."],
+      ["Après (30 min)", "Lait au chocolat, ou smoothie de lait, fruits rouges congelés et graines de chia. Poignée d'amandes ou de noix de cajou."],
+      ["Souper", "Protéine (poulet, saumon, bœuf haché, lentilles) + féculent (riz, pâtes, patate douce) + légumes (brocoli, épinards, carottes). Huile d'olive."]
+    ] },
+    { t: "Un jour de match", l: [
+      ["Déjeuner (2 h 30 avant)", "Gruau ou pain doré, fruits (pomme, raisins, orange), un œuf à la coque. Évite les aliments lourds, frits ou nouveaux."],
+      ["30 à 45 min avant", "Petite portion de raisins ou une pomme, et de l'eau. Ni l'estomac vide, ni trop plein."],
+      ["Mi-temps", "Quartier d'orange, quelques raisins. Eau, ou boisson légèrement sucrée s'il fait chaud."],
+      ["Après (30 min)", "Lait au chocolat et un fruit. Puis un repas complet dans l'heure : protéine + glucides + légumes."]
+    ] }
+  ],
+  prots: ["Œufs", "Poulet, dinde", "Thon, saumon", "Lait de vache ou de soya", "Lait au chocolat", "Beurre d'amande ou de tournesol", "Amandes, noix de cajou", "Lentilles, pois chiches, haricots", "Edamame", "Bœuf maigre"],
+  eau: [
+    "Le repère le plus simple : urine jaune pâle = bien hydraté. Plus foncée que d'habitude : bois plus.",
+    "Santé Canada fixe l'apport total en eau (boissons et aliments) à environ 2,4 L par jour de 9 à 13 ans, et 3,3 L de 14 à 18 ans. Plus les jours d'effort ou de chaleur.",
+    "L'eau est le choix de base. Le lait et le lait au chocolat comptent aussi. Limite les jus industriels et les boissons sucrées.",
+    "Étourdissements, crampes, nausées ou mal de tête par temps chaud : va à l'ombre, repose-toi, bois frais et préviens un adulte.",
+    "Commence à bien boire la veille du match, pas seulement le jour même."
+  ],
+  shake: {
+    intro: "Beaucoup de jeunes athlètes boivent des shakes de protéines, comme ceux de Good Protein. Voici ce que disent les sources, pour que le parent et toi décidiez en connaissance de cause.",
+    sci: [
+      "L'Académie américaine de pédiatrie : les besoins d'un jeune athlète sont mieux couverts par une alimentation équilibrée que par des suppléments. Les poudres de protéines n'apportent pas mieux qu'une protéine d'aliment (viande, œuf, lait, soya).",
+      "SickKids (AboutKidsHealth) classe les poudres de protéines parmi les suppléments de performance : préfère les œufs, le lait, la viande, le poisson, les légumineuses ou le soya, et consulte un diététiste sportif ou un médecin avant d'en prendre.",
+      "Les suppléments ne sont pas contrôlés comme des aliments : certains contiennent des ingrédients non indiqués sur l'étiquette."
+    ],
+    prod: [
+      "Page du fabricant (shake « High Protein », vanille française) : 32 g de protéines par portion d'environ 47 g (sac de 470 g = 10 portions), protéine de pois, 0 g de sucre, 4 g de glucides nets, sans produits laitiers.",
+      "Gamme « All-in-One » (fiche communautaire Open Food Facts, non vérifiée) : portion de 44 g = 21 g de protéines, 170 kcal, 13 g de glucides, 6 g de fibres, 5 g de gras.",
+      "Il existe plusieurs produits : lis l'étiquette de ton pot. Les valeurs ci-dessus ne remplacent pas le tableau de valeur nutritive."
+    ],
+    sens: [
+      "Une portion complète (21 à 32 g) représente à elle seule environ 60 à 95 % du besoin de base d'une journée pour un garçon de 36 kg (34 g).",
+      "Avec 3 repas et 2 collations qui contiennent des protéines, le besoin est généralement déjà couvert sans shake. Un shake de plus n'ajoute rien si ton besoin est déjà comblé.",
+      "Un shake ne remplace pas un repas ou une collation en vrais aliments : tu perds les vitamines, les fibres et la variété."
+    ],
+    quand: [
+      "Un dépannage utile : après un entraînement ou un match, quand un vrai repas n'est pas possible avant une heure ou deux.",
+      "Un verre de lait au chocolat apporte aussi des protéines et des glucides pour récupérer."
+    ],
+    regles: [
+      "Compte-le dans ta journée : si tu en bois un, tes repas peuvent contenir un peu moins de protéines, pas plus.",
+      "Pas dans les 2 heures avant un match ou un entraînement : le volume et les fibres ralentissent la digestion.",
+      "Vérifie l'étiquette : pas de caféine, de créatine, de stimulant, de « brûle-gras » ni de « booster ».",
+      "Cherche un sceau de test indépendant (Informed Sport, Informed Choice, NSF Certified for Sport ou BSCG). Je n'ai pas pu confirmer si ton produit en porte un.",
+      "Pour la bonne portion selon son poids, demande au médecin de famille, au pharmacien ou à un diététiste sportif."
+    ]
+  },
+  src: [
+    ["Santé Canada : équations des besoins énergétiques (2023, mises à jour en 2025)", "https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/equations-estimate-energy-requirement.html"],
+    ["Santé Canada : valeurs de référence des macronutriments", "https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html"],
+    ["Société canadienne de pédiatrie : boissons énergisantes et sportives", "https://cps.ca/en/documents/position/energy-and-sports-drinks"],
+    ["Soigner nos enfants (SCP) : nutrition du jeune athlète", "https://caringforkids.cps.ca/handouts/nutrition_for_your_young_athlete"],
+    ["SickKids AboutKidsHealth : nutrition sportive", "https://www.aboutkidshealth.ca/healthaz/nutrition/sports-nutrition/"],
+    ["Sports Dietitians Australia : guide du soccer jeunesse", "https://www.sportsdietitians.com.au/wp-content/uploads/2015/04/Soccer_FINAL.pdf"],
+    ["Nemours : nutrition, hydratation et récupération du jeune athlète", "https://blog.nemours.org/2026/01/young-athlete-nutrition/"],
+    ["Académie américaine de pédiatrie (HealthyChildren) : nutrition et suppléments", "https://healthychildren.org/English/healthy-living/nutrition/Pages/Nutrition-and-Supplement-Use.aspx"],
+    ["Good Protein : fiche produit (shake vanille française)", "https://goodprotein.ca/products/french-vanilla-32g-high-protein-shake"],
+    ["Open Food Facts : Good Protein All-in-One", "https://world.openfoodfacts.org/product/0628678203938"]
+  ]
+};
+
+/* Estimation Santé Canada (2023) : besoin énergétique d'un garçon de 9 à 18 ans selon l'âge, la taille et le poids */
+const EER_M = { ac: [-388.19, 12.66, 20.46], va: [-671.75, 15.38, 23.25] };
+const eerM = (age, h, w, lv) => { const c = EER_M[lv]; return c[0] + 3.68 * age + c[1] * h + c[2] * w + (age < 14 ? 25 : 20); };
+
+/* ---------- OBJECTIFS (dans Progrès) ---------- */
+const OBJ = [
+  { t: "Dans 3 mois", l: ["Je me place sur la ligne ballon, centre du but avant chaque tir direct.", "Je choisis ma relance (courte ou longue) avant de recevoir le ballon.", "Je parle à ma défense à chaque action défensive du match.", "Ma routine d'avant-match est écrite, et je la répète."] },
+  { t: "Dans 6 mois", l: ["Je sors sur les centres en sécurité dans ma surface.", "Je réussis un dégagement long, technique et précis vers une zone visée.", "Après une erreur, je reviens au calme avec ma routine, sans baisser la tête.", "J'ai analysé 5 gardiens pros différents."] }
+];
+
+/* ---------- THÈMES VIDÉO (dans Analyse vidéo) ---------- */
+const VTHEMES = [
+  { t: "Positionnement et angles", l: [["Positionnement et angles de tir", "La bissectrice et les angles : pourquoi se déplacer avec le ballon.", 'goalkeeper+positioning+angles+tutorial'], ["Un gardien qui joue haut", "Observe comment Neuer coupe les angles avec des ralentis.", 'neuer+sweeper+goalkeeper+positioning+analysis']] },
+  { t: "Technique de parade et mains", l: [["Prise en W", "Arrêts à deux mains, sécuriser le ballon. Imite le mouvement.", 'goalkeeper+handling+technique+W+catch+tutorial'], ["Arrêts au ralenti", "Pied d'appui, mains, direction du plongeon.", 'goalkeeper+saves+slow+motion+technique+analysis']] },
+  { t: "Jeu aux pieds et distribution", l: [["Relances modernes", "Relances courtes, dégagements longs à la volée.", 'goalkeeper+distribution+passing+technique+modern'], ["Jeu au pied d'Ederson", "Étudie ses relances.", 'ederson+goalkeeper+passing+distribution+analysis']] },
+  { t: "Mental et leadership", l: [["Gérer l'erreur", "Rester concentré 90 minutes, rebondir après une erreur.", 'goalkeeper+mental+toughness+psychology+focus'], ["Communication défensive", "Quand crier, comment organiser ton équipe.", 'goalkeeper+communication+organizing+defense+tutorial']] }
+];
+const VPROS = [["Manuel Neuer", "positionnement, gardien-libéro"], ["Ederson", "jeu au pied, relances"], ["Alisson Becker", "communication, sorties"], ["Gianluigi Donnarumma", "parades, présence physique"], ["David de Gea", "réflexes, arrêts au sol"]];
+const VCHAINES = [["GK Workouts", "Exercices de gardien filmés, séances reproductibles seul.", 'GK+Workouts+goalkeeper+training'], ["Tanner Speed Academy", "Vitesse et agilité pour jeunes sportifs.", 'Tanner+Speed+Academy+agility+soccer'], ["En français", "Tutoriels adaptés aux jeunes gardiens.", 'entra%C3%AEnement+gardien+but+jeune+technique']];
+
 </script>
 <script>
 /* =====================================================================
@@ -1389,7 +1576,7 @@ const ACCES = 'gk99:3798e8ac4057a1d194e5afe14e9c6972acaff69843d27d25b55242b3a9f0
 const COVER = `<div class="cover"><img src="${IMG}" alt="GK99 · Entraînement et théorie du gardien de but" width="900" height="1055"></div>`;
 
 /* ---------- progression (gardée sur l'appareil) ---------- */
-const BLANK = () => ({ seen:{}, pl:{}, qz:{}, si:{}, name:'', cn:[], cd:{}, rv:{}, sd:{}, pp:{}, pt:{}, lx:{}, lxn:[], ro:{}, rp:{}, er:{}, es:null, av:[], avd:{} });
+const BLANK = () => ({ seen:{}, pl:{}, qz:{}, si:{}, name:'', cn:[], cd:{}, rv:{}, sd:{}, pp:{}, pt:{}, lx:{}, lxn:[], ro:{}, rp:{}, er:{}, es:null, av:[], avd:{}, ph:{}, ob:{} });
 let S = BLANK();
 try { S = Object.assign(BLANK(), JSON.parse(localStorage.getItem('gk99') || '{}')); } catch (e) {}
 const save = () => { try { localStorage.setItem('gk99', JSON.stringify(S)); } catch (e) {} };
@@ -1841,6 +2028,7 @@ function vProg() {
   <h2>Pour les parents</h2>
   <div class="card small"><p>La progression est gardée seulement sur cet appareil. Une étape compte quand la leçon est vue jusqu'au bout, qu'un défi obtient au moins 2 étoiles ou qu'un quiz atteint 70 %.</p><p style="margin:0">Ces repères sont généraux : les consignes de son entraîneur de gardiens passent toujours en premier.</p></div>
   <button class="btn full" id="rz">Effacer ma progression</button><div id="rzc"></div>${ACCES ? '<button class="btn full" id="lk">Verrouiller l\'appli sur cet appareil</button>' : ''}`;
+  $('#nm').previousElementSibling.insertAdjacentHTML('beforebegin', vObjectifs()); bindObjectifs();
   $('#nm').oninput = e => { S.name = e.target.value.trim(); save(); };
   if ($('#lk')) $('#lk').onclick = () => { try { localStorage.removeItem('gk99acc'); } catch (x) {} route(); };
   $('#rz').onclick = () => { $('#rzc').innerHTML = `<div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" id="rn">Annuler</button><button class="btn pri" id="ry">Oui, tout effacer</button></div>`; $('#rn').onclick = () => $('#rzc').innerHTML = ''; $('#ry').onclick = () => { S = BLANK(); save(); vProg(); }; };
@@ -1986,7 +2174,7 @@ function vPied(open) {
   let cur = PIED.findIndex((w, i) => wd(i) < w.s.length); if (cur < 0) cur = 0;
   open = open == null || isNaN(+open) ? cur : +open;
   app.innerHTML = hdr('seance', 'Programme', 'Jeu au pied') + `
-  <div class="card"><p style="margin:0 0 8px">4 semaines, 3 séances de 20 minutes. Avance à ton rythme et garde deux jours de repos par semaine.</p><div class="bar"><i style="width:${Math.round(100 * dn / tot)}%"></i></div><p class="mut small" style="margin:6px 0 0">${dn} séance${plural(dn, '', 's')} sur ${tot}</p></div>
+  <div class="card"><p style="margin:0 0 8px">4 semaines, 3 séances de 20 minutes. Avance à ton rythme.</p><div class="bar"><i style="width:${Math.round(100 * dn / tot)}%"></i></div><p class="mut small" style="margin:6px 0 0">${dn} séance${plural(dn, '', 's')} sur ${tot}</p></div>
   <div class="list" style="margin-top:12px">${PIED.map((w, i) => `<details class="card" ${i === open ? 'open' : ''}><summary><span><span class="mut small" style="display:block">Semaine ${w.w} · ${wd(i)}/${w.s.length}</span>${w.t}</span></summary>
     <div style="padding:0 14px 14px"><p class="mut small">${w.obj}</p>
     ${w.s.map((s, j) => `<div class="card" style="background:var(--card2);margin-bottom:8px"><b>${s.t}</b><ul style="margin:8px 0 10px;padding-left:20px">${s.items.map(x => `<li>${x}</li>`).join('')}</ul><button class="btn ${S.pp[pk(i, j)] ? '' : 'pri'} full" style="margin-top:0" data-pp="${pk(i, j)}" data-w="${i}">${S.pp[pk(i, j)] ? '✓ Séance faite (annuler)' : 'J\'ai fait cette séance'}</button></div>`).join('')}
@@ -2234,6 +2422,7 @@ function vVideo(b) {
     <div style="padding:0 14px 14px">${f ? f.q.map((q, i) => `<p style="margin:0 0 6px"><span class="mut">${q[si]}</span> <b>${AVLAB[e.a[i]] || '–'}</b></p>`).join('') : ''}
     ${e.bien ? `<p style="margin:10px 0 0"><span class="mut small" style="display:block">À garder</span>${esc(e.bien)}</p>` : ''}${e.trav ? `<p style="margin:10px 0 0"><span class="mut small" style="display:block">À travailler</span>${esc(e.trav)}</p>` : ''}
     <button class="btn full" data-del="${e.id}" style="min-height:44px">Supprimer cette analyse</button><div data-cf="${e.id}"></div></div></details>`; }).join('')}</div>` : '<p class="mut" style="margin-top:14px">Rien encore. Choisis un extrait de 2 à 3 minutes pour commencer.</p>'}`;
+  app.insertAdjacentHTML('beforeend', videoThemes());
   app.querySelectorAll('[data-del]').forEach(btn => btn.onclick = () => {
     const id = btn.dataset.del, box = app.querySelector(`[data-cf="${id}"]`);
     box.innerHTML = '<div class="ctl" style="grid-template-columns:1fr 1fr"><button class="btn" data-n="1">Annuler</button><button class="btn pri" data-y="1">Oui, supprimer</button></div>';
@@ -2301,13 +2490,104 @@ function vLock() {
   };
 }
 
+/* =====================================================================
+   LOT I — Physique, Nutrition, objectifs, thèmes vidéo
+   ===================================================================== */
+let phCat = 'all';
+const nf = n => Math.round(n).toLocaleString('fr-CA');
+const ytA = (q, t) => `<a class="yt" href="${YT(q)}" target="_blank" rel="noopener noreferrer">${t || 'Chercher sur YouTube'} ↗</a>`;
+
+function vPhysique() {
+  const k = keyOf(dnum()); if (!S.ph || S.ph.d !== k) S.ph = { d: k, done: [] };
+  const cn = id => (PHYS.cats.find(c => c[0] === id) || [0, ''])[1];
+  const exs = PHYS.ex.filter(e => phCat === 'all' || e.c === phCat);
+  app.innerHTML = `<div class="brand"><h1>Physique</h1></div>
+  <p class="mut">En plus de l'École : des exercices à faire seul, quand tu as de l'énergie.</p>
+  <div class="card"><ul class="tl">${PHYS.tips.map(t => `<li>${t}</li>`).join('')}</ul></div>
+  <h2>Circuits</h2>
+  <div class="list">${PHYS.circ.map(c => `<details class="card"><summary><span><span class="mut small" style="display:block" data-cn="${c.id}">${c.min} · ${c.s.filter((x, j) => S.ph.done.includes(c.id + j)).length}/${c.s.length}</span>${c.n}</span></summary>
+    <div style="padding:0 14px 14px"><p class="mut small" style="margin-top:0">${c.note}</p><div class="list">${c.s.map((s, j) => { const id = c.id + j, on = S.ph.done.includes(id); return `<div class="row" style="padding:6px 12px 6px 4px;min-height:0"><button class="tick" data-id="${id}" data-c="${c.id}" aria-pressed="${on}" aria-label="${on ? 'Fait' : 'Marquer comme fait'} : ${esc(s[0])}"><span class="chk ${on ? 'on' : ''}">✓</span></button><div class="tx" style="padding:6px 0"><b style="font-size:15px;font-weight:600">${s[0]}</b><span>${s[1]}</span></div></div>`; }).join('')}</div>
+    <button class="btn full" data-rz="${c.id}" style="min-height:44px">Tout décocher</button></div></details>`).join('')}</div>
+  <h2>Exercices</h2>
+  <div class="chips" role="group" aria-label="Filtrer par catégorie">${[['all', 'Tout']].concat(PHYS.cats).map(c => `<button type="button" class="btn ${phCat === c[0] ? 'on' : ''}" data-cat="${c[0]}" aria-pressed="${phCat === c[0]}">${c[1]}</button>`).join('')}</div>
+  <div class="list">${exs.map(e => `<details class="card"><summary><span><span class="mut small" style="display:block">${cn(e.c)}</span>${e.n}</span></summary>
+    <div style="padding:0 14px 14px"><p style="margin-top:0">${e.d}</p><div class="kv"><b>Points clés</b></div><ul class="tl" style="margin-bottom:12px">${e.k.map(x => `<li>${x}</li>`).join('')}</ul>
+    <div>${e.dose.map(x => `<span class="chipd">${x}</span>`).join('')}</div>${ytA(e.q)}</div></details>`).join('')}</div>
+  <p class="mut small" style="margin-top:12px">Les liens ouvrent une recherche YouTube (il faut une connexion). Les consignes de ton entraîneur passent toujours en premier.</p>`;
+  app.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => { phCat = b.dataset.cat; vPhysique(); });
+  const upd = cid => { const c = PHYS.circ.find(x => x.id === cid), n = c.s.filter((x, j) => S.ph.done.includes(cid + j)).length; $(`[data-cn="${cid}"]`).textContent = `${c.min} · ${n}/${c.s.length}`; };
+  app.querySelectorAll('.tick').forEach(b => b.onclick = () => { const id = b.dataset.id, j = S.ph.done.indexOf(id); if (j < 0) S.ph.done.push(id); else S.ph.done.splice(j, 1); const on = j < 0; b.setAttribute('aria-pressed', on); $('.chk', b).classList.toggle('on', on); save(); upd(b.dataset.c); });
+  app.querySelectorAll('[data-rz]').forEach(b => b.onclick = () => { const cid = b.dataset.rz; S.ph.done = S.ph.done.filter(x => !x.startsWith(cid)); save(); app.querySelectorAll(`.tick[data-c="${cid}"]`).forEach(t => { t.setAttribute('aria-pressed', false); $('.chk', t).classList.remove('on'); }); upd(cid); });
+}
+
+function vNutrition() {
+  const ex = [12, 150, 40.5], exA = eerM(ex[0], ex[1], ex[2], 'ac'), exV = eerM(ex[0], ex[1], ex[2], 'va');
+  const li = a => `<ul class="tl">${a.map(x => `<li>${x}</li>`).join('')}</ul>`;
+  const det = (t, a) => `<details class="card"><summary>${t}</summary><div style="padding:0 14px 14px">${Array.isArray(a) ? li(a) : a}</div></details>`;
+  const Sh = NUTR.shake;
+  app.innerHTML = `<div class="brand"><h1>Nutrition</h1></div>
+  <p class="mut">Manger pour bien jouer, récupérer et grandir.</p>
+  <div class="card alt small"><p style="margin:0">Information générale tirée de sources officielles (liste en bas de page). Ce n'est pas un avis médical : pour une question sur le poids, l'appétit, la croissance ou une allergie, parle au médecin de famille ou à un diététiste.</p></div>
+  <h2>Le principe</h2>
+  <div class="card">${li(NUTR.base)}<p class="small mut" style="margin:10px 0 0">${NUTR.repartition}</p></div>
+  <h2>Combien manger ?</h2>
+  <div class="card"><p style="margin-top:0"><b>Pour le parent.</b> Il n'est pas nécessaire de compter les calories : voici un ordre de grandeur. Santé Canada estime les besoins d'un garçon de 9 à 18 ans selon son âge, sa taille, son poids et son niveau d'activité.</p>
+    <p>Avec l'entraînement presque chaque jour et les matchs, il se situe entre «&nbsp;actif&nbsp;» et «&nbsp;très&nbsp;actif&nbsp;».</p>
+    <p class="small mut">Exemple : un garçon de ${ex[0]} ans, ${ex[1]} cm et ${String(ex[2]).replace('.', ',')} kg (poids médian à 12 ans selon les courbes du CDC) a besoin d'environ <b style="color:var(--ink)">${nf(Math.round(exA / 50) * 50)}</b> kcal par jour s'il est actif, et <b style="color:var(--ink)">${nf(Math.round(exV / 50) * 50)}</b> s'il est très actif.</p>
+    <div class="kv" style="margin-top:14px"><b>Calcule pour ton garçon</b></div>
+    <div class="cg"><div><label for="ca">Âge (ans)</label><input type="text" inputmode="numeric" id="ca" class="num" maxlength="2" autocomplete="off"></div><div><label for="ch">Taille (cm)</label><input type="text" inputmode="decimal" id="ch" class="num" maxlength="5" autocomplete="off"></div><div><label for="cw">Poids (kg)</label><input type="text" inputmode="decimal" id="cw" class="num" maxlength="5" autocomplete="off"></div></div>
+    <div id="cres" class="small mut" style="margin-top:10px" aria-live="polite">Rien n'est enregistré : le calcul reste sur l'appareil.</div>
+    <p class="small mut" style="margin:12px 0 0">Ce sont des moyennes pour des enfants en croissance, pas une cible à atteindre au gramme près. L'appétit change selon les poussées de croissance et les journées d'effort.</p></div>
+  <h2>Les protéines</h2>
+  <div class="card">${li(NUTR.prot)}</div>
+  <h2>Avant, pendant, après</h2>
+  <div class="list">${NUTR.quand.map(q => det(q.t, q.l)).join('')}</div>
+  <h2>Une journée type</h2>
+  <div class="list">${NUTR.menus.map(m => det(m.t, m.l.map(r => `<p class="kv"><b>${r[0]}</b>${r[1]}</p>`).join(''))).join('')}</div>
+  <h2>Sources de protéines</h2>
+  <div class="card">${NUTR.prots.map(x => `<span class="chipd">${x}</span>`).join('')}</div>
+  <h2>L'eau</h2>
+  <div class="card">${li(NUTR.eau)}</div>
+  <h2>Les shakes de protéines</h2>
+  <div class="card"><p style="margin:0">${Sh.intro}</p></div>
+  <div class="list" style="margin-top:8px">${det('Ce que disent les pédiatres', Sh.sci)}${det('Ce qu\'il y a dans le produit', Sh.prod)}${det('Ce que ça change dans ta journée', Sh.sens)}${det('Quand ça peut dépanner', Sh.quand)}${det('Règles de prudence', Sh.regles)}</div>
+  <h2>Sources</h2>
+  <div class="list">${NUTR.src.map(s => `<a class="row" href="${s[1]}" target="_blank" rel="noopener noreferrer"><span class="tx"><span style="color:var(--ink);font-size:15px">${s[0]}</span></span><span class="st" aria-hidden="true">↗</span></a>`).join('')}</div>`;
+  const out = $('#cres'), f = id => parseFloat(($('#' + id).value || '').replace(',', '.'));
+  const calc = () => {
+    const a = f('ca'), h = f('ch'), w = f('cw');
+    if ([a, h, w].some(isNaN)) { out.className = 'small mut'; out.textContent = "Rien n'est enregistré : le calcul reste sur l'appareil."; return; }
+    if (a < 9 || a > 18 || h < 110 || h > 210 || w < 20 || w > 120) { out.className = 'small mut'; out.textContent = 'Valeurs hors du calcul : âge de 9 à 18 ans, taille de 110 à 210 cm, poids de 20 à 120 kg.'; return; }
+    const A = Math.round(eerM(a, h, w, 'ac') / 50) * 50, V = Math.round(eerM(a, h, w, 'va') / 50) * 50, p0 = (a < 14 ? .95 : .85) * w;
+    out.className = 'res';
+    out.innerHTML = `<div style="color:var(--ink)">Actif : environ <b>${nf(A)}</b> kcal par jour<br>Très actif : environ <b>${nf(V)}</b> kcal par jour</div><div class="small mut" style="margin-top:6px">Protéines : base de Santé Canada environ ${nf(p0)} g par jour ; repère de jeune athlète environ ${nf(w)} à ${nf(w * 1.3)} g par jour.</div>`;
+  };
+  ['ca', 'ch', 'cw'].forEach(id => $('#' + id).oninput = calc);
+}
+
+function vObjectifs() {
+  return `<h2>Mes objectifs</h2><p class="mut small" style="margin-top:-6px">Coche-les au fil du temps. Fais le point avec ton entraîneur toutes les 4 à 6 semaines : c'est un point de départ, pas une règle.</p>${OBJ.map((g, i) => `<h3 style="font-size:20px;margin:12px 0 6px">${g.t}</h3><div class="list">${g.l.map((t, j) => { const id = 'o' + i + j, on = !!S.ob[id]; return `<div class="row" style="padding:6px 12px 6px 4px;min-height:0"><button class="tick" data-ob="${id}" aria-pressed="${on}" aria-label="${on ? 'Atteint' : 'Marquer comme atteint'} : ${esc(t)}"><span class="chk ${on ? 'on' : ''}">✓</span></button><div class="tx" style="padding:6px 0"><span style="font-size:15px;color:var(--ink);line-height:1.35">${t}</span></div></div>`; }).join('')}</div>`).join('')}`;
+}
+function bindObjectifs() {
+  app.querySelectorAll('[data-ob]').forEach(b => b.onclick = () => { const id = b.dataset.ob; if (S.ob[id]) delete S.ob[id]; else S.ob[id] = 1; const on = !!S.ob[id]; b.setAttribute('aria-pressed', on); $('.chk', b).classList.toggle('on', on); save(); });
+}
+
+function videoThemes() {
+  return `<h2>Thèmes à étudier</h2><p class="mut small" style="margin-top:-6px">20 minutes au maximum à la fois. Regarde activement : pause, retour en arrière. Après chaque vidéo, note une chose apprise et une chose à tester à l'entraînement.</p>
+  <div class="list">${VTHEMES.map(t => `<details class="card"><summary>${t.t}</summary><div style="padding:0 14px 14px">${t.l.map(x => `<p class="kv"><b>${x[0]}</b>${x[1]}<br>${ytA(x[2])}</p>`).join('')}</div></details>`).join('')}</div>
+  <h2>Gardiens à étudier</h2>
+  <div class="card"><ul class="tl">${VPROS.map(g => `<li><b>${g[0]}</b> : ${g[1]}</li>`).join('')}</ul><p class="small mut" style="margin:10px 0 0">Regarde leurs vidéos sur YouTube en te concentrant sur un seul aspect à chaque visionnement.</p></div>
+  <h2>Chaînes YouTube</h2>
+  <div class="card">${VCHAINES.map(c => `<p class="kv"><b>${c[0]}</b>${c[1]}<br>${ytA(c[2], 'Chercher')}</p>`).join('')}</div>`;
+}
+
 function route() {
   stopAll();
   if (!accOK()) { vLock(); return; }
   document.body.classList.remove('locked');
   const [a, b] = location.hash.slice(1).split('/');
-  ({ m: vModule, s: vScene, p: vPlace, x: vSit, q: vQuiz, defis: vDefis, progres: vProg, niv: vNiveau, seance: vSeance, revision: vRevision, pied: vPied, carnet: vCarnet, lexique: vLexique, routine: vRoutine, erreur: vErreur, regles: vRegles, video: vVideo }[a] || vHome)(b);
-  const tab = a === 'defis' || a === 'regles' || a === 'p' || a === 'x' || (a === 'q' && b === 'all') ? 'defis' : a === 'progres' ? 'progres' : ['seance', 'revision', 'pied', 'carnet', 'lexique', 'routine', 'erreur', 'video'].includes(a) ? 'seance' : 'home';
+  ({ m: vModule, s: vScene, p: vPlace, x: vSit, q: vQuiz, defis: vDefis, progres: vProg, niv: vNiveau, seance: vSeance, revision: vRevision, pied: vPied, carnet: vCarnet, lexique: vLexique, routine: vRoutine, erreur: vErreur, regles: vRegles, video: vVideo, physique: vPhysique, nutrition: vNutrition }[a] || vHome)(b);
+  const tab = a === 'defis' || a === 'regles' || a === 'p' || a === 'x' || (a === 'q' && b === 'all') ? 'defis' : a === 'progres' ? 'progres' : a === 'physique' ? 'physique' : a === 'nutrition' ? 'nutrition' : ['seance', 'revision', 'pied', 'carnet', 'lexique', 'routine', 'erreur', 'video'].includes(a) ? 'seance' : 'home';
   document.querySelectorAll('nav a').forEach(x => x.classList.toggle('on', x.dataset.t === tab));
   window.scrollTo(0, 0);
 }

@@ -74,3 +74,12 @@ Pour modifier : changer `src/content.js` ou `src/shell.html`, puis reconstruire.
 - Chemins relatifs : fonctionne à n'importe quelle adresse (sous-dossier GitHub Pages, gk99.soccer, etc.).
 - `src/acces.txt` (mot de passe en clair) et `src/index.html` sont exclus de GitHub (.gitignore). Reconstruire avec `python build.py` dans `src`.
 - Installation : Chrome Android → menu ⋮ → « Installer l'application » / « Ajouter à l'écran d'accueil ».
+
+## Lot I — Onglets Physique et Nutrition (issus du plan d'entraînement de départ)
+- Deux nouveaux onglets dans la barre du bas : **Physique** (`#physique`) et **Nutrition** (`#nutrition`). La barre compte maintenant 6 onglets (testée à 390 et 320 px).
+- **Physique** : 12 exercices filtrables (agilité, pliométrie, gainage, technique, solo au mur) avec points clés, dosage et lien de recherche YouTube ; 2 circuits à cocher (remis à zéro chaque jour). Présentés comme un **surplus** à l'entraînement de l'École. Aucune mention de jours, de jours de repos, de division, de catégorie d'âge, de club ou de lieu.
+- **Nutrition** : principe, besoins énergétiques (formules de Santé Canada 2023, exemple et petit calculateur âge/taille/poids, rien n'est enregistré), protéines, avant/pendant/après un match ou un entraînement, journées types, eau, **shakes de protéines (Good Protein)** avec règles de prudence, liste de sources. Restrictions alimentaires personnelles du plan d'origine retirées (dépôt public).
+- Intégrés ailleurs : objectifs à 3 et 6 mois (cases à cocher dans Progrès, sans pourcentages non sourcés) ; thèmes d'étude, gardiens à étudier et chaînes YouTube (page Analyse vidéo). La mention « deux jours de repos par semaine » du programme jeu au pied a été retirée.
+- Sources : Santé Canada, Société canadienne de pédiatrie, SickKids, Nemours, Académie américaine de pédiatrie, Sports Dietitians Australia, fiches Good Protein / Open Food Facts (liste dans la page Nutrition).
+- Fichiers : `src/content.js` (blocs PHYS, NUTR, OBJ, VTHEMES), `src/shell.html` (vPhysique, vNutrition, vObjectifs, videoThemes).
+- **À valider** : contenu physique (sauts pour un jeune de 12 ans) avec l'entraîneur ; nutrition et shake avec le médecin de famille ou un diététiste sportif ; données du produit à vérifier sur l'étiquette réelle.

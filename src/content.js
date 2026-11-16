@@ -1176,3 +1176,174 @@ const QUIZ3 = [
   { q:"Ton équipe vient d'encaisser. Tes premières secondes ?", o:["Ma routine, puis une consigne positive à ma défense","Je cherche qui a fait l'erreur","Je reste sur ma ligne sans parler"], w:"Dix secondes pour toi, puis tu t'occupes des autres. Les deux minutes suivantes comptent double." },
   { q:"Penalty contre toi à la dernière minute. Dans ta tête ?", o:["La pression est sur le tireur : un plan clair, et je m'y tiens","Si je ne l'arrête pas, ce sera ma faute","Je changerai d'idée pendant sa course d'élan"], w:"Personne ne s'attend à ce que tu l'arrêtes : tu n'as rien à perdre. Choisis ton plan avant sa course et garde-le." }
 ];
+
+
+/* =====================================================================
+   LOT I — Onglets PHYSIQUE et NUTRITION, objectifs, thèmes vidéo
+   (repris du plan d'entraînement de départ, sans division, catégorie d'âge, club ni jours)
+   ===================================================================== */
+const YT = q => 'https://www.youtube.com/results?search_query=' + q;
+
+/* ---------- PHYSIQUE : un surplus à l'entraînement de l'École ---------- */
+const PHYS = {
+  tips: [
+    "Ces exercices s'ajoutent à ton entraînement à l'École. Ils sont un surplus, pas une obligation.",
+    "Choisis un ou deux exercices, ou un circuit, quand tu as de l'énergie.",
+    "La technique d'abord, la vitesse ensuite. 20 secondes bien faites valent mieux que 2 minutes mal faites.",
+    "Échauffe-toi 5 minutes avant. Pour les sauts et les chutes, demande à un adulte de te regarder et choisis une surface adaptée.",
+    "Fatigué ou mal quelque part ? Arrête et saute l'exercice. L'entraînement de l'École passe en premier.",
+    "Demande à ton entraîneur quels exercices lui semblent les plus utiles pour toi."
+  ],
+  cats: [['agi', 'Agilité'], ['pli', 'Pliométrie'], ['gai', 'Gainage'], ['gar', 'Technique'], ['mur', 'Solo au mur']],
+  ex: [
+    { id: 'echelle', c: 'agi', n: "Échelle d'agilité", d: "Motifs de base au sol : un pied par case, deux pieds, pas chassés. Maîtrise-les lentement avant d'accélérer.", k: ["Poids sur l'avant du pied, talons jamais au sol", "Bras en mouvement comme à la course", "Regarde devant, pas tes pieds", "Maîtrise lentement avant d'accélérer"], dose: ["3 passages par motif", "15 à 20 min"], q: 'agility+ladder+drills+soccer+youth+beginner+tutorial' },
+    { id: 'tdrill', c: 'agi', n: "T-drill (cônes)", d: "Sprint avant, déplacements latéraux, retour en arrière. Ça ressemble aux vrais mouvements dans les buts.", k: ["Touche chaque cône avec la main", "Ne croise jamais les pieds en latéral", "Reste bas, en position athlétique", "Sprint maximum sur le retour final"], dose: ["5 à 6 répétitions", "Récupération 45 s"], q: 'T+drill+agility+soccer+goalkeeper+tutorial' },
+    { id: 'box', c: 'pli', n: "Sauts sur caisse", d: "Sauts sur une caisse stable pour développer l'explosivité verticale. Apprends d'abord à bien atterrir, ensuite seulement à aller vite.", k: ["Fléchis les genoux à l'atterrissage", "Atterris sur l'avant du pied, sans bruit", "Balance les bras pour t'aider à sauter", "Descends en marchant, jamais en sautant"], dose: ["3 × 8", "Récupération 90 s"], q: 'box+jump+technique+youth+beginner+tutorial' },
+    { id: 'lateral', c: 'pli', n: "Sauts latéraux", d: "Sauts d'un pied à l'autre, sur le côté. C'est l'exercice de saut le plus proche d'un plongeon : même poussée.", k: ["Pousse avec une seule jambe, atterris sur l'autre", "Passe le moins de temps possible au sol", "Va loin, pas seulement vite", "Le genou d'atterrissage reste fléchi"], dose: ["3 × 8 bonds", "Récupération 60 s"], q: 'lateral+bounds+plyometric+goalkeeper+soccer+tutorial' },
+    { id: 'corde', c: 'pli', n: "Corde à sauter", d: "Coordination, rythme des pieds, activation des mollets. En début de séance, comme échauffement et non comme cardio.", k: ["Saute bas : juste assez pour passer la corde", "Poids sur l'avant du pied en tout temps", "Coudes près du corps, les poignets font tourner la corde", "Respire de façon régulière et calme"], dose: ["3 × 1 min", "En début de séance"], q: 'jump+rope+technique+beginner+kids+tutorial' },
+    { id: 'planche', c: 'gai', n: "Planche frontale", d: "Le gainage contrôle la direction et la précision de ton corps pendant un plongeon. 20 secondes bien faites valent mieux que 2 minutes mal faites.", k: ["Corps droit : pas de dos creux, pas de fesses en l'air", "Contracte les abdos et les fessiers", "Regard vers le sol, cou dans l'axe du dos", "Respire normalement, ne retiens pas ton souffle"], dose: ["3 × 25 s", "Récupération 20 s"], q: 'perfect+plank+form+tutorial+kids+beginner' },
+    { id: 'lat', c: 'gai', n: "Planche latérale", d: "Elle renforce les muscles des côtés du tronc, ceux qui travaillent dans les plongeons latéraux. Fais les deux côtés.", k: ["Hanches soulevées : ne les laisse pas descendre", "Pied du dessus aligné avec celui du dessous", "Épaule directement au-dessus du coude"], dose: ["3 × 20 s par côté"], q: 'side+plank+correct+form+tutorial+youth' },
+    { id: 'super', c: 'gai', n: "Superman", d: "Couché sur le ventre, lève les bras et les jambes en même temps. Ça renforce le bas du dos, important pour ta stabilité.", k: ["Lève en expirant, tiens 2 à 3 secondes en haut", "Regard vers le sol : ne force pas sur ton cou", "Les bras et les jambes montent ensemble", "Mouvement lent et contrôlé"], dose: ["3 × 10", "Pause de 2 s en haut"], q: 'superman+exercise+back+kids+tutorial+form' },
+    { id: 'chutes', c: 'gar', n: "Chutes depuis les genoux", d: "La base de tous les plongeons. Apprends à tomber correctement depuis les genoux : ça protège tes hanches et ça enseigne la bonne technique.", k: ["La hanche du bas touche le sol en premier, pas le coude", "Mains en W derrière le ballon imaginaire", "Bras du dessus au-dessus de la tête", "Relève-toi vite et recommence"], dose: ["3 × 10 par côté", "Surface molle"], q: 'goalkeeper+collapse+dive+technique+from+knees+beginner+youth' },
+    { id: 'set', c: 'gar', n: "Position de base et déplacements latéraux", d: "La position de base et les déplacements sur le côté. On les néglige souvent, mais un bon placement vaut plus que des réflexes.", k: ["Pieds à la largeur des épaules, un peu fléchis", "Poids sur la pointe des pieds, jamais sur les talons", "En latéral : glisse (pas chassés), ne croise jamais les pieds"], dose: ["5 min", "Avant chaque séance"], q: 'goalkeeper+set+position+footwork+lateral+movement+tutorial' },
+    { id: 'mur', c: 'mur', n: "Réflexes au mur : ballon", d: "Lance le ballon contre le mur et attrape le rebond. Varie la force, la hauteur et la distance. C'est l'un des meilleurs exercices en solo.", k: ["Prise en W à chaque ballon (les pouces se touchent)", "Utilise les deux mains, pas toujours la main forte", "Lance de plus en plus fort, progressivement", "Déplace-toi sur le côté entre les lancers"], dose: ["5 à 10 min", "Aussi possible à la maison"], q: 'goalkeeper+solo+wall+drill+reaction+handling+tutorial' },
+    { id: 'tennis', c: 'mur', n: "Réflexes au mur : balle de tennis", d: "Une balle de tennis contre le mur. Le rebond est plus rapide et imprévisible : ton cerveau doit réagir plus vite.", k: ["Commence de près (1 m), puis recule peu à peu", "Attrape à une main, en alternant gauche et droite", "Variante : lance-la sur le sol devant le mur"], dose: ["3 à 5 min", "Aussi possible à la maison"], q: 'goalkeeper+tennis+ball+wall+reflex+drill+tutorial' }
+  ],
+  circ: [
+    { id: 'c1', n: "Circuit force et agilité", min: "environ 45 minutes", note: "Mets une minuterie et suis l'ordre. Si un mouvement n'est pas clair, ouvre sa fiche dans Exercices.", s: [
+      ["Corde à sauter", "3 × 1 min · échauffement"],
+      ["Mobilité dynamique : hanches, chevilles, épaules", "5 min"],
+      ["Échelle d'agilité : 3 motifs différents", "3 passages par motif"],
+      ["T-drill (cônes)", "5 à 6 répétitions · récupération 45 s"],
+      ["Sauts latéraux", "3 × 8 bonds · récupération 60 s"],
+      ["Sauts sur caisse", "3 × 8 · récupération 90 s"],
+      ["Planche frontale", "3 × 25 s · récupération 20 s"],
+      ["Planche latérale, côté gauche puis côté droit", "3 × 20 s par côté"],
+      ["Superman", "3 × 10 · pause de 2 s en haut"],
+      ["Étirements : quadriceps, ischios, hanches", "10 min"]
+    ] },
+    { id: 'c2', n: "Circuit activation légère", min: "environ 35 minutes", note: "Intensité légère, environ 60 %. Le but est de t'activer, pas de te fatiguer.", s: [
+      ["Corde à sauter et mobilité", "5 min"],
+      ["Position de base et déplacements latéraux", "5 min"],
+      ["Ballon de soccer contre le mur, prise en W", "8 min"],
+      ["Chutes depuis les genoux", "3 × 10 par côté"],
+      ["Balle de tennis, réflexes", "3 à 5 min"],
+      ["Dégagements à la volée, technique du pied", "5 min · vise une zone"],
+      ["Planche et gainage latéral, légers", "2 × 20 s de chaque"],
+      ["Étirements et retour au calme", "5 min"]
+    ] }
+  ]
+};
+
+/* ---------- NUTRITION ----------
+   Chiffres tirés de Santé Canada, de la Société canadienne de pédiatrie, de SickKids, de Nemours,
+   de l'Académie américaine de pédiatrie et de Sports Dietitians Australia (voir NUTR.src).
+   Information générale : pas un avis médical. */
+const NUTR = {
+  base: [
+    "Mange pour jouer, récupérer et grandir. Pas pour te priver.",
+    "Tu t'entraînes presque chaque jour : ton corps a besoin de beaucoup d'énergie, plus que celui d'un enfant peu actif.",
+    "Ne saute jamais un repas. Vise 3 repas et 1 à 3 collations, aux 2 à 4 heures environ.",
+    "Dans ton assiette : la moitié en légumes et fruits, un quart en grains entiers (pâtes, riz, pain), un quart en protéines (guide alimentaire canadien).",
+    "Environ la moitié de ton énergie vient des glucides : pâtes, riz, pain, fruits, patate douce, gruau.",
+    "Si tu as une allergie ou une intolérance, adapte les idées de cette page. Rien de nouveau le jour d'un match."
+  ],
+  repartition: "Santé Canada : pour un garçon de 9 à 18 ans, les glucides fournissent 45 à 65 % de l'énergie, les gras 25 à 35 % et les protéines 10 à 30 %.",
+  prot: [
+    "Besoin de base selon Santé Canada : 0,95 g de protéines par kg et par jour de 9 à 13 ans (environ 34 g à 36 kg), puis 0,85 g par kg de 14 à 18 ans (52 g par jour).",
+    "Pour de jeunes athlètes, Nemours parle d'environ 1,0 à 1,3 g par kg (0,45 à 0,6 g par livre). À 40 kg, ça fait environ 40 à 53 g par jour. Manger bien plus que ça n'apporte pas de bénéfice supplémentaire.",
+    "Répartis-les sur la journée, à chaque repas et chaque collation, plutôt qu'en une seule fois.",
+    "Repères approximatifs : 1 verre de lait (250 mL) ≈ 8 g · 1 œuf ≈ 6 g · 100 g de poulet ou de dinde cuit ≈ 25 à 30 g · 1 petite conserve de thon ≈ 20 g · ¾ tasse de lentilles cuites ≈ 12 à 14 g · 2 c. à soupe de beurre d'amande ≈ 7 g."
+  ],
+  quand: [
+    { t: "La veille", l: ["Souper riche en glucides : pâtes ou riz, avec du poulet et des légumes cuits.", "Bois régulièrement tout au long de la journée.", "Évite les aliments très gras, frits ou que tu ne connais pas.", "Dessert léger : fruit ou compote sans sucre ajouté."] },
+    { t: "3 à 4 heures avant : le vrai repas", l: ["Glucides + protéines maigres, peu de gras. Exemples : gruau avec lait et fruits + œufs ; pâtes avec poulet ; sandwich à la dinde sur pain de blé entier + fruit.", "Laisse au moins 2 heures entre le repas et l'effort. Match tôt le matin : déjeune environ 2 heures avant.", "Bois 400 à 600 mL d'eau, 2 à 3 heures avant (repère de la Société canadienne de pédiatrie)."] },
+    { t: "30 à 60 minutes avant : la collation", l: ["Petite et facile à digérer : pomme, compote, raisins, tranche de pain avec confiture, barre de céréales douce.", "Peu de gras et peu de fibres. Rien de nouveau.", "Pendant l'échauffement, bois environ 240 mL (8 oz). Boire trop juste avant le match peut donner un point de côté."] },
+    { t: "Pendant", l: ["L'eau d'abord : environ 150 à 300 mL toutes les 15 à 20 minutes d'effort.", "À la mi-temps : un quartier d'orange, quelques raisins, de l'eau.", "Tournoi avec plusieurs matchs dans la journée : bois 100 à 200 mL après chaque match, et grignote des glucides légers (fruit, compote, craquelins).", "Boisson sportive : seulement pour un effort long (plus de 60 à 75 minutes), une journée chaude ou un tournoi. Sinon, l'eau suffit.", "Évite les boissons énergisantes (caféine et sucre). La limite de caféine de Santé Canada est de 85 mg par jour à 10-12 ans, et de 2,5 mg par kg dès 13 ans. Évite aussi les boissons gazeuses autour de l'effort."] },
+    { t: "Dans les 30 minutes après", l: ["Glucides + un peu de protéines : lait au chocolat + fruit ; smoothie (lait, fruits rouges, graines de chia) ; sandwich à la dinde.", "Repère de SickKids pour jeunes athlètes : environ 45 à 60 g de glucides avec 15 à 20 g de protéines (3 glucides pour 1 protéine).", "Un vrai repas complet dans les 2 heures : protéines + féculents + légumes.", "Bois après l'effort, à raison d'environ ½ tasse toutes les 15 minutes. Après un match très chaud, bois davantage."] }
+  ],
+  menus: [
+    { t: "Une journée d'entraînement", l: [
+      ["Déjeuner", "Gruau avec lait, fruits rouges ou pomme tranchée, filet de miel. Œufs brouillés (2) + rôtie de blé entier. Jus d'orange pressé."],
+      ["Dîner", "Sandwich au poulet, au thon ou à la dinde sur pain de blé entier. Légumes coupés (carottes, céleri, poivrons) avec houmous, un fruit."],
+      ["1 h avant", "Tranche de pain avec beurre d'amande ou de tournesol + petite pomme, ou barre de céréales faible en gras + eau."],
+      ["Après (30 min)", "Lait au chocolat, ou smoothie de lait, fruits rouges congelés et graines de chia. Poignée d'amandes ou de noix de cajou."],
+      ["Souper", "Protéine (poulet, saumon, bœuf haché, lentilles) + féculent (riz, pâtes, patate douce) + légumes (brocoli, épinards, carottes). Huile d'olive."]
+    ] },
+    { t: "Un jour de match", l: [
+      ["Déjeuner (2 h 30 avant)", "Gruau ou pain doré, fruits (pomme, raisins, orange), un œuf à la coque. Évite les aliments lourds, frits ou nouveaux."],
+      ["30 à 45 min avant", "Petite portion de raisins ou une pomme, et de l'eau. Ni l'estomac vide, ni trop plein."],
+      ["Mi-temps", "Quartier d'orange, quelques raisins. Eau, ou boisson légèrement sucrée s'il fait chaud."],
+      ["Après (30 min)", "Lait au chocolat et un fruit. Puis un repas complet dans l'heure : protéine + glucides + légumes."]
+    ] }
+  ],
+  prots: ["Œufs", "Poulet, dinde", "Thon, saumon", "Lait de vache ou de soya", "Lait au chocolat", "Beurre d'amande ou de tournesol", "Amandes, noix de cajou", "Lentilles, pois chiches, haricots", "Edamame", "Bœuf maigre"],
+  eau: [
+    "Le repère le plus simple : urine jaune pâle = bien hydraté. Plus foncée que d'habitude : bois plus.",
+    "Santé Canada fixe l'apport total en eau (boissons et aliments) à environ 2,4 L par jour de 9 à 13 ans, et 3,3 L de 14 à 18 ans. Plus les jours d'effort ou de chaleur.",
+    "L'eau est le choix de base. Le lait et le lait au chocolat comptent aussi. Limite les jus industriels et les boissons sucrées.",
+    "Étourdissements, crampes, nausées ou mal de tête par temps chaud : va à l'ombre, repose-toi, bois frais et préviens un adulte.",
+    "Commence à bien boire la veille du match, pas seulement le jour même."
+  ],
+  shake: {
+    intro: "Beaucoup de jeunes athlètes boivent des shakes de protéines, comme ceux de Good Protein. Voici ce que disent les sources, pour que le parent et toi décidiez en connaissance de cause.",
+    sci: [
+      "L'Académie américaine de pédiatrie : les besoins d'un jeune athlète sont mieux couverts par une alimentation équilibrée que par des suppléments. Les poudres de protéines n'apportent pas mieux qu'une protéine d'aliment (viande, œuf, lait, soya).",
+      "SickKids (AboutKidsHealth) classe les poudres de protéines parmi les suppléments de performance : préfère les œufs, le lait, la viande, le poisson, les légumineuses ou le soya, et consulte un diététiste sportif ou un médecin avant d'en prendre.",
+      "Les suppléments ne sont pas contrôlés comme des aliments : certains contiennent des ingrédients non indiqués sur l'étiquette."
+    ],
+    prod: [
+      "Page du fabricant (shake « High Protein », vanille française) : 32 g de protéines par portion d'environ 47 g (sac de 470 g = 10 portions), protéine de pois, 0 g de sucre, 4 g de glucides nets, sans produits laitiers.",
+      "Gamme « All-in-One » (fiche communautaire Open Food Facts, non vérifiée) : portion de 44 g = 21 g de protéines, 170 kcal, 13 g de glucides, 6 g de fibres, 5 g de gras.",
+      "Il existe plusieurs produits : lis l'étiquette de ton pot. Les valeurs ci-dessus ne remplacent pas le tableau de valeur nutritive."
+    ],
+    sens: [
+      "Une portion complète (21 à 32 g) représente à elle seule environ 60 à 95 % du besoin de base d'une journée pour un garçon de 36 kg (34 g).",
+      "Avec 3 repas et 2 collations qui contiennent des protéines, le besoin est généralement déjà couvert sans shake. Un shake de plus n'ajoute rien si ton besoin est déjà comblé.",
+      "Un shake ne remplace pas un repas ou une collation en vrais aliments : tu perds les vitamines, les fibres et la variété."
+    ],
+    quand: [
+      "Un dépannage utile : après un entraînement ou un match, quand un vrai repas n'est pas possible avant une heure ou deux.",
+      "Un verre de lait au chocolat apporte aussi des protéines et des glucides pour récupérer."
+    ],
+    regles: [
+      "Compte-le dans ta journée : si tu en bois un, tes repas peuvent contenir un peu moins de protéines, pas plus.",
+      "Pas dans les 2 heures avant un match ou un entraînement : le volume et les fibres ralentissent la digestion.",
+      "Vérifie l'étiquette : pas de caféine, de créatine, de stimulant, de « brûle-gras » ni de « booster ».",
+      "Cherche un sceau de test indépendant (Informed Sport, Informed Choice, NSF Certified for Sport ou BSCG). Je n'ai pas pu confirmer si ton produit en porte un.",
+      "Pour la bonne portion selon son poids, demande au médecin de famille, au pharmacien ou à un diététiste sportif."
+    ]
+  },
+  src: [
+    ["Santé Canada : équations des besoins énergétiques (2023, mises à jour en 2025)", "https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/equations-estimate-energy-requirement.html"],
+    ["Santé Canada : valeurs de référence des macronutriments", "https://www.canada.ca/en/health-canada/services/food-nutrition/healthy-eating/dietary-reference-intakes/tables/reference-values-macronutrients.html"],
+    ["Société canadienne de pédiatrie : boissons énergisantes et sportives", "https://cps.ca/en/documents/position/energy-and-sports-drinks"],
+    ["Soigner nos enfants (SCP) : nutrition du jeune athlète", "https://caringforkids.cps.ca/handouts/nutrition_for_your_young_athlete"],
+    ["SickKids AboutKidsHealth : nutrition sportive", "https://www.aboutkidshealth.ca/healthaz/nutrition/sports-nutrition/"],
+    ["Sports Dietitians Australia : guide du soccer jeunesse", "https://www.sportsdietitians.com.au/wp-content/uploads/2015/04/Soccer_FINAL.pdf"],
+    ["Nemours : nutrition, hydratation et récupération du jeune athlète", "https://blog.nemours.org/2026/01/young-athlete-nutrition/"],
+    ["Académie américaine de pédiatrie (HealthyChildren) : nutrition et suppléments", "https://healthychildren.org/English/healthy-living/nutrition/Pages/Nutrition-and-Supplement-Use.aspx"],
+    ["Good Protein : fiche produit (shake vanille française)", "https://goodprotein.ca/products/french-vanilla-32g-high-protein-shake"],
+    ["Open Food Facts : Good Protein All-in-One", "https://world.openfoodfacts.org/product/0628678203938"]
+  ]
+};
+
+/* Estimation Santé Canada (2023) : besoin énergétique d'un garçon de 9 à 18 ans selon l'âge, la taille et le poids */
+const EER_M = { ac: [-388.19, 12.66, 20.46], va: [-671.75, 15.38, 23.25] };
+const eerM = (age, h, w, lv) => { const c = EER_M[lv]; return c[0] + 3.68 * age + c[1] * h + c[2] * w + (age < 14 ? 25 : 20); };
+
+/* ---------- OBJECTIFS (dans Progrès) ---------- */
+const OBJ = [
+  { t: "Dans 3 mois", l: ["Je me place sur la ligne ballon, centre du but avant chaque tir direct.", "Je choisis ma relance (courte ou longue) avant de recevoir le ballon.", "Je parle à ma défense à chaque action défensive du match.", "Ma routine d'avant-match est écrite, et je la répète."] },
+  { t: "Dans 6 mois", l: ["Je sors sur les centres en sécurité dans ma surface.", "Je réussis un dégagement long, technique et précis vers une zone visée.", "Après une erreur, je reviens au calme avec ma routine, sans baisser la tête.", "J'ai analysé 5 gardiens pros différents."] }
+];
+
+/* ---------- THÈMES VIDÉO (dans Analyse vidéo) ---------- */
+const VTHEMES = [
+  { t: "Positionnement et angles", l: [["Positionnement et angles de tir", "La bissectrice et les angles : pourquoi se déplacer avec le ballon.", 'goalkeeper+positioning+angles+tutorial'], ["Un gardien qui joue haut", "Observe comment Neuer coupe les angles avec des ralentis.", 'neuer+sweeper+goalkeeper+positioning+analysis']] },
+  { t: "Technique de parade et mains", l: [["Prise en W", "Arrêts à deux mains, sécuriser le ballon. Imite le mouvement.", 'goalkeeper+handling+technique+W+catch+tutorial'], ["Arrêts au ralenti", "Pied d'appui, mains, direction du plongeon.", 'goalkeeper+saves+slow+motion+technique+analysis']] },
+  { t: "Jeu aux pieds et distribution", l: [["Relances modernes", "Relances courtes, dégagements longs à la volée.", 'goalkeeper+distribution+passing+technique+modern'], ["Jeu au pied d'Ederson", "Étudie ses relances.", 'ederson+goalkeeper+passing+distribution+analysis']] },
+  { t: "Mental et leadership", l: [["Gérer l'erreur", "Rester concentré 90 minutes, rebondir après une erreur.", 'goalkeeper+mental+toughness+psychology+focus'], ["Communication défensive", "Quand crier, comment organiser ton équipe.", 'goalkeeper+communication+organizing+defense+tutorial']] }
+];
+const VPROS = [["Manuel Neuer", "positionnement, gardien-libéro"], ["Ederson", "jeu au pied, relances"], ["Alisson Becker", "communication, sorties"], ["Gianluigi Donnarumma", "parades, présence physique"], ["David de Gea", "réflexes, arrêts au sol"]];
+const VCHAINES = [["GK Workouts", "Exercices de gardien filmés, séances reproductibles seul.", 'GK+Workouts+goalkeeper+training'], ["Tanner Speed Academy", "Vitesse et agilité pour jeunes sportifs.", 'Tanner+Speed+Academy+agility+soccer'], ["En français", "Tutoriels adaptés aux jeunes gardiens.", 'entra%C3%AEnement+gardien+but+jeune+technique']];
