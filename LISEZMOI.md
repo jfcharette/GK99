@@ -102,3 +102,4 @@ Pour modifier : changer `src/content.js` ou `src/shell.html`, puis reconstruire.
 - Paquet prêt à déposer : `a-deposer/gk99-site.zip` (index.html, sw.js, manifest.webmanifest, icons/, .htaccess) et marche à suivre `a-deposer/PUBLIER-NAMECHEAP.md` (cPanel › File Manager : sauvegarder, vider, Upload, Extract). Aucun outil de publication Namecheap.
 - `.htaccess` : redirection HTTPS, type MIME du manifeste, pas de cache pour index.html / sw.js / manifeste (mises à jour immédiates).
 - Mises à jour : nouveau zip → Upload + Extract. GitHub Pages reste en place comme copie et historique.
+- Défis (situations animées) : temps de lecture avant le départ de l'action, selon la longueur du texte (5 à 9 s au lieu de 0,9 s), avec un bouton « J'ai lu ▶ On y va » pour partir tout de suite.

@@ -1,5 +1,5 @@
-// GK99 — service worker (hors ligne). 3bceb81e85 est remplacé par build.py à chaque construction.
-const CACHE = 'gk99-3bceb81e85';
+// GK99 — service worker (hors ligne). 21ef74abe1 est remplacé par build.py à chaque construction.
+const CACHE = 'gk99-21ef74abe1';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png', 'icons/apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));

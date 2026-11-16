@@ -491,7 +491,12 @@ function vSit(id) {
     run(pre.length, all.length);
     sitEnd(x, st, msg, (timed && okW ? `Ta réponse : ${sec.toFixed(1).replace('.', ',')} s. ` : '') + x.w);
   };
-  later(() => run(0, pre.length, ask), 900);
+  /* Temps de lecture de la mise en situation : selon sa longueur (5 à 9 s), ou dès qu'il touche « J'ai lu » */
+  let started = false;
+  const go0 = () => { if (started || done) return; started = true; const g = $('#go0'); if (g) g.remove(); run(0, pre.length, ask); };
+  $('#qa').innerHTML = `<button class="btn full" id="go0" style="margin-top:0">J'ai lu ▶ On y va</button>`;
+  $('#go0').onclick = go0;
+  later(go0, Math.min(9000, Math.max(5000, 2000 + 60 * x.ctx.length)));
 }
 
 /* fin commune des situations : étoiles, explication, rejouer / suivant */
