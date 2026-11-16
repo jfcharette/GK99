@@ -1310,7 +1310,6 @@ const ERREUR = {
    loi 14 (penalty), loi 16 (coup de pied de but).
    Les ligues jeunesse peuvent ajouter leurs propres règles : à faire valider
    avec l'entraîneur. Même format que QUIZ (première option = bonne). */
-const RULES_NOTE = "Lois du jeu IFAB 2025/26, vérifiées le 16 novembre 2026. Ta ligue jeunesse peut avoir des règles à elle : demande à ton entraîneur.";
 const RULES = [
   { q: "Tu gardes le ballon dans les mains, dans ta surface, plus de 8 secondes.", o: ["Corner pour l'adversaire", "Coup franc indirect pour l'adversaire", "Rien, tu as tout ton temps"], w: "Depuis 2025-2026, c'est un corner (avant : coup franc indirect après 6 secondes). L'arbitre compte les 5 dernières secondes avec la main levée." },
   { q: "Pendant que tu tiens le ballon, tu le fais rebondir. Ça remet le compte des 8 secondes à zéro ?", o: ["Non, le compte continue", "Oui, il recommence à zéro", "Oui, mais seulement une fois"], w: "Faire rebondir ou lancer le ballon dans les airs ne remet rien à zéro : tu es encore en train de le contrôler." },
@@ -1323,7 +1322,13 @@ const RULES = [
   { q: "Avant la frappe d'un penalty, tu peux…", o: ["Rester sur ta ligne, face au tireur, entre les poteaux", "Toucher la barre ou le filet pour le distraire", "Avancer de deux pas"], w: "Tu restes sur ta ligne, face au tireur. Toucher les poteaux, la barre ou le filet, ou retarder le tir, est interdit." },
   { q: "Penalty : tu avances trop tôt, ton arrêt est bon.", o: ["Le penalty est repris, et tu reçois un avertissement", "L'arrêt compte, le jeu continue", "But automatique pour l'équipe adverse"], w: "Arrêt avec infraction : on reprend le tir. Premier avertissement de la partie, ensuite carton jaune. Si le tireur marque, le but compte." },
   { q: "Sur un coup de pied de but, à partir de quand le ballon est-il en jeu ?", o: ["Dès qu'il est botté et qu'il bouge clairement", "Quand il sort de la surface", "Quand un autre joueur le touche"], w: "Il est en jeu dès qu'il est botté et qu'il bouge clairement. Les adversaires doivent rester hors de la surface jusque-là." },
-  { q: "Ton coup de pied de but entre directement dans le but adverse.", o: ["But valable", "Dégagement à reprendre", "Coup franc pour l'adversaire"], w: "On peut marquer directement sur coup de pied de but, mais seulement contre l'adversaire. Dans ton propre but, ce serait un corner pour eux." }
+  { q: "Ton coup de pied de but entre directement dans le but adverse.", o: ["But valable", "Dégagement à reprendre", "Coup franc pour l'adversaire"], w: "On peut marquer directement sur coup de pied de but, mais seulement contre l'adversaire. Dans ton propre but, ce serait un corner pour eux." },
+  { q: "Tu lâches le ballon pour le jouer au pied, puis tu le reprends avec les mains avant que quelqu'un d'autre l'ait touché.", o: ["Coup franc indirect pour l'adversaire", "Rien, c'est permis dans ta surface", "Penalty"], w: "Une fois le ballon lâché, tu ne peux pas le reprendre avec les mains avant qu'un autre joueur l'ait touché." },
+  { q: "Tu lances le ballon à la main et il entre directement dans le but adverse.", o: ["Pas de but : coup de pied de but pour l'adversaire", "But valable", "Corner pour ton équipe"], w: "Un gardien ne peut pas marquer en lançant le ballon à la main. Au pied, oui." },
+  { q: "Ton coéquipier te remet volontairement le ballon de la tête.", o: ["Tu peux le prendre avec les mains", "Coup franc indirect pour l'adversaire", "Tu dois le jouer au pied"], w: "La règle de la passe en retrait vise le pied et la touche. De la tête, de la poitrine ou du genou, c'est permis, sauf s'il fait une ruse exprès." },
+  { q: "Ton équipe tarde sur un coup de pied de but. L'arbitre lève la main et compte 5 secondes. Le temps est écoulé.", o: ["Corner pour l'adversaire", "Coup franc indirect pour l'adversaire", "Rien, on continue"], w: "Nouveau en 2026-2027 : le décompte de 5 secondes. Temps écoulé : corner pour l'adversaire." },
+  { q: "Ligue de l'ARS Rive-Sud, U12 en 9 contre 9 : après un arrêt, tu dégages de volée.", o: ["Le ballon te revient au sol et tu recommences", "Coup franc indirect pour l'adversaire", "Rien, c'est permis"], w: "De U9 à U12, la volée est interdite dans la ligue régionale. Tu lances, tu passes au pied ou tu poses le ballon. À partir de U13, c'est permis." },
+  { q: "Tu veux échanger ta place avec un défenseur pendant le match.", o: ["C'est permis, à un arrêt de jeu, en prévenant l'arbitre", "C'est interdit", "Seulement à la mi-temps"], w: "Un joueur peut prendre la place du gardien, à un arrêt de jeu et après avoir prévenu l'arbitre." }
 ];
 
 /* ---------- ANALYSE VIDÉO GUIDÉE ----------
@@ -1362,11 +1367,90 @@ const VIDEO = {
 };
 
 const RULES_BRIEF = [
-  { h: "Dans ta surface, avec les mains", l: ["Tu as 8 secondes pour te débarrasser du ballon une fois que tu le contrôles. Au-delà : corner pour l'adversaire.", "Personne ne peut te défier quand tu contrôles le ballon avec les mains.", "Passe volontaire du pied d'un coéquipier, ou ballon reçu directement d'une touche : tu ne peux pas le prendre avec les mains (coup franc indirect). Tu le joues au pied."] },
-  { h: "Hors de ta surface", l: ["Tu es un joueur comme les autres : une main volontaire est un coup franc direct, et peut mener à un carton jaune ou rouge."] },
-  { h: "Au penalty", l: ["Tu restes sur ta ligne, face au tireur, entre les poteaux, jusqu'à la frappe.", "À la frappe, au moins une partie d'un pied touche la ligne ou est derrière elle.", "Tu ne retardes pas le tir et tu ne touches ni les poteaux, ni la barre, ni le filet.", "Si tu fais une infraction et que tu arrêtes le tir : penalty repris, avec un avertissement la première fois, puis un carton jaune."] },
-  { h: "Coup de pied de but", l: ["Le ballon est en jeu dès qu'il est botté et qu'il bouge clairement.", "Les adversaires attendent hors de ta surface jusque-là.", "Tu peux marquer directement, mais seulement contre l'adversaire."] }
+  { h: "Le ballon dans tes mains", l: [
+    "Tu « contrôles » le ballon quand il est entre tes mains, entre ta main et le sol (ou ton corps), dans ta main ouverte, ou quand tu le fais rebondir ou le lances en l'air.",
+    "Tu as 8 secondes pour t'en débarrasser. L'arbitre compte les 5 dernières secondes avec la main levée. Au-delà : corner pour l'adversaire.",
+    "Personne ne peut te défier tant que tu contrôles le ballon avec les mains. Dès que tu le lâches, oui.",
+    "Une fois lâché, tu ne peux pas le reprendre avec les mains avant qu'un autre joueur l'ait touché. Sinon : coup franc indirect pour l'adversaire.",
+    "Tu ne peux pas marquer en lançant le ballon à la main directement dans le but adverse : coup de pied de but pour l'adversaire. Au pied, oui, tu peux marquer."] },
+  { h: "Passes de tes coéquipiers", l: [
+    "Passe volontaire du pied d'un coéquipier : pas de mains, tu la joues au pied. Sinon : coup franc indirect.",
+    "Ballon reçu directement d'une touche lancée par un coéquipier : même règle, pas de mains.",
+    "Passe de la tête, de la poitrine ou du genou : tu peux la prendre avec les mains.",
+    "Mais un coéquipier qui fait une ruse pour contourner la règle (lever le ballon pour te le passer de la tête) reçoit un carton jaune.",
+    "Un ballon qui te revient par accident (dégagement raté, déviation) : tu peux le prendre. Dans le doute, joue-le au pied."] },
+  { h: "Hors de ta surface", l: [
+    "Tu es un joueur comme les autres : une main volontaire est un coup franc direct.",
+    "Si ta main empêche un but ou une occasion de but évidente : carton rouge.",
+    "Ta surface, c'est la ligne comprise : si le ballon touche la ligne, tu es encore dedans."] },
+  { h: "Au penalty", l: [
+    "Tu restes sur ta ligne, face au tireur, entre les poteaux, jusqu'à la frappe.",
+    "À la frappe, au moins une partie d'un pied touche la ligne, est au-dessus ou derrière elle.",
+    "Tu ne retardes pas le tir et tu ne touches ni les poteaux, ni la barre, ni le filet.",
+    "Si tu fais une faute et que le tireur marque : le but compte. Si tu arrêtes le tir : il est repris, avec un avertissement la première fois, puis un carton jaune.",
+    "Nouveau en 2026-2027 : si le tireur touche le ballon deux fois par accident et marque, le penalty est repris. S'il ne marque pas : coup franc indirect pour ton équipe."] },
+  { h: "Coup de pied de but", l: [
+    "Le ballon doit être immobile, placé n'importe où dans ta surface de but (le petit rectangle).",
+    "Il est en jeu dès qu'il est botté et qu'il bouge clairement. Tes coéquipiers peuvent le recevoir dans la surface.",
+    "Les adversaires attendent hors de ta surface de réparation jusqu'à ce qu'il soit en jeu.",
+    "Nouveau en 2026-2027 : si ton équipe tarde, l'arbitre lève la main et compte 5 secondes. Temps écoulé : corner pour l'adversaire.",
+    "Tu peux marquer directement, mais seulement contre l'adversaire."] },
+  { h: "Ton équipement", l: [
+    "Ton maillot doit être d'une couleur différente de celle des autres joueurs et des arbitres.",
+    "Protège-tibias obligatoires, couverts par les bas. Gants et pantalon long sont permis.",
+    "Nouveau en 2026-2027 : un accessoire est permis s'il n'est pas dangereux et qu'il est bien couvert. Les bijoux s'enlèvent : les recouvrir de ruban ne suffit plus."] },
+  { h: "Changer de gardien, blessure", l: [
+    "Tu peux changer de place avec un coéquipier, à un arrêt de jeu, en prévenant l'arbitre avant.",
+    "Nouveau en 2026-2027 : un joueur soigné sur le terrain doit sortir et attendre une minute après la reprise. Le gardien blessé fait exception : il peut rester."] }
 ];
+const RULES_NOTE = "Lois du jeu IFAB 2026-2027, en vigueur depuis le 1er juillet 2026, vérifiées le 16 novembre 2026. Ta ligue peut ajouter des règles à elle : voir plus bas et demander à ton entraîneur.";
+
+/* ---------- RÈGLES DE LA RÉGION : Association régionale de soccer de la Rive-Sud (ARSRS) ----------
+   Source : « Règlements et lois » de la ligue, adoptés au CA de l'ARSRS le 27 mars 2023 (version la plus récente trouvée
+   en ligne en novembre 2026). Tout ce qui n'y est pas précisé suit les Lois du jeu (FIFA/IFAB). */
+const REGION = {
+  intro: "Ta ligue régionale garde les Lois du jeu, mais change quelques points chez les plus jeunes. Le plus important pour toi : le dégagement de volée.",
+  cards: [
+    { h: "Dégagement de volée : interdit jusqu'en U12", l: [
+      "De U9 à U12, avec le ballon dans les mains dans ta surface, tu ne peux pas le dégager de volée (ni de demi-volée).",
+      "Tu peux le lancer à la main, faire une passe au pied, ou le poser au sol et le dégager.",
+      "Si tu dégages de volée quand même : le ballon te revient au sol et tu recommences.",
+      "À partir de U13, les Lois du jeu s'appliquent : la volée est permise. C'est le bon moment pour travailler ce geste."] },
+    { h: "Coup de pied de but en 9 contre 9 (U11-U12)", l: [
+      "Il se joue depuis la ligne de ta surface de réparation (la ligne des 16 m), n'importe où sur cette ligne.",
+      "Les adversaires reculent jusqu'à 10 m avant la mi-terrain (la ligne de retrait) jusqu'à ce que le ballon soit joué.",
+      "C'est fait pour t'aider à relancer court : profites-en pour construire au sol.",
+      "En 7 contre 7 (U9-U10) : seul le gardien remet le ballon en jeu, et la ligne de retrait est à 5 m avant la mi-terrain."] },
+    { h: "Le match", l: [
+      "Ballon de taille 4 jusqu'en U13, taille 5 à partir de U14.",
+      "U11-U12 : deux demies de 25 minutes.",
+      "Hors-jeu : appliqué à partir de U11 (pas en 7 contre 7).",
+      "Remplacements illimités, avec retour au jeu permis, à certains arrêts de jeu (but, coup de pied de but, blessure, mi-temps), avec la permission de l'arbitre.",
+      "Écart de 6 buts ou plus : l'équipe qui perd peut demander à l'arbitre de terminer le match."] },
+    { h: "Cartons et suspensions", l: [
+      "Deux cartons jaunes dans le même match = carton rouge et expulsion.",
+      "Carton rouge : au moins un match de suspension, automatiquement.",
+      "Trois cartons jaunes dans la saison : un match de suspension.",
+      "Les sanctions sont doublées pour un geste contre un jeune arbitre (18 ans et moins). Respecte toujours l'arbitre."] },
+    { h: "Équipement", l: [
+      "Ton maillot doit être d'une couleur différente de celles des deux équipes.",
+      "Protège-tibias rigides obligatoires, entièrement couverts par les bas.",
+      "Aucun objet dangereux. Sinon, tu sors pour corriger, et l'arbitre vérifie avant que tu reviennes."] },
+    { h: "En salle (saison d'hiver)", l: [
+      "Si le ballon touche le plafond dans ta surface : balle au sol pour toi, peu importe qui l'a touché en dernier."] },
+    { h: "Le jeu de tête (Canada Soccer)", l: [
+      "Canada Soccer a mis à jour ses lignes directrices en mai 2025. En U12-U13, la tête est une priorité secondaire : à l'entraînement, au plus une séance par semaine et 5 têtes par joueur, jamais contre un adversaire.",
+      "En U14-U15 : au plus une séance par semaine et 10 têtes par joueur.",
+      "Les entraîneurs sont invités à éviter les longs ballons aériens à répétition chez les jeunes. Pense à des relances au sol ou à mi-hauteur."] }
+  ],
+  note: "Règlements de l'ARS Rive-Sud adoptés le 27 mars 2023 : c'est la version la plus récente trouvée en ligne en novembre 2026. Une version plus récente existe peut-être. Si ton équipe joue dans une ligue provinciale (AAA, Soccer Québec) ou dans un tournoi, ses règlements peuvent être différents : vérifie avec ton entraîneur.",
+  src: [
+    ["ARSRS : règlements et lois de la ligue (27 mars 2023)", "https://www.asvsa.ca/wp-content/uploads/sites/298/2024/09/reglements-lsjrs-2023.pdf"],
+    ["ARSRS : saison intérieure 2026-2027", "https://www.arsrs.com/post/la-saison-int%C3%A9rieure-2026-2027-approche-%C3%A0-grands-pas"],
+    ["Canada Soccer : lignes directrices sur le jeu de tête (mai 2025)", "https://canadasoccer.com/wp-content/uploads/2026/05/2025-CS-HeadingGuidelines-FR-final.pdf"],
+    ["IFAB : changements aux Lois du jeu 2026-2027", "https://www.theifab.com/law-changes/latest/"]
+  ]
+};
 
 /* =====================================================================
    LOT F — NIVEAU 3 (ÉLITE) : quiz à part (n'entre pas dans les quiz par
@@ -2437,11 +2521,17 @@ function vErreur(b) {
 function vRegles(b) {
   if (b === 'quiz') return miniQuiz(RULES, { back: 'regles', small: 'Quiz des règles', done: p => { if (p > (S.qz.regles || 0)) { S.qz.regles = p; save(); } }, msg: p => p === 100 ? 'Sans faute. Tu connais tes règles.' : p >= 70 ? 'Solide. Relis les règles que tu as ratées.' : 'Relis « Les règles en bref », puis réessaie.' });
   app.innerHTML = hdr('defis', 'Lois du jeu', 'Règles du gardien') + `
-  <div class="card"><p style="margin:0">${RULES.length} questions sur ce qu'un gardien peut faire, et ce qu'il ne peut pas faire.</p></div>
+  <div class="card"><p style="margin:0">${RULES.length} questions sur ce qu'un gardien peut faire, et ce qu'il ne peut pas faire. Lois du jeu 2026-2027 et règles de ta ligue régionale.</p></div>
   <a class="btn pri full" href="#regles/quiz" style="margin-top:12px">Commencer le quiz${S.qz.regles != null ? ' · record ' + S.qz.regles + ' %' : ''}</a>
   <h2>Les règles en bref</h2>
   <div class="list">${RULES_BRIEF.map(c => `<details class="card"><summary>${c.h}</summary><ul>${c.l.map(x => `<li>${x}</li>`).join('')}</ul></details>`).join('')}</div>
-  <p class="mut small" style="margin-top:12px">${RULES_NOTE}</p>`;
+  <p class="mut small" style="margin-top:12px">${RULES_NOTE}</p>
+  <h2>Ta région : ARS Rive-Sud</h2>
+  <div class="card"><p style="margin:0">${REGION.intro}</p></div>
+  <div class="list" style="margin-top:8px">${REGION.cards.map(c => `<details class="card"><summary>${c.h}</summary><ul>${c.l.map(x => `<li>${x}</li>`).join('')}</ul></details>`).join('')}</div>
+  <p class="mut small" style="margin-top:12px">${REGION.note}</p>
+  <h2>Sources</h2>
+  <div class="list">${REGION.src.map(s => `<a class="row" href="${s[1]}" target="_blank" rel="noopener noreferrer"><span class="tx"><span style="color:var(--ink);font-size:15px">${s[0]}</span></span><span class="st" aria-hidden="true">↗</span></a>`).join('')}</div>`;
 }
 
 /* ---------- 16 · analyse vidéo guidée ---------- */

@@ -90,3 +90,9 @@ Pour modifier : changer `src/content.js` ou `src/shell.html`, puis reconstruire.
 - Contenu : pourquoi (étude Fortes et coll. 2020, Journal of Sports Sciences : 30 min de réseaux sociaux ou de jeu vidéo avant un match simulé dégradent les décisions de passe de joueurs pros adultes), plan en 5 temps (veille, jour du match, dernière heure, arrivée, après le match), sommeil (Directives canadiennes 24 h : 9 à 11 h entre 5 et 13 ans ; Société canadienne de pédiatrie : écrans éteints au moins 1 h avant le coucher), sources.
 - Deux gestes ajoutés à la routine d'avant-match : « Écrans éteints au moins une heure avant de dormir » (la veille) et « Range ton téléphone dans ton sac, en mode Ne pas déranger » (à l'arrivée).
 
+
+## Lot K — Règles du gardien approfondies et règles régionales
+- « Les règles en bref » passe de 4 à 7 fiches, à jour des **Lois du jeu IFAB 2026-2027** (en vigueur depuis le 1er juillet 2026) : ballon dans les mains (définition du contrôle, 8 secondes, deuxième touche, pas de but à la main), passes des coéquipiers (tête/poitrine permises, ruse sanctionnée), hors de la surface, penalty (double touche accidentelle), coup de pied de but (décompte de 5 s → corner), équipement (accessoires couverts, bijoux), changement de gardien et blessure (exception du gardien à la sortie d'une minute).
+- Nouvelle section **« Ta région : ARS Rive-Sud »** : volée interdite de U9 à U12 (permise dès U13), coup de pied de but et ligne de retrait en 9 c. 9 et 7 c. 7, ballon/durée/hors-jeu/remplacements/écart de 6 buts, cartons et suspensions, équipement, plafond en salle, jeu de tête (Canada Soccer, mai 2025). Liste de sources.
+- Quiz des règles : 12 → 18 questions.
+- Source régionale : règlements de la ligue adoptés au CA de l'ARSRS le 27 mars 2023 (version la plus récente trouvée en ligne). **À valider** : version en vigueur avec le club, et règles de la ligue si l'équipe joue en AAA/provincial.

@@ -1054,11 +1054,17 @@ function vErreur(b) {
 function vRegles(b) {
   if (b === 'quiz') return miniQuiz(RULES, { back: 'regles', small: 'Quiz des règles', done: p => { if (p > (S.qz.regles || 0)) { S.qz.regles = p; save(); } }, msg: p => p === 100 ? 'Sans faute. Tu connais tes règles.' : p >= 70 ? 'Solide. Relis les règles que tu as ratées.' : 'Relis « Les règles en bref », puis réessaie.' });
   app.innerHTML = hdr('defis', 'Lois du jeu', 'Règles du gardien') + `
-  <div class="card"><p style="margin:0">${RULES.length} questions sur ce qu'un gardien peut faire, et ce qu'il ne peut pas faire.</p></div>
+  <div class="card"><p style="margin:0">${RULES.length} questions sur ce qu'un gardien peut faire, et ce qu'il ne peut pas faire. Lois du jeu 2026-2027 et règles de ta ligue régionale.</p></div>
   <a class="btn pri full" href="#regles/quiz" style="margin-top:12px">Commencer le quiz${S.qz.regles != null ? ' · record ' + S.qz.regles + ' %' : ''}</a>
   <h2>Les règles en bref</h2>
   <div class="list">${RULES_BRIEF.map(c => `<details class="card"><summary>${c.h}</summary><ul>${c.l.map(x => `<li>${x}</li>`).join('')}</ul></details>`).join('')}</div>
-  <p class="mut small" style="margin-top:12px">${RULES_NOTE}</p>`;
+  <p class="mut small" style="margin-top:12px">${RULES_NOTE}</p>
+  <h2>Ta région : ARS Rive-Sud</h2>
+  <div class="card"><p style="margin:0">${REGION.intro}</p></div>
+  <div class="list" style="margin-top:8px">${REGION.cards.map(c => `<details class="card"><summary>${c.h}</summary><ul>${c.l.map(x => `<li>${x}</li>`).join('')}</ul></details>`).join('')}</div>
+  <p class="mut small" style="margin-top:12px">${REGION.note}</p>
+  <h2>Sources</h2>
+  <div class="list">${REGION.src.map(s => `<a class="row" href="${s[1]}" target="_blank" rel="noopener noreferrer"><span class="tx"><span style="color:var(--ink);font-size:15px">${s[0]}</span></span><span class="st" aria-hidden="true">↗</span></a>`).join('')}</div>`;
 }
 
 /* ---------- 16 · analyse vidéo guidée ---------- */
