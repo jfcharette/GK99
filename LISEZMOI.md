@@ -83,3 +83,4 @@ Pour modifier : changer `src/content.js` ou `src/shell.html`, puis reconstruire.
 - Sources : Santé Canada, Société canadienne de pédiatrie, SickKids, Nemours, Académie américaine de pédiatrie, Sports Dietitians Australia, fiches Good Protein / Open Food Facts (liste dans la page Nutrition).
 - Fichiers : `src/content.js` (blocs PHYS, NUTR, OBJ, VTHEMES), `src/shell.html` (vPhysique, vNutrition, vObjectifs, videoThemes).
 - **À valider** : contenu physique (sauts pour un jeune de 12 ans) avec l'entraîneur ; nutrition et shake avec le médecin de famille ou un diététiste sportif ; données du produit à vérifier sur l'étiquette réelle.
+- Accès à la vidéo ajouté dans **Apprendre** (section « Apprendre en vidéo », entre Situations clés et Trois niveaux). Le bouton retour de la page Vidéo ramène là d'où l'on vient (Apprendre ou Séance), et l'onglet actif suit.

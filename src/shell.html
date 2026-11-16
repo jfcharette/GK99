@@ -359,6 +359,8 @@ function vHome() {
   </div>
   <h2>Situations clés</h2>
   <div class="list">${rest.map(m => { const s = modStats(m.id); return `<a class="row" style="--c:${m.c}" href="#m/${m.id}"><span class="dot"></span><span class="tx"><b>${m.n}</b><span>${m.k}</span></span><span class="st">${s.done}/${s.total}</span></a>`; }).join('')}</div>
+  <h2>Apprendre en vidéo</h2>
+  <a class="row" href="#video"><span class="dot" style="--c:var(--cyan)"></span><span class="tx"><b>Vidéo : thèmes et gardiens pros</b><span>${VTHEMES.length} thèmes · ${VPROS.length} gardiens à étudier · ${S.av.length} analyse${plural(S.av.length, '', 's')}</span></span><span class="st">›</span></a>
   <h2>Trois niveaux</h2>
   <div class="list">${[1,2,3].map(n => `<a class="row" href="#niv/${n}"><span>${lvl(n)}</span><span class="tx"><b>${LEVELS[n].n}</b><span>${LEVELS[n].d}</span></span><span class="st">›</span></a>`).join('')}</div>`;
 }
@@ -1062,7 +1064,7 @@ const AVLAB = { o: 'Souvent', p: 'Parfois', n: 'Rarement' }, AVSEG = [['o', 'Sou
 function vVideo(b) {
   if (b === 'new') return vVideoForm();
   const L = S.av;
-  app.innerHTML = hdr('seance', 'Apprendre en regardant', 'Analyse vidéo') + `
+  app.innerHTML = hdr(vidBack === 'home' ? '' : 'seance', 'Apprendre en regardant', 'Analyse vidéo') + `
   <div class="card"><p style="margin:0">Regarde un extrait de ton match ou d'un autre gardien, avec ton parent ou ton entraîneur. L'outil te dit quoi observer et garde tes constats.</p></div>
   <a class="btn pri full" href="#video/new" style="margin-top:12px">+ Nouvelle analyse</a>
   ${L.length ? `<h2>Mes analyses</h2><div class="list">${L.map(e => { const f = VIDEO.focus.find(x => x.id === e.f), si = e.s === 'pro' ? 1 : 0; return `<details class="card"><summary><span><span class="mut small" style="display:block">${frDate(e.d)} · ${si ? 'Un autre gardien' : 'Mon match'}</span>${f ? f.n : 'Analyse'}${e.l ? ' · ' + esc(e.l) : ''}</span></summary>
@@ -1228,13 +1230,16 @@ function videoThemes() {
   <div class="card">${VCHAINES.map(c => `<p class="kv"><b>${c[0]}</b>${c[1]}<br>${ytA(c[2], 'Chercher')}</p>`).join('')}</div>`;
 }
 
+let prevA = null, vidBack = 'home';
 function route() {
   stopAll();
   if (!accOK()) { vLock(); return; }
   document.body.classList.remove('locked');
   const [a, b] = location.hash.slice(1).split('/');
+  if (a === 'video' && prevA !== 'video') vidBack = prevA === 'seance' ? 'seance' : 'home';
+  prevA = a;
   ({ m: vModule, s: vScene, p: vPlace, x: vSit, q: vQuiz, defis: vDefis, progres: vProg, niv: vNiveau, seance: vSeance, revision: vRevision, pied: vPied, carnet: vCarnet, lexique: vLexique, routine: vRoutine, erreur: vErreur, regles: vRegles, video: vVideo, physique: vPhysique, nutrition: vNutrition }[a] || vHome)(b);
-  const tab = a === 'defis' || a === 'regles' || a === 'p' || a === 'x' || (a === 'q' && b === 'all') ? 'defis' : a === 'progres' ? 'progres' : a === 'physique' ? 'physique' : a === 'nutrition' ? 'nutrition' : ['seance', 'revision', 'pied', 'carnet', 'lexique', 'routine', 'erreur', 'video'].includes(a) ? 'seance' : 'home';
+  const tab = a === 'defis' || a === 'regles' || a === 'p' || a === 'x' || (a === 'q' && b === 'all') ? 'defis' : a === 'progres' ? 'progres' : a === 'physique' ? 'physique' : a === 'nutrition' ? 'nutrition' : ['seance', 'revision', 'pied', 'carnet', 'lexique', 'routine', 'erreur'].includes(a) || (a === 'video' && vidBack === 'seance') ? 'seance' : 'home';
   document.querySelectorAll('nav a').forEach(x => x.classList.toggle('on', x.dataset.t === tab));
   window.scrollTo(0, 0);
 }
